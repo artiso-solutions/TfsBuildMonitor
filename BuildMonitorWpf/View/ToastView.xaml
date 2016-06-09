@@ -1,0 +1,63 @@
+﻿<Window x:Class="BuildMonitorWpf.View.ToastView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ToastView"
+        Height="90"
+        Width="385"
+        Background="#1BA1E2"
+        Topmost="True"
+        WindowStyle="None"
+        ShowInTaskbar="False"
+        Opacity="{Binding Opacity}"
+        BorderThickness="0"
+        AllowsTransparency="True">
+   <Grid>
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="90" />
+         <ColumnDefinition Width="*" />
+         <ColumnDefinition Width="30" />
+      </Grid.ColumnDefinitions>
+
+      <Image Grid.Column="0"
+             Source="{Binding Image}"
+             Margin="3" />
+
+      <Button Grid.Column="2"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Right"
+              BorderThickness="0"
+              Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+              ToolTip="Close"
+              Command="{Binding CloseCommand}">
+         <Image Source="../Images/close_toast.png"
+                Height="24"
+                Margin="3" />
+      </Button>
+
+      <Image Source="../Images/monitor_128.png"
+             Grid.Column="2"
+             Width="24"
+             Margin="3"
+             HorizontalAlignment="Right"
+             VerticalAlignment="Bottom" />
+
+      <StackPanel Grid.Column="1"
+                  HorizontalAlignment="Left"
+                  Margin="5,10">
+         <StackPanel.Resources>
+            <Style TargetType="TextBlock">
+               <Setter Property="Foreground"
+                       Value="White" />
+               <Setter Property="Margin"
+                       Value="1" />
+               <Setter Property="FontSize"
+                       Value="14" />
+            </Style>
+         </StackPanel.Resources>
+         <TextBlock Text="{Binding Title}"
+                    FontWeight="Bold" />
+         <TextBlock Text="{Binding MessageLine1}" />
+         <TextBlock Text="{Binding MessageLine2}" />
+      </StackPanel>
+   </Grid>
+</Window>

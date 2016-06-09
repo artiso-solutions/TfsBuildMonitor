@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ReleaseNotes>
+   <Note Version="Version 1.3.4.15 - 24.05.2016">
+      <Description>
+         - Small bugfix when build is running and waiting
+      </Description>
+   </Note>
+   <Note Version="Version 1.3.3.14 - 20.04.2016">
+      <Description>
+         - Round corners for big screen
+         - Value rounded on sliders for refresh interval and zoom factor
+      </Description>
+   </Note>
+   <Note Version="Version 1.3.3.13 - 14.04.2016">
+      <Description>
+         - Big size mode for fullscreen in settings
+         - New view when in big size (tiles instead of gridview)
+         - Zoom factor from 100 till 300%
+         - Bugfix when there is no config
+      </Description>
+   </Note>
+   <Note Version="Version 1.3.1.8 - 02.03.2016">
+      <Description>
+         - Show filtered count + total count in settings view
+         - Added release notes
+         - Bugfix on TFS 2015 when build is not started
+      </Description>
+   </Note>
+   <Note Version="Version 1.3.0.6 - 23.02.2016">
+      <Description>
+         - Better compatibility with TFS 2015
+         - Settings view for TFS 2015 only needs root URL of TFS
+      </Description>
+   </Note>
+   <Note Version="Version 1.2.0.5 - 18.08.2016">
+      <Description>- Build can be pinned</Description>
+   </Note>
+   <Note Version="Version 1.1.0.4 - 12.02.2016">
+      <Description>
+         - Compatible with Windows 7
+         - Build queue für TFS 2015 Build vNext
+         - More legend vor action icons
+      </Description>
+   </Note>
+   <Note Version="Version 1.0.0.0 - 27.01.2016">
+      <Description>- Configured Clickonce</Description>
+   </Note>
+</ReleaseNotes>

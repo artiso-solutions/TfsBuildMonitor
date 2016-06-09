@@ -1,0 +1,750 @@
+﻿<Window x:Class="BuildMonitorWpf.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Converters="clr-namespace:BuildMonitorWpf.Converters"
+        Title="TFS build monitor"
+        Height="350"
+        Width="525"
+        MaxWidth="{Binding MaxWidth}"
+        Icon="../monitor.ico"
+        SizeToContent="WidthAndHeight">
+   <Window.Resources>
+      <Converters:BuildStatusToImageConverter x:Key="buildStatusToImageConverter" />
+      <Converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+      <Converters:BuildStatusToStringConverter x:Key="buildStatusToStringConverter" />
+      <Converters:ColumnWidthStringToDoubleConverter x:Key="columnWidthStringToIntConverter" />
+      <Converters:IntToHourMinutesConverter x:Key="intToHourMinutesConverter" />
+      <Converters:BooleanToOpacityConverter x:Key="booleanToOpacityConverter" />
+      <Converters:BigSizeModeToDoubleConverter x:Key="bigSizeModeToDoubleConverter" />
+      <Converters:BuildStatusToBrushConverter x:Key="buildStatusToBrushConverter" />
+      <Converters:EnumerationToVisibilityConverter x:Key="enumerationToVisibilityConverter" />
+
+      <DataTemplate x:Key="checkBoxTemplate">
+         <CheckBox IsChecked="{Binding IgnoreStatus,Mode=TwoWay}"
+                   ToolTip="Ignore status"
+                   VerticalAlignment="Center" />
+      </DataTemplate>
+
+      <DataTemplate x:Key="lastBuildTemplate">
+         <Button Command="{Binding OpenBrowserCommand}"
+                 CommandParameter="{Binding TfsUri}"
+                 BorderThickness="0"
+                 BorderBrush="Transparent"
+                 Background="Transparent"
+                 Margin="1"
+                 Cursor="Hand">
+            <Image Source="{Binding Status,Converter={StaticResource buildStatusToImageConverter}}"
+                   Width="16"
+                   Height="16"
+                   ToolTip="{Binding Status,Converter={StaticResource buildStatusToStringConverter}}" />
+         </Button>
+      </DataTemplate>
+
+      <DataTemplate x:Key="pinBuildTemplate">
+         <Button Command="{Binding PinBuildCommand}"
+                 CommandParameter="{Binding}"
+                 BorderBrush="Transparent"
+                 BorderThickness="0"
+                 Background="Transparent"
+                 Margin="1"
+                 ToolTip="Pin this build"
+                 x:Name="pinBuildButton">
+            <Image Source="../Images/pin.png"
+                   Width="16"
+                   Height="16"
+                   Opacity="{Binding ElementName=pinBuildButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}" />
+         </Button>
+
+      </DataTemplate>
+
+      <DataTemplate x:Key="runningBuildTemplate">
+
+         <Button Command="{Binding OpenBrowserCommand}"
+                 CommandParameter="{Binding RunningTfsUri}"
+                 Cursor="Hand">
+            <Button.Resources>
+               <Style TargetType="Button">
+                  <Setter Property="BorderBrush"
+                          Value="Transparent" />
+                  <Setter Property="BorderThickness"
+                          Value="0" />
+                  <Setter Property="Background"
+                          Value="Transparent" />
+                  <Setter Property="Margin"
+                          Value="1" />
+                  <Setter Property="Visibility"
+                          Value="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter}}" />
+               </Style>
+               <Style TargetType="Image">
+                  <Setter Property="Width"
+                          Value="16" />
+                  <Setter Property="Height"
+                          Value="16" />
+               </Style>
+            </Button.Resources>
+
+            <StackPanel>
+
+               <StackPanel Orientation="Horizontal">
+                  <Image Source="../Images/gated-checkin.png"
+                         ToolTip="Gated check-in"
+                         Margin="1"
+                         Visibility="{Binding IsGatedCheckin,Converter={StaticResource booleanToVisibilityConverter}}" />
+
+                  <Image Source="{Binding RunningBuildImagePath}"
+                         ToolTip="{Binding RunningBuildImageToolTip}" />
+                  <TextBlock Text="{Binding RunningMinutes,Converter={StaticResource intToHourMinutesConverter}}"
+                             FontSize="10"
+                             FontStyle="Italic"
+                             VerticalAlignment="Center" />
+                  <TextBlock Text=" / ~"
+                             FontSize="10"
+                             FontStyle="Italic"
+                             VerticalAlignment="Center" />
+                  <TextBlock Text="{Binding AverageMinutes,Converter={StaticResource intToHourMinutesConverter}}"
+                             FontSize="10"
+                             FontStyle="Italic"
+                             VerticalAlignment="Center"
+                             Margin="0,0,3,0" />
+               </StackPanel>
+               <ProgressBar Minimum="0"
+                            Value="{Binding RunningProgress}"
+                            Maximum="100"
+                            Height="5"
+                            RenderTransformOrigin="0.5,0.5"
+                            Foreground="{Binding RunningBuildProgressBarColor}" />
+            </StackPanel>
+            <Button.ToolTip>
+               <ToolTip>
+                  <StackPanel>
+                     <TextBlock Text="{Binding RunningBuildRequestedBy}" />
+                     <TextBlock Text="{Binding RunningBuildNumber}" />
+                     <TextBlock Text="Build will probably fail"
+                                Visibility="{Binding ErrorsInBuild, Converter={StaticResource booleanToVisibilityConverter}}" />
+                  </StackPanel>
+               </ToolTip>
+            </Button.ToolTip>
+         </Button>
+
+      </DataTemplate>
+
+      <DataTemplate x:Key="actionCellTemplate">
+         <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+               <Style TargetType="Button">
+                  <Setter Property="BorderThickness"
+                          Value="0" />
+                  <Setter Property="Background"
+                          Value="Transparent" />
+                  <Setter Property="Margin"
+                          Value="1" />
+                  <Setter Property="Cursor"
+                          Value="Hand" />
+                  <Setter Property="BorderBrush"
+                          Value="Transparent" />
+               </Style>
+               <Style TargetType="Image">
+                  <Setter Property="Width"
+                          Value="16" />
+                  <Setter Property="Height"
+                          Value="16" />
+               </Style>
+            </StackPanel.Resources>
+            <Button ToolTip="Stop the build"
+                    Command="{Binding StopBuildCommand}"
+                    CommandParameter="{Binding RunningBuildId}"
+                    Visibility="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter}}"
+                    x:Name="stopBuildButton">
+               <StackPanel Orientation="Horizontal">
+                  <Image Source="../Images/stop-it.png"
+                         Opacity="{Binding ElementName=stopBuildButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}" />
+                  <TextBlock Text="Stop"
+                             Opacity="{Binding ElementName=stopBuildButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}" />
+               </StackPanel>
+            </Button>
+
+            <Button ToolTip="Request new standard build"
+                    Command="{Binding RequestBuildCommand}"
+                    Visibility="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter},ConverterParameter=NOT}"
+                    x:Name="requestBuildButton">
+               <StackPanel Orientation="Horizontal">
+                  <Image Source="../Images/run-it.png"
+                         Opacity="{Binding ElementName=requestBuildButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}" />
+                  <TextBlock Text="New"
+                             Opacity="{Binding ElementName=requestBuildButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}" />
+               </StackPanel>
+            </Button>
+         </StackPanel>
+      </DataTemplate>
+
+      <DataTemplate x:Key="nameDataTemplate">
+         <TextBlock Text="{Binding Name}"
+                    ToolTip="{Binding Name}" />
+      </DataTemplate>
+
+      <DataTemplate x:Key="detailsTemplate">
+         <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding Number}"
+                       FontStyle="Italic"
+                       FontSize="11"
+                       VerticalAlignment="Bottom" />
+            <TextBlock Text=" - "
+                       FontSize="10"
+                       FontStyle="Italic"
+                       VerticalAlignment="Bottom" />
+            <TextBlock Text="{Binding RequestedBy}"
+                       FontStyle="Italic"
+                       FontSize="10"
+                       VerticalAlignment="Bottom" />
+         </StackPanel>
+      </DataTemplate>
+
+      <DataTemplate x:Key="finishedDateTemplate">
+         <TextBlock Text="{Binding FinishDateTime}" />
+      </DataTemplate>
+
+   </Window.Resources>
+   <DockPanel>
+
+      <Menu DockPanel.Dock="Top">
+         <Menu.Resources>
+            <Style TargetType="Image">
+               <Setter Property="Height"
+                       Value="16" />
+               <Setter Property="Width"
+                       Value="16" />
+               <Setter Property="Margin"
+                       Value="0" />
+            </Style>
+            <Style TargetType="TextBlock">
+               <Setter Property="VerticalAlignment"
+                       Value="Center" />
+               <Setter Property="Margin"
+                       Value="0,2" />
+               <Setter Property="FontSize">
+                  <Setter.Value>
+                     <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                   ConverterParameter="12">
+                        <Binding Path="BigSizeMode" />
+                        <Binding Path="ZoomFactor" />
+                     </MultiBinding>
+                  </Setter.Value>
+               </Setter>
+            </Style>
+         </Menu.Resources>
+         <MenuItem Command="{Binding CloseCommand}">
+            <MenuItem.Icon>
+               <Image Source="../Images/close.png" />
+            </MenuItem.Icon>
+            <MenuItem.Header>
+               <TextBlock Text="Close" />
+            </MenuItem.Header>
+         </MenuItem>
+         <MenuItem Command="{Binding SettingsCommand}">
+            <MenuItem.Icon>
+               <Image Source="../Images/settings.png" />
+            </MenuItem.Icon>
+            <MenuItem.Header>
+               <TextBlock Text="Settings" />
+            </MenuItem.Header>
+         </MenuItem>
+         <MenuItem Command="{Binding AboutCommand}">
+            <MenuItem.Icon>
+               <Image Source="../Images/info.png" />
+            </MenuItem.Icon>
+            <MenuItem.Header>
+               <TextBlock Text="About" />
+            </MenuItem.Header>
+         </MenuItem>
+         <MenuItem Command="{Binding NotificationCommand}"
+                   Visibility="{Binding DebugVisibility}">
+            <MenuItem.Icon>
+               <Image Source="../Images/Notification.png" />
+            </MenuItem.Icon>
+            <MenuItem.Header>
+               <TextBlock Text="Send notification" />
+            </MenuItem.Header>
+         </MenuItem>
+      </Menu>
+
+      <Grid DockPanel.Dock="Bottom">
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+         </Grid.ColumnDefinitions>
+
+         <Button Command="{Binding RefreshCommand}"
+                 Margin="5"
+                 Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+               <Image Source="../Images/refresh.png"
+                      Margin="3">
+                  <Image.Width>
+                     <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                   ConverterParameter="16">
+                        <Binding Path="BigSizeMode" />
+                        <Binding Path="ZoomFactor" />
+                     </MultiBinding>
+                  </Image.Width>
+               </Image>
+               <TextBlock Margin="3"
+                          Text="Refresh">
+                  <TextBlock.FontSize>
+                     <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                   ConverterParameter="12">
+                        <Binding Path="BigSizeMode" />
+                        <Binding Path="ZoomFactor" />
+                     </MultiBinding>
+                  </TextBlock.FontSize>
+               </TextBlock>
+            </StackPanel>
+         </Button>
+
+         <ProgressBar Minimum="0"
+                      Maximum="{Binding Maximum}"
+                      Value="{Binding ActualValue}"
+                      Margin="5,3"
+                      Foreground="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}"
+                      RenderTransformOrigin="0.5,0.5"
+                      Grid.Column="1">
+            <ProgressBar.Height>
+               <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                             ConverterParameter="8">
+                  <Binding Path="BigSizeMode" />
+                  <Binding Path="ZoomFactor" />
+               </MultiBinding>
+            </ProgressBar.Height>
+            <ProgressBar.RenderTransform>
+               <TransformGroup>
+                  <ScaleTransform ScaleY="1"
+                                  ScaleX="-1" />
+               </TransformGroup>
+            </ProgressBar.RenderTransform>
+         </ProgressBar>
+      </Grid>
+
+      <Grid>
+         <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="15" />
+         </Grid.RowDefinitions>
+
+         <ItemsControl ItemsSource="{Binding BuildAdapters}"
+                       Grid.Row="0"
+                       Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter}}">
+
+            <ItemsControl.ItemsPanel>
+               <ItemsPanelTemplate>
+                  <WrapPanel />
+               </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemContainerStyle>
+               <Style>
+                  <Setter Property="Control.Width">
+                     <Setter.Value>
+                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                      ConverterParameter="250">
+                           <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.BigSizeMode" />
+                           <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.ZoomFactor" />
+                        </MultiBinding>
+                     </Setter.Value>
+                  </Setter>
+                  <Setter Property="Control.Margin"
+                          Value="5" />
+                  <Setter Property="Control.Height">
+                     <Setter.Value>
+                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                      ConverterParameter="70">
+                           <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.BigSizeMode" />
+                           <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.ZoomFactor" />
+                        </MultiBinding>
+                     </Setter.Value>
+                  </Setter>
+               </Style>
+            </ItemsControl.ItemContainerStyle>
+
+            <ItemsControl.ItemTemplate>
+               <DataTemplate>
+                  <Grid>
+                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                     </Grid.ColumnDefinitions>
+
+                     <Rectangle Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Fill="{Binding Status,Converter={StaticResource buildStatusToBrushConverter}}" >
+                        <Rectangle.RadiusX>
+                           <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                         ConverterParameter="10">
+                              <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                       Path="DataContext.BigSizeMode" />
+                              <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                       Path="DataContext.ZoomFactor" />
+                           </MultiBinding>
+                        </Rectangle.RadiusX>
+                        <Rectangle.RadiusY>
+                           <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                         ConverterParameter="10">
+                              <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                       Path="DataContext.BigSizeMode" />
+                              <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                       Path="DataContext.ZoomFactor" />
+                           </MultiBinding>
+                        </Rectangle.RadiusY>
+                     </Rectangle>
+
+                     <Image Grid.Column="0"
+                            Margin="5"
+                            Source="{Binding Status,Converter={StaticResource buildStatusToImageConverter}}"
+                            ToolTip="{Binding Status,Converter={StaticResource buildStatusToStringConverter}}">
+                        <Image.Width>
+                           <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                         ConverterParameter="25">
+                              <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                       Path="DataContext.BigSizeMode" />
+                              <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                       Path="DataContext.ZoomFactor" />
+                           </MultiBinding>
+                        </Image.Width>
+                     </Image>
+
+                     <StackPanel Grid.Column="1">
+                        <TextBlock Text="{Binding Name}"
+                                   TextWrapping="Wrap"
+                                   Margin="4">
+                           <TextBlock.FontSize>
+                              <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            ConverterParameter="15">
+                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                          Path="DataContext.BigSizeMode" />
+                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                          Path="DataContext.ZoomFactor" />
+                              </MultiBinding>
+                           </TextBlock.FontSize>
+                        </TextBlock>
+
+                        <TextBlock Text="{Binding RequestedBy}"
+                                   Margin="2"
+                                   Visibility="{Binding Status,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Failed;PartiallySucceeded}">
+                           <TextBlock.FontSize>
+                              <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            ConverterParameter="12">
+                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.BigSizeMode" />
+                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                          Path="DataContext.ZoomFactor" />
+                              </MultiBinding>
+                           </TextBlock.FontSize>
+                        </TextBlock>
+
+
+                        <StackPanel Orientation="Horizontal"
+                                    Visibility="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter}}">
+                           <Image Source="../Images/gated-checkin.png"
+                                  ToolTip="Gated check-in"
+                                  Margin="1"
+                                  Visibility="{Binding IsGatedCheckin,Converter={StaticResource booleanToVisibilityConverter}}">
+                              <Image.Width>
+                                 <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                               ConverterParameter="16">
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.BigSizeMode" />
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.ZoomFactor" />
+                                 </MultiBinding>
+                              </Image.Width>
+                           </Image>
+
+                           <Image Source="{Binding RunningBuildImagePath}"
+                                  ToolTip="{Binding RunningBuildImageToolTip}"
+                                  Margin="2">
+                              <Image.Width>
+                                 <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                               ConverterParameter="16">
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.BigSizeMode" />
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.ZoomFactor" />
+                                 </MultiBinding>
+                              </Image.Width>
+                           </Image>
+                           <TextBlock Text="{Binding RunningMinutes,Converter={StaticResource intToHourMinutesConverter}}"
+                                      FontStyle="Italic"
+                                      VerticalAlignment="Center">
+                              <TextBlock.FontSize>
+                                 <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                               ConverterParameter="10">
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.BigSizeMode" />
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.ZoomFactor" />
+                                 </MultiBinding>
+                              </TextBlock.FontSize>
+                           </TextBlock>
+                           <TextBlock Text=" / ~"
+                                      FontStyle="Italic"
+                                      VerticalAlignment="Center">
+                              <TextBlock.FontSize>
+                                 <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                               ConverterParameter="10">
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.BigSizeMode" />
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.ZoomFactor" />
+                                 </MultiBinding>
+                              </TextBlock.FontSize>
+                           </TextBlock>
+                           <TextBlock Text="{Binding AverageMinutes,Converter={StaticResource intToHourMinutesConverter}}"
+                                      FontStyle="Italic"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,3,0">
+                              <TextBlock.FontSize>
+                                 <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                               ConverterParameter="10">
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.BigSizeMode" />
+                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                             Path="DataContext.ZoomFactor" />
+                                 </MultiBinding>
+                              </TextBlock.FontSize>
+                           </TextBlock>
+                        </StackPanel>
+                        <ProgressBar Minimum="0"
+                                     Value="{Binding RunningProgress}"
+                                     Maximum="100"
+                                     RenderTransformOrigin="0.5,0.5"
+                                     Foreground="{Binding RunningBuildProgressBarColor}"
+                                     Visibility="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter}}"
+                                     Margin="5,2">
+                           <ProgressBar.Height>
+                              <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            ConverterParameter="6">
+                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                          Path="DataContext.BigSizeMode" />
+                                 <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                          Path="DataContext.ZoomFactor" />
+                              </MultiBinding>
+                           </ProgressBar.Height>
+                        </ProgressBar>
+
+
+                     </StackPanel>
+                  </Grid>
+               </DataTemplate>
+            </ItemsControl.ItemTemplate>
+         </ItemsControl>
+
+         <ListView ItemsSource="{Binding BuildAdapters}"
+                   Grid.Row="0"
+                   Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter},ConverterParameter=NOT}">
+            <ListView.View>
+               <GridView>
+                  <GridViewColumn Header="Ignore build"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=0}"
+                                  CellTemplate="{StaticResource checkBoxTemplate}" />
+
+                  <GridViewColumn Header="Last build"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=1}"
+                                  CellTemplate="{StaticResource lastBuildTemplate}" />
+
+                  <GridViewColumn Header="Pin build"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=7}"
+                                  CellTemplate="{StaticResource pinBuildTemplate}" />
+
+                  <GridViewColumn Header="Running build"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=2}"
+                                  CellTemplate="{StaticResource runningBuildTemplate}" />
+
+                  <GridViewColumn Header="Action"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=6}"
+                                  CellTemplate="{StaticResource actionCellTemplate}" />
+
+                  <GridViewColumn Header="Name"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=3}"
+                                  CellTemplate="{StaticResource nameDataTemplate}" />
+
+                  <GridViewColumn Header="Details"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=4}"
+                                  CellTemplate="{StaticResource detailsTemplate}" />
+
+                  <GridViewColumn Header="Finished"
+                                  Width="{Binding ColumnWidths,Mode=TwoWay,Converter={StaticResource columnWidthStringToIntConverter},ConverterParameter=5}"
+                                  CellTemplate="{StaticResource finishedDateTemplate}" />
+
+               </GridView>
+            </ListView.View>
+         </ListView>
+
+         <Expander Grid.Row="0"
+                   Grid.RowSpan="2"
+                   ExpandDirection="Up"
+                   Margin="5,5,5,-7"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Bottom">
+            <Expander.Background>
+               <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}" />
+            </Expander.Background>
+            <Expander.BorderBrush>
+               <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
+            </Expander.BorderBrush>
+            <Expander.Header>
+               <TextBlock Margin="2"
+                          Text="Legend"
+                          FontStyle="Italic">
+                  <TextBlock.FontSize>
+                     <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                   ConverterParameter="12">
+                        <Binding Path="BigSizeMode" />
+                        <Binding Path="ZoomFactor" />
+                     </MultiBinding>
+                  </TextBlock.FontSize>
+               </TextBlock>
+            </Expander.Header>
+            <Expander.Content>
+               <Grid Margin="1">
+                  <Grid.ColumnDefinitions>
+                     <ColumnDefinition />
+                     <ColumnDefinition />
+                     <ColumnDefinition />
+                  </Grid.ColumnDefinitions>
+
+                  <Grid.Resources>
+                     <Style TargetType="TextBlock">
+                        <Setter Property="Margin"
+                                Value="2" />
+                        <Setter Property="FontSize">
+                           <Setter.Value>
+                              <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            ConverterParameter="12">
+                                 <Binding Path="BigSizeMode" />
+                                 <Binding Path="ZoomFactor" />
+                              </MultiBinding>
+
+                           </Setter.Value>
+                        </Setter>
+                     </Style>
+                     <Style TargetType="Image">
+                        <Setter Property="Width">
+                           <Setter.Value>
+                              <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            ConverterParameter="16">
+                                 <Binding Path="BigSizeMode" />
+                                 <Binding Path="ZoomFactor" />
+                              </MultiBinding>
+                           </Setter.Value>
+                        </Setter>
+                        <Setter Property="Margin"
+                                Value="2" />
+                     </Style>
+                  </Grid.Resources>
+
+                  <StackPanel Grid.Column="0">
+                     <TextBlock Text="Last build icons"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center" />
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/green.png" />
+                        <TextBlock Text="Build is succeeded" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/orange.png" />
+                        <TextBlock Text="Build is partially succeeded" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/red.png" />
+                        <TextBlock Text="Build has failed" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/stopped.png" />
+                        <TextBlock Text="Build has been stopped" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/wait.png" />
+                        <TextBlock Text="Currently querying build status" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/noidea.png" />
+                        <TextBlock Text="Server may be offline or unreachable" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/error.png" />
+                        <TextBlock Text="Exception occured while retrieving informations" />
+                     </StackPanel>
+
+                  </StackPanel>
+
+                  <StackPanel Grid.Column="1"
+                              Margin="5,0,0,0">
+                     <TextBlock Text="Running build icons"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center" />
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/wait.png" />
+                        <TextBlock Text="Waiting for build agent" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/gated-checkin.png" />
+                        <TextBlock Text="Is a gated checkin" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/building.png" />
+                        <TextBlock Text="Building the DLLs" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/test-waiting.png" />
+                        <TextBlock Text="Running the unit-tests" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/test_failed.png" />
+                        <TextBlock Text="Unit-tests may have failed" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/finishDisc.png" />
+                        <TextBlock Text="Final steps of build (setup, etc.)" />
+                     </StackPanel>
+
+                  </StackPanel>
+
+                  <StackPanel Grid.Column="2"
+                              Margin="5,0,0,0">
+                     <TextBlock Text="Action icons"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Center" />
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/run-it.png" />
+                        <TextBlock Text="Queue a new build" />
+                     </StackPanel>
+
+                     <StackPanel Orientation="Horizontal">
+                        <Image Source="../Images/stop-it.png" />
+                        <TextBlock Text="Stop running build" />
+                     </StackPanel>
+
+                  </StackPanel>
+               </Grid>
+            </Expander.Content>
+         </Expander>
+
+      </Grid>
+
+   </DockPanel>
+</Window>
