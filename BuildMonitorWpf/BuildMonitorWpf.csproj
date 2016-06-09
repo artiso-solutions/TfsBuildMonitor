@@ -18,7 +18,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>\\sarweb02\ClickOnce\WpfBuildMonitor\</PublishUrl>
+    <PublishUrl>https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/publish/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -28,7 +28,6 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://sarweb02/ClickOnce/WpfBuildMonitor/</InstallUrl>
     <ProductName>BuildMonitorWpf</ProductName>
     <PublisherName>artiso solutions GmbH</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>

@@ -1,0 +1,4 @@
+# Needed to deal with screwing of clickonce deployment files.
+*.manifest binary
+*.application binary
+*.deploy binary
