@@ -21,3 +21,8 @@ To provide this feature to Windows 7 users we avoided using features for Windows
 
 ## Settings
 ![ScreenShot](https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/docs/BuildMonitorSettings.png)
+
+## Use Software
+To use the build monitor you have to start the setup.exe in the publish directory.
+
+Future updates will be downloaded automatically as soon as a new version is published on this github repository.
