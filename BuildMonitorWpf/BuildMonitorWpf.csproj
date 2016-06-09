@@ -18,7 +18,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/publish/</PublishUrl>
+    <PublishUrl>raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/publish/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -28,6 +28,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/publish/</InstallUrl>
+    <UpdateUrl>https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/publish/</UpdateUrl>
     <ProductName>BuildMonitorWpf</ProductName>
     <PublisherName>artiso solutions GmbH</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
