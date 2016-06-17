@@ -18,6 +18,9 @@
 
       #region Public Properties
 
+      /// <summary>Gets or sets the id.</summary>
+      public int Id { get; set; }
+
       /// <summary>Gets the build times.</summary>
       public IList<double> BuildTimes { get; private set; }
 
@@ -89,6 +92,15 @@
 
       /// <summary>Gets or sets the waiting TFS URI.</summary>
       public string WaitingTfsUri { get; set; }
+
+      /// <summary>Gets or sets the total tests.</summary>
+      public int TotalTests { get; set; }
+
+      /// <summary>Gets or sets the failed tests.</summary>
+      public int FailedTests { get; set; }
+
+      /// <summary>Gets or sets the passed tests.</summary>
+      public int PassedTests { get; set; }
 
       #endregion
    }

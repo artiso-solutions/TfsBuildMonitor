@@ -59,6 +59,7 @@
     <Compile Include="Contracts\Information.cs" />
     <Compile Include="Contracts\Node.cs" />
     <Compile Include="Contracts\RootObject.cs" />
+    <Compile Include="Contracts\TestRun.cs" />
     <Compile Include="Contracts\TfsConnectResult.cs" />
     <Compile Include="Contracts\TfsVersion.cs" />
     <Compile Include="Crypter\Crypter.cs" />

@@ -11,44 +11,44 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         WindowStyle="ThreeDBorderWindow">
-   <Window.Resources>
+    <Window.Resources>
 
-      <Converters:BooleanToOpacityConverter x:Key="booleanToOpacityConverter" />
-      <Converters:TfsVersionToBoolConverter x:Key="tfsVersionToBoolConverter" />
-      <Converters:EnumerationToVisibilityConverter x:Key="enumerationToVisibilityConverter" />
-      <Converters:SecondsToHumanStringConverter x:Key="secondsToHumanStringConverter" />
+        <Converters:BooleanToOpacityConverter x:Key="booleanToOpacityConverter" />
+        <Converters:TfsVersionToBoolConverter x:Key="tfsVersionToBoolConverter" />
+        <Converters:EnumerationToVisibilityConverter x:Key="enumerationToVisibilityConverter" />
+        <Converters:SecondsToHumanStringConverter x:Key="secondsToHumanStringConverter" />
 
-      <DataTemplate x:Key="checkboxDataTemplate">
-         <CheckBox IsChecked="{Binding Selected,Mode=TwoWay}"
+        <DataTemplate x:Key="checkboxDataTemplate">
+            <CheckBox IsChecked="{Binding Selected,Mode=TwoWay}"
                    ToolTip="Select this build"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center" />
-      </DataTemplate>
+        </DataTemplate>
 
-   </Window.Resources>
-   <StackPanel>
+    </Window.Resources>
+    <StackPanel>
 
-      <Expander IsExpanded="True"
+        <Expander IsExpanded="True"
                 Margin="2"
                 MinWidth="500">
-         <Expander.BorderBrush>
-            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
-         </Expander.BorderBrush>
-         <Expander.Header>
-            <StackPanel Orientation="Horizontal">
-               <Image Source="../Images/settings.png"
+            <Expander.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
+            </Expander.BorderBrush>
+            <Expander.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/settings.png"
                       Width="16"
                       Margin="2" />
-               <TextBlock Margin="2">General settings</TextBlock>
-            </StackPanel>
-         </Expander.Header>
+                    <TextBlock Margin="2">General settings</TextBlock>
+                </StackPanel>
+            </Expander.Header>
 
-         <StackPanel>
-            <StackPanel Orientation="Horizontal">
-               <TextBlock Margin="2"
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="2"
                           VerticalAlignment="Center"
                           Text="Refresh interval" />
-               <Slider Minimum="30"
+                    <Slider Minimum="30"
                        Maximum="300"
                        Interval="10"
                        Value="{Binding RefreshInterval,Mode=TwoWay}"
@@ -58,22 +58,26 @@
                        TickFrequency="30"
                        LargeChange="10"
                        TickPlacement="BottomRight" />
-               <TextBlock Text="{Binding RefreshInterval,Converter={StaticResource secondsToHumanStringConverter}}"
+                    <TextBlock Text="{Binding RefreshInterval,Converter={StaticResource secondsToHumanStringConverter}}"
                           VerticalAlignment="Center"
                           Margin="2" />
-            </StackPanel>
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-               <CheckBox Content="Big size mode for use in fullscreen"
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="Big size mode for use in fullscreen"
                          IsChecked="{Binding BigSizeMode,Mode=TwoWay}"
                          Margin="2" />
-            </StackPanel>
+                    <CheckBox Content="Use full window width"
+                         IsChecked="{Binding UseFullWidth,Mode=TwoWay}"
+                         IsEnabled="{Binding BigSizeMode}"
+                         Margin="2" />
+                </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-               <TextBlock Text="Zoom factor"
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Zoom factor"
                           Margin="2"
                           VerticalAlignment="Center" />
-               <Slider Minimum="100"
+                    <Slider Minimum="100"
                        Maximum="300"
                        Interval="25"
                        Width="250"
@@ -83,253 +87,253 @@
                        LargeChange="25"
                        TickPlacement="BottomRight"
                        Value="{Binding ZoomFactor,Mode=TwoWay}" />
-               <TextBlock Text="{Binding ZoomFactor}"
+                    <TextBlock Text="{Binding ZoomFactor}"
                           Margin="2"
                           VerticalAlignment="Center" />
-               <TextBlock Text="%"
+                    <TextBlock Text="%"
                           Margin="2"
                           VerticalAlignment="Center" />
-            </StackPanel>
+                </StackPanel>
 
-            <Separator Margin="2">
-               <Separator.Background>
-                  <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
-               </Separator.Background>
-            </Separator>
+                <Separator Margin="2">
+                    <Separator.Background>
+                        <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
+                    </Separator.Background>
+                </Separator>
 
-            <ItemsControl ItemsSource="{Binding ColumnVisibilities}">
-               <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                     <StackPanel />
-                  </ItemsPanelTemplate>
-               </ItemsControl.ItemsPanel>
-               <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                     <CheckBox IsChecked="{Binding Checked,Mode=TwoWay}"
+                <ItemsControl ItemsSource="{Binding ColumnVisibilities}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Checked,Mode=TwoWay}"
                                Content="{Binding Title}"
                                Margin="2" />
-                  </DataTemplate>
-               </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-         </StackPanel>
+            </StackPanel>
 
-      </Expander>
+        </Expander>
 
-      <Expander IsExpanded="True"
+        <Expander IsExpanded="True"
                 Margin="2"
                 MinWidth="500">
-         <Expander.BorderBrush>
-            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
-         </Expander.BorderBrush>
-         <Expander.Header>
-            <StackPanel Orientation="Horizontal">
-               <Image Source="../Images/server.png"
+            <Expander.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
+            </Expander.BorderBrush>
+            <Expander.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../Images/server.png"
                       Width="16"
                       Margin="2" />
-               <TextBlock Margin="2">TFS Settings</TextBlock>
-            </StackPanel>
-         </Expander.Header>
+                    <TextBlock Margin="2">TFS Settings</TextBlock>
+                </StackPanel>
+            </Expander.Header>
 
-         <StackPanel>
-            <StackPanel Orientation="Horizontal">
-               <Button Command="{Binding AddNewServerCommand}"
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="{Binding AddNewServerCommand}"
                        Margin="2">
-                  <StackPanel Orientation="Horizontal">
-                     <Image Source="../Images/add-server.png"
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="../Images/add-server.png"
                             Width="16"
                             Margin="2" />
-                     <TextBlock Margin="2"
+                            <TextBlock Margin="2"
                                 Text="Add new TFS Server" />
-                  </StackPanel>
-               </Button>
-            </StackPanel>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
 
-            <TabControl ItemsSource="{Binding BuildServers}"
+                <TabControl ItemsSource="{Binding BuildServers}"
                         SelectedIndex="{Binding SelectedIndex,Mode=TwoWay}"
                         Margin="2">
 
-               <TabControl.ItemTemplate>
-                  <DataTemplate>
-                     <StackPanel Orientation="Horizontal">
-                        <Image Source="../Images/server.png"
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="../Images/server.png"
                                Width="16"
                                Margin="2" />
-                        <TextBlock Margin="2"
+                                <TextBlock Margin="2"
                                    Text="{Binding ServerName}" />
-                     </StackPanel>
-                  </DataTemplate>
-               </TabControl.ItemTemplate>
+                            </StackPanel>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
 
-               <TabControl.ContentTemplate>
-                  <DataTemplate DataType="Contracts:BuildServer">
-                     <StackPanel>
-                        <StackPanel.Resources>
-                           <Style TargetType="Image">
-                              <Setter Property="Margin"
+                    <TabControl.ContentTemplate>
+                        <DataTemplate DataType="Contracts:BuildServer">
+                            <StackPanel>
+                                <StackPanel.Resources>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Margin"
                                       Value="2" />
-                              <Setter Property="Width"
+                                        <Setter Property="Width"
                                       Value="16" />
-                              <Setter Property="Height"
+                                        <Setter Property="Height"
                                       Value="16" />
-                           </Style>
-                           <Style TargetType="TextBlock">
-                              <Setter Property="Margin"
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Margin"
                                       Value="2" />
-                           </Style>
-                           <Style TargetType="TextBox">
-                              <Setter Property="Margin"
+                                    </Style>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="Margin"
                                       Value="2" />
-                           </Style>
-                           <Style TargetType="RadioButton">
-                              <Setter Property="Margin"
+                                    </Style>
+                                    <Style TargetType="RadioButton">
+                                        <Setter Property="Margin"
                                       Value="2" />
-                           </Style>
-                           <Style TargetType="Button">
-                              <Setter Property="Margin"
+                                    </Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Margin"
                                       Value="2" />
-                           </Style>
-                        </StackPanel.Resources>
+                                    </Style>
+                                </StackPanel.Resources>
 
-                        <StackPanel Orientation="Horizontal">
-                           <TextBlock>Server name:</TextBlock>
-                           <TextBox Text="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Server name:</TextBlock>
+                                    <TextBox Text="{Binding ServerName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     Width="100"
                                     VerticalAlignment="Center" />
 
-                           <TextBlock Margin="22 2 2 2">Server version:</TextBlock>
-                           <RadioButton IsChecked="{Binding TfsVersion,Mode=TwoWay,Converter={StaticResource tfsVersionToBoolConverter},ConverterParameter=Version2013}"
+                                    <TextBlock Margin="22 2 2 2">Server version:</TextBlock>
+                                    <RadioButton IsChecked="{Binding TfsVersion,Mode=TwoWay,Converter={StaticResource tfsVersionToBoolConverter},ConverterParameter=Version2013}"
                                         VerticalAlignment="Center">2013</RadioButton>
-                           <RadioButton IsChecked="{Binding TfsVersion,Mode=TwoWay,Converter={StaticResource tfsVersionToBoolConverter},ConverterParameter=Version2015}"
+                                    <RadioButton IsChecked="{Binding TfsVersion,Mode=TwoWay,Converter={StaticResource tfsVersionToBoolConverter},ConverterParameter=Version2015}"
                                         VerticalAlignment="Center">2015</RadioButton>
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <Button Command="{Binding RemoveServerCommand}"
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding RemoveServerCommand}"
                                    CommandParameter="{Binding}">
-                              <StackPanel Orientation="Horizontal">
-                                 <Image Source="../Images/delete-server.png" />
-                                 <TextBlock>Remove this server</TextBlock>
-                              </StackPanel>
-                           </Button>
-                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="../Images/delete-server.png" />
+                                            <TextBlock>Remove this server</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2013}">URL to TFS build API:</TextBlock>
-                           <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2015}">URL to TFS root:</TextBlock>
-                           <TextBox Text="{Binding TfsUrl,Mode=TwoWay}"
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2013}">URL to TFS build API:</TextBlock>
+                                    <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2015}">URL to TFS root:</TextBlock>
+                                    <TextBox Text="{Binding TfsUrl,Mode=TwoWay}"
                                     Width="600"
                                     VerticalAlignment="Center" />
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2013}">URL to TFS build details:</TextBlock>
-                           <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2015}">Do not fill:</TextBlock>
-                           <TextBox Text="{Binding DetailBuildUrl,Mode=TwoWay}"
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2013}">URL to TFS build details:</TextBlock>
+                                    <TextBlock Visibility="{Binding TfsVersion,Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Version2015}">Do not fill:</TextBlock>
+                                    <TextBox Text="{Binding DetailBuildUrl,Mode=TwoWay}"
                                     Width="600"
                                     VerticalAlignment="Center" />
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <TextBlock>Domain:</TextBlock>
-                           <TextBox Text="{Binding Domain,Mode=TwoWay}"
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock>Domain:</TextBlock>
+                                    <TextBox Text="{Binding Domain,Mode=TwoWay}"
                                     VerticalAlignment="Center"
                                     Width="100" />
-                           <TextBlock Margin="15,2,2,2">Login:</TextBlock>
-                           <TextBox Text="{Binding Login,Mode=TwoWay}"
+                                    <TextBlock Margin="15,2,2,2">Login:</TextBlock>
+                                    <TextBox Text="{Binding Login,Mode=TwoWay}"
                                     VerticalAlignment="Center"
                                     Width="100" />
-                           <TextBlock Margin="15,2,2,2">Password:</TextBlock>
-                           <PasswordBox Width="100"
+                                    <TextBlock Margin="15,2,2,2">Password:</TextBlock>
+                                    <PasswordBox Width="100"
                                         x:Name="passwordBox"
                                         VerticalAlignment="Center"
                                         Margin="2" />
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <Button Command="{Binding TfsConnectCommand}"
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding TfsConnectCommand}"
                                    CommandParameter="{Binding ElementName=passwordBox}"
                                    x:Name="connectButton">
-                              <StackPanel Orientation="Horizontal">
-                                 <Image Source="../Images/connect.png"
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="../Images/connect.png"
                                         Opacity="{Binding ElementName=connectButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}" />
-                                 <TextBlock Opacity="{Binding ElementName=connectButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}">Connect to TFS</TextBlock>
-                              </StackPanel>
-                           </Button>
+                                            <TextBlock Opacity="{Binding ElementName=connectButton,Path=IsEnabled,Converter={StaticResource booleanToOpacityConverter}}">Connect to TFS</TextBlock>
+                                        </StackPanel>
+                                    </Button>
 
-                           <Label Content="{Binding ConnectionProgress}" />
+                                    <Label Content="{Binding ConnectionProgress}" />
 
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <Image Source="../Images/find.png"
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Images/find.png"
                                   VerticalAlignment="Center" />
-                           <TextBlock VerticalAlignment="Center">Filter list:</TextBlock>
-                           <TextBox Text="{Binding Filter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    <TextBlock VerticalAlignment="Center">Filter list:</TextBlock>
+                                    <TextBox Text="{Binding Filter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     Width="100"
                                     VerticalAlignment="Center" />
-                           <CheckBox IsChecked="{Binding OnlySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                    <CheckBox IsChecked="{Binding OnlySelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      Content="Only selected"
                                      Margin="15,2,2,2"
                                      VerticalAlignment="Center" />
-                           <ComboBox Margin="15,2,2,2"
+                                    <ComboBox Margin="15,2,2,2"
                                      Width="200"
                                      ItemsSource="{Binding ProjectNames}"
                                      SelectedItem="{Binding SelectedProjectName,Mode=TwoWay}"
                                      VerticalAlignment="Center" />
-                        </StackPanel>
+                                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                           <TextBlock Text="{Binding TotalCount}" />
-                           <TextBlock> builds found.</TextBlock>
-                           <TextBlock Text="{Binding FilteredCount}" />
-                           <TextBlock> builds filtered.</TextBlock>
-                        </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding TotalCount}" />
+                                    <TextBlock> builds found.</TextBlock>
+                                    <TextBlock Text="{Binding FilteredCount}" />
+                                    <TextBlock> builds filtered.</TextBlock>
+                                </StackPanel>
 
-                        <ListView ItemsSource="{Binding FilteredBuildDefinitionResults}"
+                                <ListView ItemsSource="{Binding FilteredBuildDefinitionResults}"
                                   Height="250">
-                           <ListView.View>
-                              <GridView>
-                                 <GridViewColumn Header="Selected"
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Selected"
                                                  Width="60"
                                                  CellTemplate="{StaticResource checkboxDataTemplate}" />
 
-                                 <GridViewColumn Header="Build name"
+                                            <GridViewColumn Header="Build name"
                                                  Width="300"
                                                  DisplayMemberBinding="{Binding Name}" />
 
-                                 <GridViewColumn Header="Project"
+                                            <GridViewColumn Header="Project"
                                                  Width="120"
                                                  DisplayMemberBinding="{Binding ProjectName}" />
-                              </GridView>
-                           </ListView.View>
-                        </ListView>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
 
-                     </StackPanel>
-                  </DataTemplate>
-               </TabControl.ContentTemplate>
-            </TabControl>
-         </StackPanel>
-      </Expander>
+                            </StackPanel>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </TabControl>
+            </StackPanel>
+        </Expander>
 
-      <StackPanel>
-         <StackPanel.Background>
-            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}" />
-         </StackPanel.Background>
+        <StackPanel>
+            <StackPanel.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}" />
+            </StackPanel.Background>
 
-         <StackPanel Orientation="Horizontal"
+            <StackPanel Orientation="Horizontal"
                      HorizontalAlignment="Right">
-            <Button Width="60"
+                <Button Width="60"
                     Margin="5"
                     Command="{Binding OkCommand}"
                     IsDefault="True">Ok</Button>
 
-            <Button Width="60"
+                <Button Width="60"
                     Margin="5"
                     Command="{Binding CancelCommand}"
                     IsCancel="True">Cancel</Button>
-         </StackPanel>
-      </StackPanel>
+            </StackPanel>
+        </StackPanel>
 
-   </StackPanel>
+    </StackPanel>
 </Window>

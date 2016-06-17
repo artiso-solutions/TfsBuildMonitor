@@ -261,6 +261,12 @@ namespace BuildMonitor.Logic.BuildExplorer
          };
       }
 
+      public Task GetTestResultAsync(BuildInformation buildInformation, BuildResult result)
+      {
+         // Todo: Implement me
+         return null;
+      }
+
       private void UpdateProperties(string response, BuildResult buildResult)
       {
          var rootObject = JsonConvert.DeserializeObject<RootObject>(response);

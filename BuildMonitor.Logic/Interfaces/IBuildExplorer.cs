@@ -28,5 +28,13 @@ namespace BuildMonitor.Logic.Interfaces
       /// <param name="buildInformation">The build information.</param>
       /// <returns>The <see cref="BuildResult"/>.</returns>
       Task<BuildResult> RequestBuild(BuildInformation buildInformation);
+
+      /// <summary>
+      /// Gets the test result asynchronous.
+      /// </summary>
+      /// <param name="buildInformation">The build information.</param>
+      /// <param name="result">The result.</param>
+      /// <returns>The <see cref="BuildResult"/>.</returns>
+      Task GetTestResultAsync(BuildInformation buildInformation, BuildResult result);
    }
 }

@@ -34,6 +34,8 @@
 
       private double zoomFactor;
 
+      private bool useFullWidth;
+
       #endregion
 
       #region Constructors and Destructors
@@ -43,12 +45,13 @@
       /// <param name="refreshInterval">The refresh interval.</param>
       /// <param name="bigSizeMode">if set to <c>true</c> [big size mode].</param>
       /// <param name="zoomFactor">The zoom factor.</param>
-      internal MainWindowViewModel(IEnumerable<BuildInformation> builds, int refreshInterval, bool bigSizeMode, double zoomFactor)
+      internal MainWindowViewModel(IEnumerable<BuildInformation> builds, int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth)
       {
          BuildAdapters = new ObservableCollection<BuildAdapter>(builds.Select(build => new BuildAdapter(this, build, false)));
 
          ActualValue = Maximum = refreshInterval;
          this.bigSizeMode = bigSizeMode;
+         this.useFullWidth = useFullWidth;
          this.zoomFactor = zoomFactor;
 
          RefreshCommand = new RefreshCommand(this);
@@ -126,6 +129,26 @@
             }
 
             bigSizeMode = value;
+            OnPropertyChanged();
+         }
+      }
+
+      /// <summary>Gets or sets a value indicating whether [big size mode].</summary>
+      public bool UseFullWidth
+      {
+         get
+         {
+            return useFullWidth;
+         }
+
+         set
+         {
+            if (useFullWidth == value)
+            {
+               return;
+            }
+
+            useFullWidth = value;
             OnPropertyChanged();
          }
       }

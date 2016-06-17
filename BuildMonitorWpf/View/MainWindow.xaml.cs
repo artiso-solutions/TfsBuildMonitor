@@ -121,7 +121,7 @@ namespace BuildMonitorWpf.View
             }
          }
 
-         DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor);
+         DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth);
          activated = true;
       }
 

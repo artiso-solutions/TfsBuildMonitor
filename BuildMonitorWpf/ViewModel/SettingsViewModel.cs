@@ -29,6 +29,8 @@
 
       private int zoomFactor;
 
+      private bool useFullWidth;
+
       #endregion
 
       #region Constructors and Destructors
@@ -40,6 +42,7 @@
       {
          refreshInterval = Settings.Default.RefreshInterval;
          bigSizeMode = Settings.Default.BigSize;
+         useFullWidth = Settings.Default.UseFullWidth;
          zoomFactor = (int)(Settings.Default.ZoomFactor * 100.0);
 
          if (Settings.Default.BuildServers == null)
@@ -93,6 +96,26 @@
             }
 
             bigSizeMode = value;
+            OnPropertyChanged();
+         }
+      }
+
+      /// <summary>Gets or sets a value indicating whether [big size mode].</summary>
+      public bool UseFullWidth
+      {
+         get
+         {
+            return useFullWidth;
+         }
+
+         set
+         {
+            if (useFullWidth == value)
+            {
+               return;
+            }
+
+            useFullWidth = value;
             OnPropertyChanged();
          }
       }

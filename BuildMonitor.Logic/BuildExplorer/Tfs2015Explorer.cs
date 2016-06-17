@@ -5,6 +5,7 @@ namespace BuildMonitor.Logic.BuildExplorer
    using System;
    using System.Collections.Generic;
    using System.Globalization;
+   using System.Linq;
    using System.Net;
    using System.Net.Http;
    using System.Net.Http.Headers;
@@ -142,6 +143,7 @@ namespace BuildMonitor.Logic.BuildExplorer
 
                if (!firstNotInprogressFound)
                {
+                  result.Id = item.id;
                   result.Name = item.definition.name;
                   result.Number = item.buildNumber;
                   result.Status = buildStatus;
@@ -171,6 +173,34 @@ namespace BuildMonitor.Logic.BuildExplorer
          catch (Exception ex)
          {
             return new BuildResult { Status = BuildStatus.Error, Name = ex.Message };
+         }
+      }
+
+      public async Task GetTestResultAsync(BuildInformation buildInformation, BuildResult result)
+      {
+         using (var httpClient = WebClientFactory.CreateHttpClient(buildInformation.DomainName, buildInformation.Login, buildInformation.CryptedPassword))
+         {
+            var postString = string.Format("{{ \"query\":\"SELECT * FROM TestRun WHERE buildUri='vstfs:///Build/Build/{0}'\"}}", result.Id);
+            var responseMessage = await httpClient.PostAsync(buildInformation.TestRunUrl, 
+               new StringContent(postString, Encoding.UTF8, "application/json"));
+            var response = await responseMessage.Content.ReadAsStringAsync();
+
+            var testRuns = new List<TestRun>();
+            dynamic jsonObject = JsonConvert.DeserializeObject(response);
+            foreach (var item in jsonObject.value)
+            {
+               var testRun = new TestRun();
+               int incompletTests = item.incompleteTests;
+               testRun.Id = item.id;
+               testRun.TotalTests = item.totalTests;
+               testRun.PassedTests = item.passedTests;
+               testRun.FailedTests = testRun.TotalTests - testRun.PassedTests - incompletTests;
+               testRuns.Add(testRun);
+            }
+
+            result.TotalTests = testRuns.Sum(x => x.TotalTests);
+            result.PassedTests = testRuns.Sum(x => x.PassedTests);
+            result.FailedTests = testRuns.Sum(x => x.FailedTests);
          }
       }
 

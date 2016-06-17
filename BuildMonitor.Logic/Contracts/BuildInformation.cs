@@ -35,6 +35,8 @@
       /// <summary>Gets or sets the version of the TFS this build belongs to. This is used for correctly parsing the results depending on the API version.</summary>
       public TfsVersion TfsVersion { get; set; }
 
+      public string TestRunUrl { get; set; }
+
       #endregion
    }
 }

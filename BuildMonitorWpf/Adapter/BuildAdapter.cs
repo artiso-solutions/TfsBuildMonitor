@@ -66,6 +66,10 @@
 
       private string tfsUri;
 
+      private int passedTests;
+
+      private int failedTests;
+
       #endregion
 
       #region Constructors and Destructors
@@ -508,6 +512,46 @@
          }
       }
 
+      /// <summary>Gets or sets the passed tests.</summary>
+      public int PassedTests
+      {
+         get
+         {
+            return passedTests;
+         }
+
+         set
+         {
+            if (passedTests == value)
+            {
+               return;
+            }
+
+            passedTests = value;
+            OnPropertyChanged();
+         }
+      }
+
+      /// <summary>Gets or sets the failed tests.</summary>
+      public int FailedTests
+      {
+         get
+         {
+            return failedTests;
+         }
+
+         set
+         {
+            if (failedTests == value)
+            {
+               return;
+            }
+
+            failedTests = value;
+            OnPropertyChanged();
+         }
+      }
+
       #endregion
 
       #region Properties
@@ -545,6 +589,12 @@
             ToastNotifications.CreateToastNotification(result, false, ToastActivated);
          }
 
+         if ((string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, result.Number))
+            && (result.Status == BuildStatus.PartiallySucceeded || result.Status == BuildStatus.Succeeded))
+         {
+            await buildExplorer.GetTestResultAsync(BuildInformation, result);
+         }
+
          Name = result.Name;
          Number = result.Number;
          RequestedBy = result.RequestedBy;
@@ -554,6 +604,8 @@
          IsGatedCheckin = result.IsGatedCheckin;
          TfsUri = InsertDetailUrl(result.TfsUri);
          RunningTfsUri = InsertDetailUrl(result.RunningTfsUri);
+         PassedTests = result.PassedTests;
+         FailedTests = result.FailedTests;
          if (!result.IsRunning)
          {
             return;

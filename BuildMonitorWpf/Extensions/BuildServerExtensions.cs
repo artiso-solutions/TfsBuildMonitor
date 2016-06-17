@@ -65,6 +65,7 @@ namespace BuildMonitorWpf.Extensions
             var buildDefinitionUrl = string.Concat(urlNoApi, "_apis/build/Builds?api-version=2.0&definitions=");
             var stopBuildUrl = string.Concat(urlNoApi, "_apis/build/builds/{0}?api-version=2.0");
             var requestBuildUrl = string.Concat(urlNoApi, "_apis/build/builds?api-version=2.0");
+            var testRunUrl = string.Concat(urlNoApi, "_apis/test/Runs/Query?includeRunDetails=true&api-version=2.2-preview.2");
             var build = new BuildInformation
             {
                DomainName = buildServer.DomainName,
@@ -74,7 +75,8 @@ namespace BuildMonitorWpf.Extensions
                BuildDefinitionId = buildDefinition.Id,
                StopBuildUrl = stopBuildUrl,
                RequestBuildUrl = requestBuildUrl,
-               TfsVersion = buildServer.TfsVersion
+               TfsVersion = buildServer.TfsVersion,
+               TestRunUrl = testRunUrl
             };
             yield return build;
          }

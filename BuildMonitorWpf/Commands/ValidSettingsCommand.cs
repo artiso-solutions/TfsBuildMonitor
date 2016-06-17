@@ -75,6 +75,8 @@
 
          settings.BigSize = settingsViewModel.BigSizeMode;
          mainWindowViewModel.BigSizeMode = settingsViewModel.BigSizeMode;
+         settings.UseFullWidth = settingsViewModel.UseFullWidth;
+         mainWindowViewModel.UseFullWidth = settingsViewModel.UseFullWidth;
 
          settings.ZoomFactor = settingsViewModel.ZoomFactor / 100.0;
          mainWindowViewModel.ZoomFactor = settings.ZoomFactor;
