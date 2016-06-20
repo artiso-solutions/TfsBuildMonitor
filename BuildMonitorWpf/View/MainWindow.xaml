@@ -339,266 +339,274 @@
                 <RowDefinition Height="15" />
             </Grid.RowDefinitions>
 
-            <ItemsControl ItemsSource="{Binding BuildAdapters}"
-                       Grid.Row="0"
-                       Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter}}">
-
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Setter Property="Control.Margin" Value="5" />
+            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter}}">
+                <ScrollViewer.Style>
+                    <Style TargetType="{x:Type ScrollViewer}">
+                        <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="True">
-                                <Setter Property="Control.Width" Value="{Binding ElementName=BigSizeGrid,Path=ActualWidth}"/>
-                                <Setter Property="Control.Height" Value="Auto"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="False">
-                                <Setter Property="Control.Width">
-                                    <Setter.Value>
-                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
-                                      ConverterParameter="250">
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
-                                    Path="DataContext.BigSizeMode" />
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
-                                    Path="DataContext.ZoomFactor" />
-                                        </MultiBinding>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Control.Height">
-                                    <Setter.Value>
-                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
-                                      ConverterParameter="70">
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
-                                    Path="DataContext.BigSizeMode" />
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
-                                    Path="DataContext.ZoomFactor" />
-                                        </MultiBinding>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </ItemsControl.ItemContainerStyle>
+                </ScrollViewer.Style>
+                <ItemsControl ItemsSource="{Binding BuildAdapters}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="5" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="True">
+                                    <Setter Property="Control.Width" Value="{Binding ElementName=BigSizeGrid,Path=ActualWidth}"/>
+                                    <Setter Property="Control.Height" Value="Auto"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="False">
+                                    <Setter Property="Control.Width">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                      ConverterParameter="250">
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.BigSizeMode" />
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.ZoomFactor" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Control.Height">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                      ConverterParameter="70">
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.BigSizeMode" />
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                    Path="DataContext.ZoomFactor" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
 
-                            <Rectangle Grid.Column="0"
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Rectangle Grid.Column="0"
                                 Grid.ColumnSpan="2"
                                 Fill="{Binding Status,Converter={StaticResource buildStatusToBrushConverter}}" >
-                                <Rectangle.RadiusX>
-                                    <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                    <Rectangle.RadiusX>
+                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                          ConverterParameter="10">
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                        Path="DataContext.BigSizeMode" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                        Path="DataContext.ZoomFactor" />
-                                    </MultiBinding>
-                                </Rectangle.RadiusX>
-                                <Rectangle.RadiusY>
-                                    <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                        </MultiBinding>
+                                    </Rectangle.RadiusX>
+                                    <Rectangle.RadiusY>
+                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                          ConverterParameter="10">
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                        Path="DataContext.BigSizeMode" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                        Path="DataContext.ZoomFactor" />
-                                    </MultiBinding>
-                                </Rectangle.RadiusY>
-                            </Rectangle>
+                                        </MultiBinding>
+                                    </Rectangle.RadiusY>
+                                </Rectangle>
 
-                            <Image Grid.Column="0"
+                                <Image Grid.Column="0"
                             Margin="5"
                             Source="{Binding Status,Converter={StaticResource buildStatusToImageConverter}}"
                             ToolTip="{Binding Status,Converter={StaticResource buildStatusToStringConverter}}">
-                                <Image.Width>
-                                    <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                    <Image.Width>
+                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                          ConverterParameter="25">
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                        Path="DataContext.BigSizeMode" />
-                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                        Path="DataContext.ZoomFactor" />
-                                    </MultiBinding>
-                                </Image.Width>
-                            </Image>
+                                        </MultiBinding>
+                                    </Image.Width>
+                                </Image>
 
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding Name}"
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding Name}"
                                    TextWrapping="Wrap"
                                    Margin="4">
-                                    <TextBlock.FontSize>
-                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                        <TextBlock.FontSize>
+                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                             ConverterParameter="15">
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                           Path="DataContext.BigSizeMode" />
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                           Path="DataContext.ZoomFactor" />
-                                        </MultiBinding>
-                                    </TextBlock.FontSize>
-                                </TextBlock>
+                                            </MultiBinding>
+                                        </TextBlock.FontSize>
+                                    </TextBlock>
 
-                                <TextBlock Text="{Binding RequestedBy}"
+                                    <TextBlock Text="{Binding RequestedBy}"
                                    Margin="2">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="False">
-                                                    <Setter Property="Visibility" Value="{Binding Status, Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Failed;PartiallySucceeded}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                    <TextBlock.FontSize>
-                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="False">
+                                                        <Setter Property="Visibility" Value="{Binding Status, Converter={StaticResource enumerationToVisibilityConverter},ConverterParameter=Failed;PartiallySucceeded}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <TextBlock.FontSize>
+                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                             ConverterParameter="12">
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.BigSizeMode" />
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.BigSizeMode" />
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                           Path="DataContext.ZoomFactor" />
-                                        </MultiBinding>
-                                    </TextBlock.FontSize>
-                                </TextBlock>
+                                            </MultiBinding>
+                                        </TextBlock.FontSize>
+                                    </TextBlock>
 
-                                <Label Margin="2">
-                                    <Label.Style>
-                                        <Style TargetType="{x:Type Label}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="False">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Label.Style>
-                                    <Label.Content>
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{}Test results: passed {0}, failed {1}">
-                                                    <Binding Path="PassedTests" />
-                                                    <Binding Path="FailedTests" />
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Label.Content>
-                                    <TextBlock.FontSize>
-                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                    <Label Margin="2">
+                                        <Label.Style>
+                                            <Style TargetType="{x:Type Label}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                        <Label.Content>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}Test results: passed {0}, failed {1}">
+                                                        <Binding Path="PassedTests" />
+                                                        <Binding Path="FailedTests" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Label.Content>
+                                        <TextBlock.FontSize>
+                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                             ConverterParameter="12">
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.BigSizeMode" />
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}" Path="DataContext.BigSizeMode" />
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                           Path="DataContext.ZoomFactor" />
-                                        </MultiBinding>
-                                    </TextBlock.FontSize>
-                                </Label>
+                                            </MultiBinding>
+                                        </TextBlock.FontSize>
+                                    </Label>
 
-                                <StackPanel Orientation="Horizontal"
+                                    <StackPanel Orientation="Horizontal"
                                     Visibility="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter}}">
-                                    <Image Source="../Images/gated-checkin.png"
+                                        <Image Source="../Images/gated-checkin.png"
                                   ToolTip="Gated check-in"
                                   Margin="1"
                                   Visibility="{Binding IsGatedCheckin,Converter={StaticResource booleanToVisibilityConverter}}">
-                                        <Image.Width>
-                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            <Image.Width>
+                                                <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                                ConverterParameter="16">
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.BigSizeMode" />
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.ZoomFactor" />
-                                            </MultiBinding>
-                                        </Image.Width>
-                                    </Image>
+                                                </MultiBinding>
+                                            </Image.Width>
+                                        </Image>
 
-                                    <Image Source="{Binding RunningBuildImagePath}"
+                                        <Image Source="{Binding RunningBuildImagePath}"
                                   ToolTip="{Binding RunningBuildImageToolTip}"
                                   Margin="2">
-                                        <Image.Width>
-                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            <Image.Width>
+                                                <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                                ConverterParameter="16">
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.BigSizeMode" />
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.ZoomFactor" />
-                                            </MultiBinding>
-                                        </Image.Width>
-                                    </Image>
-                                    <TextBlock Text="{Binding RunningMinutes,Converter={StaticResource intToHourMinutesConverter}}"
+                                                </MultiBinding>
+                                            </Image.Width>
+                                        </Image>
+                                        <TextBlock Text="{Binding RunningMinutes,Converter={StaticResource intToHourMinutesConverter}}"
                                       FontStyle="Italic"
                                       VerticalAlignment="Center">
-                                        <TextBlock.FontSize>
-                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            <TextBlock.FontSize>
+                                                <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                                ConverterParameter="10">
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.BigSizeMode" />
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.ZoomFactor" />
-                                            </MultiBinding>
-                                        </TextBlock.FontSize>
-                                    </TextBlock>
-                                    <TextBlock Text=" / ~"
+                                                </MultiBinding>
+                                            </TextBlock.FontSize>
+                                        </TextBlock>
+                                        <TextBlock Text=" / ~"
                                       FontStyle="Italic"
                                       VerticalAlignment="Center">
-                                        <TextBlock.FontSize>
-                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            <TextBlock.FontSize>
+                                                <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                                ConverterParameter="10">
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.BigSizeMode" />
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.ZoomFactor" />
-                                            </MultiBinding>
-                                        </TextBlock.FontSize>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding AverageMinutes,Converter={StaticResource intToHourMinutesConverter}}"
+                                                </MultiBinding>
+                                            </TextBlock.FontSize>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding AverageMinutes,Converter={StaticResource intToHourMinutesConverter}}"
                                       FontStyle="Italic"
                                       VerticalAlignment="Center"
                                       Margin="0,0,3,0">
-                                        <TextBlock.FontSize>
-                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                            <TextBlock.FontSize>
+                                                <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                                ConverterParameter="10">
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.BigSizeMode" />
-                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                              Path="DataContext.ZoomFactor" />
-                                            </MultiBinding>
-                                        </TextBlock.FontSize>
-                                    </TextBlock>
-                                </StackPanel>
-                                <ProgressBar Minimum="0"
+                                                </MultiBinding>
+                                            </TextBlock.FontSize>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <ProgressBar Minimum="0"
                                      Value="{Binding RunningProgress}"
                                      Maximum="100"
                                      RenderTransformOrigin="0.5,0.5"
                                      Foreground="{Binding RunningBuildProgressBarColor}"
                                      Visibility="{Binding IsRunning,Converter={StaticResource booleanToVisibilityConverter}}"
                                      Margin="5,2">
-                                    <ProgressBar.Height>
-                                        <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
+                                        <ProgressBar.Height>
+                                            <MultiBinding Converter="{StaticResource bigSizeModeToDoubleConverter}"
                                             ConverterParameter="6">
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                           Path="DataContext.BigSizeMode" />
-                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
+                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}"
                                           Path="DataContext.ZoomFactor" />
-                                        </MultiBinding>
-                                    </ProgressBar.Height>
-                                </ProgressBar>
+                                            </MultiBinding>
+                                        </ProgressBar.Height>
+                                    </ProgressBar>
 
 
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
             <ListView ItemsSource="{Binding BuildAdapters}"
                    Grid.Row="0"
                    Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter},ConverterParameter=NOT}">

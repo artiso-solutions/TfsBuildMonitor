@@ -191,10 +191,11 @@ namespace BuildMonitor.Logic.BuildExplorer
             {
                var testRun = new TestRun();
                int incompletTests = item.incompleteTests;
+               int unanalyzedTests = item.unanalyzedTests;
                testRun.Id = item.id;
                testRun.TotalTests = item.totalTests;
                testRun.PassedTests = item.passedTests;
-               testRun.FailedTests = testRun.TotalTests - testRun.PassedTests - incompletTests;
+               testRun.FailedTests = testRun.TotalTests - testRun.PassedTests - incompletTests - unanalyzedTests;
                testRuns.Add(testRun);
             }
 

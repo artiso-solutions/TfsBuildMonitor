@@ -12,6 +12,7 @@
    using BuildMonitor.Logic.Interfaces;
 
    using BuildMonitorWpf.Commands;
+   using BuildMonitorWpf.Contracts;
    using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.ViewModel;
 
@@ -70,6 +71,8 @@
 
       private int failedTests;
 
+      private TempBuildContainer tempBuildContainer;
+
       #endregion
 
       #region Constructors and Destructors
@@ -98,6 +101,8 @@
          {
             PinBuildCommand.Execute(null);
          }
+
+         tempBuildContainer = new TempBuildContainer();
       }
 
       #endregion
@@ -589,10 +594,13 @@
             ToastNotifications.CreateToastNotification(result, false, ToastActivated);
          }
 
+         var doNotGetTests = !Settings.Default.UseFullWidth && Settings.Default.BigSize;
          if ((string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, result.Number))
-            && (result.Status == BuildStatus.PartiallySucceeded || result.Status == BuildStatus.Succeeded))
+            && (result.Status == BuildStatus.PartiallySucceeded || result.Status == BuildStatus.Succeeded) && !doNotGetTests)
          {
             await buildExplorer.GetTestResultAsync(BuildInformation, result);
+            tempBuildContainer.PassedTests = result.PassedTests;
+            tempBuildContainer.FailedTests = result.FailedTests;
          }
 
          Name = result.Name;
@@ -604,8 +612,8 @@
          IsGatedCheckin = result.IsGatedCheckin;
          TfsUri = InsertDetailUrl(result.TfsUri);
          RunningTfsUri = InsertDetailUrl(result.RunningTfsUri);
-         PassedTests = result.PassedTests;
-         FailedTests = result.FailedTests;
+         PassedTests = tempBuildContainer.PassedTests;
+         FailedTests = tempBuildContainer.FailedTests;
          if (!result.IsRunning)
          {
             return;
