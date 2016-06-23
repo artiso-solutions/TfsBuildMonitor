@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Converters="clr-namespace:BuildMonitorWpf.Converters"
-        xmlns:Contracts="clr-namespace:BuildMonitor.Logic.Contracts;assembly=BuildMonitor.Logic"
         Title="TFS build monitor"
         Height="350"
         Width="525"
@@ -41,7 +40,18 @@
                         <ToolTip>
                             <StackPanel>
                                 <Label Content="{Binding Status,Converter={StaticResource buildStatusToStringConverter}}"/>
-                                <Label Content="{Binding PassedTests}" ContentStringFormat="Passed tests: {0}"/>
+                                <Label>
+                                    <Label.Content>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Passed tests: {0} / {1}">
+                                                    <Binding Path="PassedTests"/>
+                                                    <Binding Path="TotalTests"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Label.Content>
+                                </Label>
                                 <Label Content="{Binding FailedTests}" ContentStringFormat="Failed tests: {0}"/>
                             </StackPanel>
                         </ToolTip>
@@ -131,6 +141,18 @@
                             <TextBlock Text="{Binding RunningBuildNumber}" />
                             <TextBlock Text="Build will probably fail"
                                 Visibility="{Binding ErrorsInBuild, Converter={StaticResource booleanToVisibilityConverter}}" />
+                            <ItemsControl ItemsSource="{Binding RunningBuildErrorDetails}">
+                                <!--<ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>-->
+                                <ItemsControl.ItemTemplate>
+                                    <ItemContainerTemplate>
+                                        <TextBlock Text="{Binding}"/>
+                                    </ItemContainerTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>

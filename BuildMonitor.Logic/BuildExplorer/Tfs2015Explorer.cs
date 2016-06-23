@@ -35,8 +35,10 @@ namespace BuildMonitor.Logic.BuildExplorer
       /// <summary>Gets the build result.</summary>
       /// <param name="buildInformation">The build information.</param>
       /// <returns>The <see cref="BuildResult" />.</returns>
-      public async Task<BuildResult> GetBuildResult(BuildInformation buildInformation)
+      public async Task<BuildResultCollection> GetBuildResultCollection(BuildInformation buildInformation)
       {
+         var collectionResult = new BuildResultCollection();
+
          string response;
          using (var httpClient = WebClientFactory.CreateHttpClient(buildInformation.DomainName, buildInformation.Login, buildInformation.CryptedPassword))
          {
@@ -47,16 +49,15 @@ namespace BuildMonitor.Logic.BuildExplorer
             }
             catch (Exception ex)
             {
-               return new BuildResult { Name = ex.InnerException != null ? ex.InnerException.Message : ex.Message, Status = BuildStatus.Unknown };
+               collectionResult.ErrorMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+               return collectionResult;
             }
 
             if (!responseMessage.IsSuccessStatusCode)
             {
-               return new BuildResult
-               {
-                  Name = string.Format("Error {0}:{1} - {2}", (int)responseMessage.StatusCode, responseMessage.StatusCode, responseMessage.ReasonPhrase),
-                  Status = BuildStatus.Unknown
-               };
+               collectionResult.ErrorMessage = string.Format("Error {0}:{1} - {2}", (int)responseMessage.StatusCode,
+                  responseMessage.StatusCode, responseMessage.ReasonPhrase);
+               return collectionResult;
             }
 
             response = await responseMessage.Content.ReadAsStringAsync();
@@ -66,15 +67,14 @@ namespace BuildMonitor.Logic.BuildExplorer
          {
             dynamic jsonObject = JsonConvert.DeserializeObject(response);
 
-            var result = new BuildResult();
-            var firstNotInprogressFound = false;
-            var firstInprogressFound = false;
-
-            foreach (var item in jsonObject.value)
+            foreach (var jsonItem in jsonObject.value)
             {
-               BuildStatus buildStatus = ReadBuildStatus(item);
+               var buildResult = new BuildResult();
+               collectionResult.BuildResults.Add(buildResult);
 
-               string webLinkUri = item._links.web.href;
+               buildResult.Status = ReadBuildStatus(jsonItem);
+
+               string webLinkUri = jsonItem._links.web.href;
                var uri = new Uri(webLinkUri);
                if (string.Equals(uri.Host, "tfs", StringComparison.InvariantCultureIgnoreCase))
                {
@@ -82,138 +82,148 @@ namespace BuildMonitor.Logic.BuildExplorer
                   webLinkUri = string.Format("{0}:/{1}{2}{3}", uri.Scheme, host, string.Join(string.Empty, uri.Segments), uri.Query);
                }
 
-               if (buildStatus == BuildStatus.NotStarted)
+               buildResult.Id = jsonItem.id;
+               buildResult.Name = jsonItem.definition.name;
+               buildResult.Number = jsonItem.buildNumber;
+               buildResult.TfsUri = webLinkUri;
+               buildResult.RequestedBy = jsonItem.requestedFor.displayName;
+
+               string finishTimeString = jsonItem.finishTime == null ? string.Empty : string.Format("{0}", jsonItem.finishTime);
+               var finishDate = DateTime.MinValue;
+               if (!string.IsNullOrEmpty(finishTimeString))
                {
-                  if (firstInprogressFound)
+                  finishDate = DateTime.Parse(finishTimeString, CultureInfo.CurrentCulture,
+                     DateTimeStyles.AssumeUniversal);
+                  buildResult.FinishTime = finishDate.ToString("g", CultureInfo.CurrentCulture);
+               }
+
+               string startTimeString = jsonItem.startTime == null ? string.Empty : string.Format("{0}", jsonItem.startTime);
+               if (!string.IsNullOrEmpty(startTimeString))
+               {
+                  var startTime = DateTime.Parse(startTimeString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
+                  if (finishDate != DateTime.MinValue)
                   {
-                     continue;
+                     var delta = finishDate - startTime;
+                     buildResult.Duration = delta.TotalMinutes;
                   }
-                  
-                  var buildReason = string.Format("{0}", item.reason);
-                  result.IsGatedCheckin = string.Equals(buildReason, "checkInShelveset", StringComparison.InvariantCultureIgnoreCase);
-                  result.WaitingTfsUri = webLinkUri;
-                  result.WaitingBuildId = item.id;
-                  result.WaitingBuildRequestedBy = item.requestedFor.displayName;
-                  result.WaitingBuildNumber = item.buildNumber;
-                  result.WaitingBuildTfsUri = webLinkUri;
-                  result.Waiting = true;
+               }
+
+               if (buildResult.Status == BuildStatus.NotStarted)
+               {
+                  FillNotStartedProperties(jsonItem, buildResult, webLinkUri);
                   continue;
                }
 
-               if (buildStatus == BuildStatus.InProgress)
+               if (buildResult.Status == BuildStatus.InProgress)
                {
-                  if (firstInprogressFound)
-                  {
-                     continue;
-                  }
-
-                  try
-                  {
-                     string response2;
-                     using (var httpClient = WebClientFactory.CreateHttpClient(buildInformation.DomainName, buildInformation.Login, buildInformation.CryptedPassword))
-                     {
-                        string buildIdUri = item._links.details.href;
-                        var responseMsgs2 = await httpClient.GetAsync(buildIdUri);
-                        response2 = await responseMsgs2.Content.ReadAsStringAsync();
-                     }
-
-                     UpdateProperties(response2, result);
-                  }
-                  catch
-                  {
-                  }
-
-                  result.IsRunning = true;
-                  var buildReason = string.Format("{0}", item.reason);
-                  result.IsGatedCheckin = string.Equals(buildReason, "checkInShelveset", StringComparison.InvariantCultureIgnoreCase);
-                  result.RunningTfsUri = webLinkUri;
-                  result.RunningBuildId = item.id;
-                  result.RunningBuildRequestedBy = item.requestedFor.displayName;
-                  result.RunningBuildNumber = item.buildNumber;
-                  result.RunningBuildTfsUri = webLinkUri;
-                  var runningStartTimeString = string.Format("{0}", item.startTime);
-                  if (!string.IsNullOrEmpty(runningStartTimeString))
-                  {
-                     result.RunningStartTime = DateTime.Parse(runningStartTimeString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-                  }
-
-                  firstInprogressFound = true;
-                  continue;
-               }
-
-               if (!firstNotInprogressFound)
-               {
-                  result.Id = item.id;
-                  result.Name = item.definition.name;
-                  result.Number = item.buildNumber;
-                  result.Status = buildStatus;
-                  result.TfsUri = webLinkUri;
-                  result.RequestedBy = item.requestedFor.displayName;
-                  var finishTimeString = string.Format("{0}", item.finishTime);
-                  DateTime finishDate = DateTime.Parse(finishTimeString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-                  result.FinishTime = finishDate.ToString("g", CultureInfo.CurrentCulture);
-                  firstNotInprogressFound = true;
-               }
-
-               if (buildStatus == BuildStatus.PartiallySucceeded || buildStatus == BuildStatus.Succeeded)
-               {
-                  var startTimeString = string.Format("{0}", item.startTime);
-                  DateTime startTime = DateTime.Parse(startTimeString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-
-                  var finishTimeString = string.Format("{0}", item.finishTime);
-                  DateTime finishTime = DateTime.Parse(finishTimeString, CultureInfo.CurrentCulture, DateTimeStyles.AssumeUniversal);
-
-                  var delta = finishTime - startTime;
-                  result.BuildTimes.Add(delta.TotalMinutes);
+                  await FillInProgressProperties(buildInformation, jsonItem, buildResult, webLinkUri);
                }
             }
 
-            return result;
+            return collectionResult;
          }
          catch (Exception ex)
          {
-            return new BuildResult { Status = BuildStatus.Error, Name = ex.Message };
+            collectionResult.ErrorMessage = ex.Message;
+            return collectionResult;
          }
       }
 
       public async Task GetTestResultAsync(BuildInformation buildInformation, BuildResult result)
       {
+         string response;
          using (var httpClient = WebClientFactory.CreateHttpClient(buildInformation.DomainName, buildInformation.Login, buildInformation.CryptedPassword))
          {
             var postString = string.Format("{{ \"query\":\"SELECT * FROM TestRun WHERE buildUri='vstfs:///Build/Build/{0}'\"}}", result.Id);
-            var responseMessage = await httpClient.PostAsync(buildInformation.TestRunUrl, 
-               new StringContent(postString, Encoding.UTF8, "application/json"));
-            var response = await responseMessage.Content.ReadAsStringAsync();
-
-            var testRuns = new List<TestRun>();
-            dynamic jsonObject = JsonConvert.DeserializeObject(response);
-            foreach (var item in jsonObject.value)
+            HttpResponseMessage responseMessage;
+            try
             {
-               var testRun = new TestRun();
-               int incompletTests = item.incompleteTests;
-               int unanalyzedTests = item.unanalyzedTests;
-               testRun.Id = item.id;
-               testRun.TotalTests = item.totalTests;
-               testRun.PassedTests = item.passedTests;
-               testRun.FailedTests = testRun.TotalTests - testRun.PassedTests - incompletTests - unanalyzedTests;
-               testRuns.Add(testRun);
+               responseMessage = await httpClient.PostAsync(buildInformation.TestRunUrl,
+                  new StringContent(postString, Encoding.UTF8, "application/json"));
+            }
+            catch
+            {
+               return;
             }
 
-            result.TotalTests = testRuns.Sum(x => x.TotalTests);
-            result.PassedTests = testRuns.Sum(x => x.PassedTests);
-            result.FailedTests = testRuns.Sum(x => x.FailedTests);
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+               return;
+            }
+
+            response = await responseMessage.Content.ReadAsStringAsync();
+         }
+
+         var testRuns = new List<TestRun>();
+         dynamic jsonObject = JsonConvert.DeserializeObject(response);
+         foreach (var item in jsonObject.value)
+         {
+            var testRun = new TestRun();
+            int incompletTests = item.incompleteTests;
+            int unanalyzedTests = item.unanalyzedTests;
+            testRun.Id = item.id;
+            testRun.TotalTests = item.totalTests;
+            testRun.PassedTests = item.passedTests;
+            testRun.FailedTests = incompletTests + unanalyzedTests;
+            testRuns.Add(testRun);
+         }
+
+         result.TotalTests = testRuns.Sum(x => x.TotalTests);
+         result.PassedTests = testRuns.Sum(x => x.PassedTests);
+         result.FailedTests = testRuns.Sum(x => x.FailedTests);
+      }
+
+      private async Task FillInProgressProperties(BuildInformation buildInformation, dynamic jsonItem, BuildResult buildResult,
+         string webLinkUri)
+      {
+         await GetInProgressBuildDetails(buildInformation, jsonItem, buildResult);
+
+         buildResult.IsRunning = true;
+         var buildReason = string.Format("{0}", jsonItem.reason);
+         buildResult.IsGatedCheckin = string.Equals(buildReason, "checkInShelveset",
+            StringComparison.InvariantCultureIgnoreCase);
+         buildResult.RunningTfsUri = webLinkUri;
+         buildResult.RunningBuildId = jsonItem.id;
+         buildResult.RunningBuildRequestedBy = jsonItem.requestedFor.displayName;
+         buildResult.RunningBuildNumber = jsonItem.buildNumber;
+         buildResult.RunningBuildTfsUri = webLinkUri;
+         var runningStartTimeString = string.Format("{0}", jsonItem.startTime);
+         if (!string.IsNullOrEmpty(runningStartTimeString))
+         {
+            buildResult.RunningStartTime = DateTime.Parse(runningStartTimeString, CultureInfo.CurrentCulture,
+               DateTimeStyles.AssumeUniversal);
          }
       }
 
-      private void UpdateProperties(string response, BuildResult result)
+      private static async Task GetInProgressBuildDetails(BuildInformation buildInformation, dynamic jsonItem,
+         BuildResult buildResult)
       {
+         string response;
+         try
+         {
+            using (
+               var httpClient = WebClientFactory.CreateHttpClient(buildInformation.DomainName, buildInformation.Login,
+                  buildInformation.CryptedPassword))
+            {
+               string buildIdUri = jsonItem._links.details.href;
+               var responseMsgs2 = await httpClient.GetAsync(buildIdUri);
+               response = await responseMsgs2.Content.ReadAsStringAsync();
+            }
+         }
+         catch
+         {
+            return;
+         }
+
          dynamic jsonObject = JsonConvert.DeserializeObject(response);
 
          foreach (var item in jsonObject.value)
          {
             if (item.type == "BuildError")
             {
-               result.TestsFailed = true;
+               buildResult.TestsFailed = true;
+               string message = item.fields.Message;
+               buildResult.FailingDetails.Add(message);
             }
 
             if (item.type == "ActivityTracking")
@@ -221,15 +231,28 @@ namespace BuildMonitor.Logic.BuildExplorer
                string displayText = item.fields.DisplayText;
                if (displayText.StartsWith("Run MSTest"))
                {
-                  result.TestsRunning = true;
+                  buildResult.TestsRunning = true;
                }
 
                if (displayText == "Copy Files to Drop Location")
                {
-                  result.TestsFinished = true;
+                  buildResult.TestsFinished = true;
                }
             }
          }
+      }
+
+      private static void FillNotStartedProperties(dynamic jsonItem, BuildResult buildResult, string webLinkUri)
+      {
+         var buildReason = string.Format("{0}", jsonItem.reason);
+         buildResult.IsGatedCheckin = string.Equals(buildReason, "checkInShelveset",
+            StringComparison.InvariantCultureIgnoreCase);
+         buildResult.WaitingTfsUri = webLinkUri;
+         buildResult.WaitingBuildId = jsonItem.id;
+         buildResult.WaitingBuildRequestedBy = jsonItem.requestedFor.displayName;
+         buildResult.WaitingBuildNumber = jsonItem.buildNumber;
+         buildResult.WaitingBuildTfsUri = webLinkUri;
+         buildResult.Waiting = true;
       }
 
       private BuildStatus ReadBuildStatus(dynamic item)

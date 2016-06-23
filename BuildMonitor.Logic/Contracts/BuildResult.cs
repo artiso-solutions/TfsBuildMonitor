@@ -1,28 +1,25 @@
-﻿namespace BuildMonitor.Logic.Contracts
+﻿using System.Collections.Generic;
+
+namespace BuildMonitor.Logic.Contracts
 {
    using System;
-   using System.Collections.Generic;
 
    /// <summary>The Build result.</summary>
    public class BuildResult
    {
-      #region Constructors and Destructors
-
       /// <summary>Initializes a new instance of the <see cref="BuildResult"/> class.</summary>
       public BuildResult()
       {
-         BuildTimes = new List<double>();
+         FailingDetails=new List<string>();
       }
-
-      #endregion
 
       #region Public Properties
 
       /// <summary>Gets or sets the id.</summary>
       public int Id { get; set; }
 
-      /// <summary>Gets the build times.</summary>
-      public IList<double> BuildTimes { get; private set; }
+      /// <summary>Gets or sets the duration in minutes.</summary>
+      public double Duration { get; set; }
 
       /// <summary>Gets or sets the finish time.</summary>
       public string FinishTime { get; set; }
@@ -32,6 +29,9 @@
 
       /// <summary>Gets or sets a value indicating whether this instance is running.</summary>
       public bool IsRunning { get; set; }
+
+      /// <summary>Gets the failing details.</summary>
+      public IList<string> FailingDetails { get; private set; }
 
       /// <summary>Gets or sets the name.</summary>
       public string Name { get; set; }

@@ -1,4 +1,8 @@
-﻿namespace BuildMonitorWpf.Adapter
+﻿using System.Collections.ObjectModel;
+using System.Linq.Expressions;
+using System.Reflection;
+
+namespace BuildMonitorWpf.Adapter
 {
    using System;
    using System.ComponentModel;
@@ -71,7 +75,9 @@
 
       private int failedTests;
 
-      private TempBuildContainer tempBuildContainer;
+      private int totalTests;
+
+      private readonly TempBuildContainer tempBuildContainer = new TempBuildContainer();
 
       #endregion
 
@@ -90,6 +96,7 @@
          OpenBrowserCommand = new OpenBrowserCommand();
          StopBuildCommand = new StopBuildCommand(this, buildInformation);
          RequestBuildCommand = new RequestBuildCommand(this, buildInformation);
+         RunningBuildErrorDetails = new ObservableCollection<string>();
 
          if (!isPinedView)
          {
@@ -101,8 +108,6 @@
          {
             PinBuildCommand.Execute(null);
          }
-
-         tempBuildContainer = new TempBuildContainer();
       }
 
       #endregion
@@ -293,6 +298,9 @@
             OnPropertyChanged();
          }
       }
+
+      /// <summary>Gets the running build error details.</summary>
+      public ObservableCollection<string> RunningBuildErrorDetails { get; private set; }
 
       /// <summary>Gets or sets the running build identifier.</summary>
       public string RunningBuildId
@@ -557,6 +565,26 @@
          }
       }
 
+      /// <summary>Gets or sets the total tests.</summary>
+      public int TotalTests
+      {
+         get
+         {
+            return totalTests;
+         }
+
+         set
+         {
+            if (totalTests == value)
+            {
+               return;
+            }
+
+            totalTests = value;
+            OnPropertyChanged();
+         }
+      }
+
       #endregion
 
       #region Properties
@@ -574,10 +602,10 @@
          PreviousBuildNumber = Number;
          Status = BuildStatus.Waiting;
 
-         var result = await buildExplorer.GetBuildResult(BuildInformation);
-         if (result == null)
+         var resultCollection = await buildExplorer.GetBuildResultCollection(BuildInformation);
+         if (!string.IsNullOrEmpty(resultCollection.ErrorMessage))
          {
-            Name = string.Empty;
+            Name = resultCollection.ErrorMessage;
             Number = string.Empty;
             RequestedBy = string.Empty;
             FinishDateTime = string.Empty;
@@ -588,54 +616,98 @@
             return;
          }
 
-         if (!isPinedView && !string.IsNullOrEmpty(PreviousBuildNumber) && !string.Equals(PreviousBuildNumber, result.Number)
-             && (result.Status == BuildStatus.PartiallySucceeded || result.Status == BuildStatus.Failed))
+         var firstNotWaiting = resultCollection.BuildResults.FirstOrDefault(x => !x.Waiting);
+         if (firstNotWaiting == null)
          {
-            ToastNotifications.CreateToastNotification(result, false, ToastActivated);
+            return;
+         }
+
+         var firstFinished =
+            resultCollection.BuildResults.FirstOrDefault(
+               x => x.Status != BuildStatus.InProgress && x.Status != BuildStatus.Waiting);
+
+         if (!isPinedView && !string.IsNullOrEmpty(PreviousBuildNumber) && !string.Equals(PreviousBuildNumber, firstNotWaiting.Number)
+             && (firstNotWaiting.Status == BuildStatus.PartiallySucceeded || firstNotWaiting.Status == BuildStatus.Failed))
+         {
+            ToastNotifications.CreateToastNotification(firstNotWaiting, false, ToastActivated);
          }
 
          var doNotGetTests = !Settings.Default.UseFullWidth && Settings.Default.BigSize;
-         if ((string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, result.Number))
-            && (result.Status == BuildStatus.PartiallySucceeded || result.Status == BuildStatus.Succeeded) && !doNotGetTests)
+         if ((string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, firstNotWaiting.Number))
+            && (firstNotWaiting.Status == BuildStatus.PartiallySucceeded || firstNotWaiting.Status == BuildStatus.Succeeded) && !doNotGetTests)
          {
-            await buildExplorer.GetTestResultAsync(BuildInformation, result);
-            tempBuildContainer.PassedTests = result.PassedTests;
-            tempBuildContainer.FailedTests = result.FailedTests;
+            await buildExplorer.GetTestResultAsync(BuildInformation, firstNotWaiting);
+            tempBuildContainer.PassedTests = firstNotWaiting.PassedTests;
+            tempBuildContainer.FailedTests = firstNotWaiting.FailedTests;
+            tempBuildContainer.TotalTests = firstNotWaiting.TotalTests;
          }
 
-         Name = result.Name;
-         Number = result.Number;
-         RequestedBy = result.RequestedBy;
-         FinishDateTime = result.FinishTime;
-         Status = result.Status;
-         IsRunning = result.IsRunning;
-         IsGatedCheckin = result.IsGatedCheckin;
-         TfsUri = InsertDetailUrl(result.TfsUri);
-         RunningTfsUri = InsertDetailUrl(result.RunningTfsUri);
+         Name = firstNotWaiting.Name;
+         Number = GetValue(firstNotWaiting.IsRunning, x => x.Number, firstNotWaiting, firstFinished);
+         RequestedBy = GetValue(firstNotWaiting.IsRunning, x => x.RequestedBy, firstNotWaiting, firstFinished);
+         FinishDateTime = GetValue(firstNotWaiting.IsRunning, x => x.FinishTime, firstNotWaiting, firstFinished);
+         Status = GetValue(firstNotWaiting.IsRunning, x => x.Status, firstNotWaiting, firstFinished);
+         IsRunning = firstNotWaiting.IsRunning;
+         IsGatedCheckin = firstNotWaiting.IsGatedCheckin;
+         TfsUri = InsertDetailUrl(GetValue(firstNotWaiting.IsRunning, x => x.TfsUri, firstNotWaiting, firstFinished));
+         RunningTfsUri = InsertDetailUrl(firstNotWaiting.RunningTfsUri);
          PassedTests = tempBuildContainer.PassedTests;
          FailedTests = tempBuildContainer.FailedTests;
-         if (!result.IsRunning)
+         TotalTests = tempBuildContainer.TotalTests;
+         RunningBuildErrorDetails.Clear();
+         if (!firstNotWaiting.IsRunning)
          {
             return;
          }
 
-         var span = DateTime.Now - result.RunningStartTime;
-         RunningMinutes = result.Waiting ? 0 : (int)span.TotalMinutes;
-         RunningBuildRequestedBy = result.RunningBuildRequestedBy;
-         RunningBuildNumber = result.RunningBuildNumber;
-         RunningBuildId = result.RunningBuildId;
-         ErrorsInBuild = result.TestsFailed;
-         HandleRunnningBuildDisplayInformations(result);
+         var span = DateTime.Now - firstNotWaiting.RunningStartTime;
+         RunningMinutes = firstNotWaiting.Waiting ? 0 : (int)span.TotalMinutes;
+         RunningBuildRequestedBy = firstNotWaiting.RunningBuildRequestedBy;
+         RunningBuildNumber = firstNotWaiting.RunningBuildNumber;
+         RunningBuildId = firstNotWaiting.RunningBuildId;
+         ErrorsInBuild = firstNotWaiting.TestsFailed;
+         HandleRunnningBuildDisplayInformations(firstNotWaiting);
+         foreach (var error in firstNotWaiting.FailingDetails.Take(5))
+         {
+            RunningBuildErrorDetails.Add(error);
+         }
 
-         if (!result.BuildTimes.Any())
+         if (RunningBuildErrorDetails.Count > 5)
+         {
+            RunningBuildErrorDetails.Add("(...)");
+         }
+
+         var buildTimes =
+            resultCollection.BuildResults.Where(
+               x => x.Status == BuildStatus.PartiallySucceeded || x.Status == BuildStatus.Succeeded)
+               .Select(x => x.Duration).ToList();
+         if (!buildTimes.Any())
          {
             return;
          }
 
-         var average = result.BuildTimes.Average();
+         var average = buildTimes.Average();
          AverageMinutes = (int)average;
          var progress = (int)(span.TotalMinutes * 100 / average);
          RunningProgress = progress > 100 ? 100 : progress;
+      }
+
+      private static T2 GetValue<T1, T2>(bool isRunning, Expression<Func<T1, T2>> property, T1 firstNotWaiting, T1 firstFinished)
+      {
+         var propertyInfo = (PropertyInfo)((MemberExpression)property.Body).Member;
+         var getMethod = propertyInfo.GetGetMethod();
+
+         if (!isRunning)
+         {
+            return (T2)getMethod.Invoke(firstNotWaiting, new object[0]);
+         }
+
+         if (firstFinished == null)
+         {
+            return default(T2);
+         }
+
+         return (T2)getMethod.Invoke(firstFinished, new object[0]);
       }
 
       protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

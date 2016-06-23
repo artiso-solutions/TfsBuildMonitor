@@ -50,6 +50,7 @@
     <Compile Include="BuildExplorer\Tfs2013Explorer.cs" />
     <Compile Include="BuildExplorer\Tfs2015Explorer.cs" />
     <Compile Include="BuildExplorer\WebClientFactory.cs" />
+    <Compile Include="Contracts\BuildResultCollection.cs" />
     <Compile Include="Contracts\BuildDefinition.cs" />
     <Compile Include="Contracts\BuildDefinitionResult.cs" />
     <Compile Include="Contracts\BuildInformation.cs" />

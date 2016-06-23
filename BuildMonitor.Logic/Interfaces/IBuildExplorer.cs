@@ -11,7 +11,7 @@ namespace BuildMonitor.Logic.Interfaces
       /// <summary>Gets the build result.</summary>
       /// <param name="buildInformation">The build information.</param>
       /// <returns>The <see cref="BuildResult"/>.</returns>
-      Task<BuildResult> GetBuildResult(BuildInformation buildInformation);
+      Task<BuildResultCollection> GetBuildResultCollection(BuildInformation buildInformation);
 
       /// <summary>Gets the build definitions.</summary>
       /// <param name="buildServer">The build server.</param>
