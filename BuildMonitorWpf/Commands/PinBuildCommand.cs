@@ -42,7 +42,7 @@ namespace BuildMonitorWpf.Commands
          isPined = true;
          OnCanExecuteChanged();
 
-         var pinBuildView = new PinBuildView { Owner = Application.Current.MainWindow };
+         var pinBuildView = new PinBuildView();
          pinBuildView.DataContext = new PinBuildViewModel(pinBuildView, mainWindowViewModel, buildInformation);
          pinBuildView.Left = SystemParameters.FullPrimaryScreenWidth - pinBuildView.Width - 10;
          pinBuildView.Top = SystemParameters.FullPrimaryScreenHeight - pinBuildView.Height - 10;
@@ -62,10 +62,12 @@ namespace BuildMonitorWpf.Commands
          }
 
          pinBuildView.Show();
+         mainWindowViewModel.PinBuildViews.Add(pinBuildView);
       }
 
       private void PinBuildViewClosing(object sender, CancelEventArgs e)
       {
+         mainWindowViewModel.PinBuildViews.Remove(sender as PinBuildView);
          isPined = false;
          OnCanExecuteChanged();
       }

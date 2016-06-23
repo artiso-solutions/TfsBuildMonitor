@@ -131,6 +131,15 @@ namespace BuildMonitorWpf.View
          Settings.Default.WindowLeft = (int)Left;
          Settings.Default.Save();
 
+         var mainViewModel = DataContext as MainWindowViewModel;
+         if (mainViewModel != null)
+         {
+            while ( mainViewModel.PinBuildViews.Any())
+            {
+               mainViewModel.PinBuildViews[0].Close();
+            }
+         }
+
          base.OnClosing(e);
       }
    }

@@ -1,4 +1,6 @@
-﻿namespace BuildMonitorWpf.ViewModel
+﻿using BuildMonitorWpf.View;
+
+namespace BuildMonitorWpf.ViewModel
 {
    using System;
    using System.Collections.Generic;
@@ -47,6 +49,7 @@
       /// <param name="zoomFactor">The zoom factor.</param>
       internal MainWindowViewModel(IEnumerable<BuildInformation> builds, int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth)
       {
+         PinBuildViews = new List<PinBuildView>();
          BuildAdapters = new ObservableCollection<BuildAdapter>(builds.Select(build => new BuildAdapter(this, build, false)));
 
          ActualValue = Maximum = refreshInterval;
@@ -249,6 +252,9 @@
             OnPropertyChanged();
          }
       }
+
+      /// <summary>Gets the pin build views.</summary>
+      internal IList<PinBuildView> PinBuildViews { get; private set; }
 
       #endregion
 
