@@ -22,6 +22,16 @@ To provide this feature to Windows 7 users we avoided using features for Windows
 ## Settings
 ![ScreenShot](https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/docs/BuildMonitorSettings.png)
 
+##
+To use VSTS you have to generate a personal access token in order to authorize the build monitor to access relevant information through the API.
+In order to generate a token navigate to "My security" in the context menu which is shown when you click on your username. 
+![ScreenShot](https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/docs/VSTSMySecurity.png)
+
+Once you are there click on "Add" in the personal access tokens context and copy the access token.
+The only thing left to do is to enter your VSTS URL as collection in the build monitor and paste the access token into the password field.
+![ScreenShot](https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/docs/TokenPw.png)
+The build monitor should have access to your VSTS builds now.
+
 ## Use Software
 To use the build monitor you have to start the setup.exe in the publish directory.
 
