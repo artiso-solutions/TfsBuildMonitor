@@ -3,6 +3,13 @@ TFS Build Monitor
 
 This is a simple TFS build monitor which has been developed in C# and WPF.
 
+## Install Build monitor
+[Click here](https://github.com/artiso-solutions/TfsBuildMonitor/blob/master/publish/setup.exe?raw=true) to download the setup.
+
+Future updates will be downloaded automatically as soon as a new version is published on this github repository.
+
+## UI
+
 Currently there are two UI types.
 
 One for an individual use on your display and another one which can be used as a build monitor for the whole team on a big display.
@@ -36,8 +43,3 @@ The only thing left to do is to enter your VSTS URL in the build monitor and pas
 ![ScreenShot](https://raw.githubusercontent.com/artiso-solutions/TfsBuildMonitor/master/docs/TokenPw.png)
 
 The build monitor should have access to your VSTS builds now.
-
-## Use Software
-To use the build monitor you have to start the setup.exe in the publish directory.
-
-Future updates will be downloaded automatically as soon as a new version is published on this github repository.
