@@ -14,6 +14,7 @@ namespace BuildMonitorWpf.Test.ToastNotificationsTests
    public class CreateToastNotificationTests
    {
       [TestMethod]
+      [Ignore]
       public void CreateToastNotificationErrorDesignTest()
       {
          var result = new BuildResult { Name = "Product-Main", Status = BuildStatus.Failed, RequestedBy = "Some user" };
