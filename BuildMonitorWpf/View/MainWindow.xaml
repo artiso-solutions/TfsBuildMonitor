@@ -53,10 +53,27 @@
                                     </Label.Content>
                                 </Label>
                                 <Label Content="{Binding FailedTests}" ContentStringFormat="Failed tests: {0}"/>
+                                <Label>
+                                    <Label.Content>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="Comment from {0}: {1}">
+                                                    <Binding Path="Changeset.author.displayName"/>
+                                                    <Binding Path="Changeset.comment"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Label.Content>
+                                </Label>
                             </StackPanel>
                         </ToolTip>
                     </Image.ToolTip>
                 </Image>
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open changeset" Command="{Binding OpenBrowserCommand}" CommandParameter="{Binding Changeset._links.web.href}"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
             </Button>
         </DataTemplate>
 
@@ -141,6 +158,14 @@
                             <TextBlock Text="{Binding RunningBuildNumber}" />
                             <TextBlock Text="Build will probably fail"
                                 Visibility="{Binding ErrorsInBuild, Converter={StaticResource booleanToVisibilityConverter}}" />
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="Comment from {0}: {1}">
+                                        <Binding Path="RunningBuildChangeset.author.displayName"/>
+                                        <Binding Path="RunningBuildChangeset.comment"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                             <ItemsControl ItemsSource="{Binding RunningBuildErrorDetails}">
                                 <!--<ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -156,6 +181,11 @@
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open changeset" Command="{Binding OpenBrowserCommand}" CommandParameter="{Binding RunningBuildChangeset._links.web.href}"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
             </Button>
 
         </DataTemplate>

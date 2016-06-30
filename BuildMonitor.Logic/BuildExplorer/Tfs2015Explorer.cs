@@ -88,6 +88,9 @@ namespace BuildMonitor.Logic.BuildExplorer
                buildResult.TfsUri = webLinkUri;
                buildResult.RequestedBy = jsonItem.requestedFor.displayName;
 
+               string sourceVersion = jsonItem.sourceVersion;
+               buildResult.SourceVersion = Convert.ToInt32(sourceVersion.Replace("C", string.Empty));
+
                string finishTimeString = jsonItem.finishTime == null ? string.Empty : string.Format("{0}", jsonItem.finishTime);
                var finishDate = DateTime.MinValue;
                if (!string.IsNullOrEmpty(finishTimeString))
@@ -173,6 +176,33 @@ namespace BuildMonitor.Logic.BuildExplorer
          result.FailedTests = testRuns.Sum(x => x.FailedTests);
       }
 
+      public async Task<Changeset> GetChangesetAsync(BuildInformation buildInformation, int sourceVersion)
+      {
+         string response;
+         using (var httpClient = WebClientFactory.CreateHttpClient(buildInformation.DomainName, buildInformation.Login, buildInformation.CryptedPassword))
+         {
+            HttpResponseMessage responseMessage;
+            try
+            {
+               responseMessage = await httpClient.GetAsync(string.Format(buildInformation.ChangesetUrl, sourceVersion));
+            }
+            catch (Exception ex)
+            {
+               return null;
+            }
+
+            if (!responseMessage.IsSuccessStatusCode)
+            {
+               return null;
+            }
+
+            response = await responseMessage.Content.ReadAsStringAsync();
+         }
+
+         var changeset = JsonConvert.DeserializeObject<Changeset>(response);
+         return changeset;
+      }
+
       private async Task FillInProgressProperties(BuildInformation buildInformation, dynamic jsonItem, BuildResult buildResult,
          string webLinkUri)
       {
@@ -187,6 +217,8 @@ namespace BuildMonitor.Logic.BuildExplorer
          buildResult.RunningBuildRequestedBy = jsonItem.requestedFor.displayName;
          buildResult.RunningBuildNumber = jsonItem.buildNumber;
          buildResult.RunningBuildTfsUri = webLinkUri;
+         string sourceVersion = jsonItem.sourceVersion;
+         buildResult.RunningBuildSourceVersion = Convert.ToInt32(sourceVersion.Replace("C", string.Empty));
          var runningStartTimeString = string.Format("{0}", jsonItem.startTime);
          if (!string.IsNullOrEmpty(runningStartTimeString))
          {
@@ -301,7 +333,7 @@ namespace BuildMonitor.Logic.BuildExplorer
                return new TfsConnectResult { Message = exception.InnerException != null ? exception.InnerException.Message : exception.Message };
             }
 
-            if (!responseMessage.IsSuccessStatusCode)
+            if (!responseMessage.IsSuccessStatusCode || responseMessage.StatusCode == HttpStatusCode.NonAuthoritativeInformation)
             {
                return new TfsConnectResult
                {

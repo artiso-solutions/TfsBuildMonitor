@@ -79,6 +79,10 @@ namespace BuildMonitorWpf.Adapter
 
       private readonly TempBuildContainer tempBuildContainer = new TempBuildContainer();
 
+      private Changeset changeset;
+
+      private Changeset runningBuildChangeset;
+
       #endregion
 
       #region Constructors and Destructors
@@ -585,6 +589,46 @@ namespace BuildMonitorWpf.Adapter
          }
       }
 
+      /// <summary>Gets or sets the changeset.</summary>
+      public Changeset Changeset
+      {
+         get
+         {
+            return changeset;
+         }
+
+         set
+         {
+            if (changeset == value)
+            {
+               return;
+            }
+
+            changeset = value;
+            OnPropertyChanged();
+         }
+      }
+
+      /// <summary>Gets or sets the changeset.</summary>
+      public Changeset RunningBuildChangeset
+      {
+         get
+         {
+            return runningBuildChangeset;
+         }
+
+         set
+         {
+            if (runningBuildChangeset == value)
+            {
+               return;
+            }
+
+            runningBuildChangeset = value;
+            OnPropertyChanged();
+         }
+      }
+
       #endregion
 
       #region Properties
@@ -600,6 +644,7 @@ namespace BuildMonitorWpf.Adapter
       internal async void Refresh()
       {
          PreviousBuildNumber = Number;
+         PreviousRunningBuildNumber = RunningBuildNumber;
          Status = BuildStatus.Waiting;
 
          var resultCollection = await buildExplorer.GetBuildResultCollection(BuildInformation);
@@ -633,13 +678,19 @@ namespace BuildMonitorWpf.Adapter
          }
 
          var doNotGetTests = !Settings.Default.UseFullWidth && Settings.Default.BigSize;
-         if ((string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, firstNotWaiting.Number))
+         var buildChanged = string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, firstNotWaiting.Number);
+         if (buildChanged
             && (firstNotWaiting.Status == BuildStatus.PartiallySucceeded || firstNotWaiting.Status == BuildStatus.Succeeded) && !doNotGetTests)
          {
             await buildExplorer.GetTestResultAsync(BuildInformation, firstNotWaiting);
             tempBuildContainer.PassedTests = firstNotWaiting.PassedTests;
             tempBuildContainer.FailedTests = firstNotWaiting.FailedTests;
             tempBuildContainer.TotalTests = firstNotWaiting.TotalTests;
+         }
+
+         if (buildChanged)
+         {
+            Changeset = await buildExplorer.GetChangesetAsync(BuildInformation, firstFinished.SourceVersion);
          }
 
          Name = firstNotWaiting.Name;
@@ -658,6 +709,12 @@ namespace BuildMonitorWpf.Adapter
          if (!firstNotWaiting.IsRunning)
          {
             return;
+         }
+         
+         var runningBuildChanged = string.IsNullOrEmpty(PreviousRunningBuildNumber) || !string.Equals(PreviousRunningBuildNumber, firstNotWaiting.RunningBuildNumber);
+         if (runningBuildChanged)
+         {
+            RunningBuildChangeset = await buildExplorer.GetChangesetAsync(BuildInformation, firstNotWaiting.RunningBuildSourceVersion);
          }
 
          var span = DateTime.Now - firstNotWaiting.RunningStartTime;
@@ -734,7 +791,6 @@ namespace BuildMonitorWpf.Adapter
             RunningBuildProgressBarColor = redBrush;
             if (!isPinedView && !string.Equals(PreviousRunningBuildNumber, result.RunningBuildNumber))
             {
-               PreviousRunningBuildNumber = result.RunningBuildNumber;
                ToastNotifications.CreateToastNotification(result, true, ToastActivated);
             }
          }

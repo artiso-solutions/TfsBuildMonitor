@@ -102,6 +102,12 @@ namespace BuildMonitor.Logic.Contracts
       /// <summary>Gets or sets the passed tests.</summary>
       public int PassedTests { get; set; }
 
+      /// <summary>Gets or sets the source version.</summary>
+      public int SourceVersion { get; set; }
+
+      /// <summary>Gets or sets the running build source version.</summary>
+      public int RunningBuildSourceVersion { get; set; }
+
       #endregion
    }
 }

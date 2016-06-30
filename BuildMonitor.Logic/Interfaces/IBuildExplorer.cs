@@ -36,5 +36,13 @@ namespace BuildMonitor.Logic.Interfaces
       /// <param name="result">The result.</param>
       /// <returns>The <see cref="BuildResult"/>.</returns>
       Task GetTestResultAsync(BuildInformation buildInformation, BuildResult result);
+
+      /// <summary>
+      /// Gets the change-set asynchronous.
+      /// </summary>
+      /// <param name="buildInformation">The build information.</param>
+      /// <param name="sourceVersion">The source version.</param>
+      /// <returns>The <see cref="Changeset"/></returns>
+      Task<Changeset> GetChangesetAsync(BuildInformation buildInformation, int sourceVersion);
    }
 }

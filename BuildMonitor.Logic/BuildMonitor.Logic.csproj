@@ -57,6 +57,10 @@
     <Compile Include="Contracts\BuildResult.cs" />
     <Compile Include="Contracts\BuildServer.cs" />
     <Compile Include="Contracts\BuildStatus.cs" />
+    <Compile Include="Contracts\Changeset\Author.cs" />
+    <Compile Include="Contracts\Changeset\Links.cs" />
+    <Compile Include="Contracts\Changeset\CheckedInBy.cs" />
+    <Compile Include="Contracts\Changeset\Changeset.cs" />
     <Compile Include="Contracts\Information.cs" />
     <Compile Include="Contracts\Node.cs" />
     <Compile Include="Contracts\RootObject.cs" />

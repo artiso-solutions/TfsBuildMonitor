@@ -239,6 +239,12 @@ namespace BuildMonitor.Logic.BuildExplorer
          return null;
       }
 
+      public Task<Changeset> GetChangesetAsync(BuildInformation buildInformation, int sourceVersion)
+      {
+         // Todo: Implement me
+         throw new NotImplementedException();
+      }
+
       private async Task FillInProgressBuild(BuildInformation buildInformation, dynamic jsonItem, BuildResult buildResult)
       {
          string response2;
