@@ -21,15 +21,7 @@
    {
       #region Constants and Fields
 
-      private bool bigSizeMode;
-
-      private int refreshInterval;
-
       private int selectedIndex;
-
-      private int zoomFactor;
-
-      private bool useFullWidth;
 
       #endregion
 
@@ -40,11 +32,6 @@
       /// <param name="mainWindowViewModel">The main window view model.</param>
       public SettingsViewModel(SettingsView owner, MainWindowViewModel mainWindowViewModel)
       {
-         refreshInterval = Settings.Default.RefreshInterval;
-         bigSizeMode = Settings.Default.BigSize;
-         useFullWidth = Settings.Default.UseFullWidth;
-         zoomFactor = (int)(Settings.Default.ZoomFactor * 100.0);
-
          if (Settings.Default.BuildServers == null)
          {
             Settings.Default.BuildServers = new BuildServerCollection();
@@ -57,13 +44,10 @@
 
          var removeServerCommand = new RemoveServerCommand(this);
          BuildServers = new ObservableCollection<BuildServerAdapter>(Settings.Default.BuildServers.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
-         ColumnVisibilities = new ObservableCollection<ColumnVisibilityAdapter>();
 
          AddNewServerCommand = new AddNewServerCommand(this);
          OkCommand = new ValidSettingsCommand(owner, this, mainWindowViewModel);
          CancelCommand = new CloseCommand(owner);
-
-         FillColumnVisibilities();
       }
 
       #endregion
@@ -80,77 +64,14 @@
       /// <summary>Gets the add new server command.</summary>
       public ICommand AddNewServerCommand { get; private set; }
 
-      /// <summary>Gets or sets a value indicating whether [big size mode].</summary>
-      public bool BigSizeMode
-      {
-         get
-         {
-            return bigSizeMode;
-         }
-
-         set
-         {
-            if (bigSizeMode == value)
-            {
-               return;
-            }
-
-            bigSizeMode = value;
-            OnPropertyChanged();
-         }
-      }
-
-      /// <summary>Gets or sets a value indicating whether [big size mode].</summary>
-      public bool UseFullWidth
-      {
-         get
-         {
-            return useFullWidth;
-         }
-
-         set
-         {
-            if (useFullWidth == value)
-            {
-               return;
-            }
-
-            useFullWidth = value;
-            OnPropertyChanged();
-         }
-      }
-
       /// <summary>Gets the build servers.</summary>
       public ObservableCollection<BuildServerAdapter> BuildServers { get; private set; }
 
       /// <summary>Gets the cancel command.</summary>
       public ICommand CancelCommand { get; private set; }
 
-      /// <summary>Gets the column visibilities.</summary>
-      public ObservableCollection<ColumnVisibilityAdapter> ColumnVisibilities { get; private set; }
-
       /// <summary>Gets the ok command.</summary>
       public ICommand OkCommand { get; private set; }
-
-      /// <summary>Gets or sets the refresh interval.</summary>
-      public int RefreshInterval
-      {
-         get
-         {
-            return refreshInterval;
-         }
-
-         set
-         {
-            if (refreshInterval == value)
-            {
-               return;
-            }
-
-            refreshInterval = value - value % 10;
-            OnPropertyChanged();
-         }
-      }
 
       /// <summary>Gets or sets the index of the selected.</summary>
       public int SelectedIndex
@@ -172,26 +93,6 @@
          }
       }
 
-      /// <summary>Gets or sets the zoom factor.</summary>
-      public int ZoomFactor
-      {
-         get
-         {
-            return zoomFactor;
-         }
-
-         set
-         {
-            if (zoomFactor == value)
-            {
-               return;
-            }
-
-            zoomFactor = value - value % 25;
-            OnPropertyChanged();
-         }
-      }
-
       #endregion
 
       #region Methods
@@ -201,19 +102,6 @@
          var handler = PropertyChanged;
          if (handler != null)
             handler(this, new PropertyChangedEventArgs(propertyName));
-      }
-
-      private void FillColumnVisibilities()
-      {
-         var widths = Settings.Default.ColumnWidths.Split(',');
-         var titles = new[] { "Ignore build", "Last build", "Running build", "Name", "Details", "Finished", "Action", "Pin build" };
-
-         for (var i = 0; i < titles.Length; i++)
-         {
-            var information = i < widths.Length ? widths[i].Split(':') : new[] { "100", "true" };
-            var ischecked = string.Equals(information[1], "true", StringComparison.InvariantCultureIgnoreCase);
-            ColumnVisibilities.Add(new ColumnVisibilityAdapter { Title = string.Format("Column '{0}' is visible", titles[i]), Checked = ischecked });
-         }
       }
 
       #endregion

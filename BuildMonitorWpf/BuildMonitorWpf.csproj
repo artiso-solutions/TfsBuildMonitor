@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BuildMonitorWpf</RootNamespace>
     <AssemblyName>BuildMonitorWpf</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -18,6 +18,8 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>../publish/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -34,7 +36,7 @@
     <PublisherName>artiso solutions GmbH</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>23</ApplicationRevision>
-    <ApplicationVersion>1.3.5.%2a</ApplicationVersion>
+    <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -48,6 +50,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,6 +60,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>monitor.ico</ApplicationIcon>
@@ -86,6 +90,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.InteropServices.WindowsRuntime" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml.Linq" />
@@ -103,17 +108,15 @@
     </ApplicationDefinition>
     <Compile Include="Adapter\BuildAdapter.cs" />
     <Compile Include="Adapter\BuildServerAdapter.cs" />
-    <Compile Include="Adapter\ColumnVisibilityAdapter.cs" />
     <Compile Include="Adapter\ToastNotifications.cs" />
-    <Compile Include="Commands\AboutCommand.cs" />
     <Compile Include="Commands\AddNewServerCommand.cs" />
     <Compile Include="Commands\CloseCommand.cs" />
     <Compile Include="Commands\ClosePinBuildCommand.cs" />
     <Compile Include="Commands\NotificationCommand.cs" />
     <Compile Include="Commands\PinBuildCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RemoveServerCommand.cs" />
     <Compile Include="Commands\RequestBuildCommand.cs" />
-    <Compile Include="Commands\SendMailCommand.cs" />
     <Compile Include="Commands\SettingsCommand.cs" />
     <Compile Include="Commands\StopBuildCommand.cs" />
     <Compile Include="Commands\TfsConnectCommand.cs" />
@@ -123,13 +126,13 @@
     <Compile Include="Contracts\TempBuildContainer.cs" />
     <Compile Include="Converters\BigSizeModeToDoubleConverter.cs" />
     <Compile Include="Converters\BuildStatusToBrushConverter.cs" />
+    <Compile Include="Converters\ColumnWidthStringToBooleanConverter.cs" />
     <Compile Include="Converters\ColumnWidthStringToDoubleConverter.cs" />
     <Compile Include="Converters\EnumerationToVisibilityConverter.cs" />
     <Compile Include="Converters\IntToHourMinutesConverter.cs" />
+    <Compile Include="Converters\RibbonMinimizedToImageSourceConverter.cs" />
     <Compile Include="Converters\SecondsToHumanStringConverter.cs" />
     <Compile Include="Extensions\BuildServerExtensions.cs" />
-    <Compile Include="Commands\OpenBrowserCommand.cs" />
-    <Compile Include="Commands\RefreshCommand.cs" />
     <Compile Include="Converters\BooleanToOpacityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
@@ -196,8 +199,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.it.resx" />
+    <EmbeddedResource Include="Properties\Resources.fr.resx" />
+    <EmbeddedResource Include="Properties\Resources.de.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -351,6 +357,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ViewModel\ReleaseNotes.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\menu-ribbon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

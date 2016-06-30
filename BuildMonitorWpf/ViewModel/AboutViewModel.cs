@@ -1,6 +1,7 @@
 ﻿namespace BuildMonitorWpf.ViewModel
 {
    using System.Collections.ObjectModel;
+   using System.Diagnostics;
    using System.Windows.Input;
    using System.Xml;
 
@@ -19,7 +20,7 @@
       public AboutViewModel(AboutView owner)
       {
          CloseCommand = new CloseCommand(owner);
-         SendMailCommand = new SendMailCommand();
+         SendMailCommand = new RelayCommand(o=> Process.Start("mailto:ctissot@artiso.com;vgibilmanno@artiso.com;mrink@artiso.com"));
 
          var assemblyName = typeof(AboutViewModel).Assembly.GetName();
 

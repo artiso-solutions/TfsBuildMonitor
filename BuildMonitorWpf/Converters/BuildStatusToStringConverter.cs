@@ -7,6 +7,8 @@ namespace BuildMonitorWpf.Converters
 
    using BuildMonitor.Logic.Contracts;
 
+   using BuildMonitorWpf.Properties;
+
    public class BuildStatusToStringConverter : IValueConverter
    {
       public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -19,19 +21,19 @@ namespace BuildMonitorWpf.Converters
          switch ((BuildStatus)value)
          {
             case BuildStatus.Failed:
-               return "Build is failed";
+               return Resources.BuildFailed;
             case BuildStatus.PartiallySucceeded:
-               return "Build is partially succeeded";
+               return Resources.BuildPartiallySucceeded;
             case BuildStatus.NotStarted:
-               return "Build is not started";
+               return Resources.BuildNotStarted;
             case BuildStatus.Succeeded:
-               return "Build is succeeded";
+               return Resources.BuildSucceeded;
             case BuildStatus.Stopped:
-               return "Build was stopped";
+               return Resources.BuildStopped;
             case BuildStatus.Unknown:
-               return "No idea - offline";
+               return Resources.BuildUnknown;
             case BuildStatus.Error:
-               return "An exception occured";
+               return Resources.BuildError;
          }
 
          return null;
