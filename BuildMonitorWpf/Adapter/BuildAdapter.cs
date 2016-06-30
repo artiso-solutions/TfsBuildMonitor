@@ -6,6 +6,7 @@ namespace BuildMonitorWpf.Adapter
 {
    using System;
    using System.ComponentModel;
+   using System.Diagnostics;
    using System.Linq;
    using System.Runtime.CompilerServices;
    using System.Windows.Input;
@@ -97,7 +98,7 @@ namespace BuildMonitorWpf.Adapter
          this.isPinedView = isPinedView;
          buildExplorer = BuildExplorerFactory.CreateBuildExplorer(buildInformation.TfsVersion);
 
-         OpenBrowserCommand = new OpenBrowserCommand();
+         OpenBrowserCommand = new RelayCommand(OpenBrowser);
          StopBuildCommand = new StopBuildCommand(this, buildInformation);
          RequestBuildCommand = new RequestBuildCommand(this, buildInformation);
          RunningBuildErrorDetails = new ObservableCollection<string>();
@@ -111,6 +112,15 @@ namespace BuildMonitorWpf.Adapter
          if (PinBuildCommand != null && buildDefinition != null && buildDefinition.IsPined)
          {
             PinBuildCommand.Execute(null);
+         }
+      }
+
+      private void OpenBrowser(object parameter)
+      {
+         var uri = string.Format("{0}", parameter);
+         if (!string.IsNullOrEmpty(uri))
+         {
+            Process.Start(uri);
          }
       }
 

@@ -62,38 +62,10 @@
       public void Execute(object parameter)
       {
          var settings = Settings.Default;
-         if (mainWindowViewModel.Maximum != settingsViewModel.RefreshInterval)
-         {
-            settings.RefreshInterval = settingsViewModel.RefreshInterval;
-
-            mainWindowViewModel.Maximum = settingsViewModel.RefreshInterval;
-            if (mainWindowViewModel.ActualValue > settingsViewModel.RefreshInterval)
-            {
-               mainWindowViewModel.ActualValue = settingsViewModel.RefreshInterval;
-            }
-         }
-
-         settings.BigSize = settingsViewModel.BigSizeMode;
-         mainWindowViewModel.BigSizeMode = settingsViewModel.BigSizeMode;
-         settings.UseFullWidth = settingsViewModel.UseFullWidth;
-         mainWindowViewModel.UseFullWidth = settingsViewModel.UseFullWidth;
-
-         settings.ZoomFactor = settingsViewModel.ZoomFactor / 100.0;
-         mainWindowViewModel.ZoomFactor = settings.ZoomFactor;
-
          if (settings.BuildServers == null)
          {
             settings.BuildServers = new BuildServerCollection();
          }
-
-         var widths = settings.ColumnWidths.Split(',');
-         for (var i = 0; i < widths.Length; i++)
-         {
-            var information = widths[i].Split(':');
-            widths[i] = string.Concat(information[0], ":", settingsViewModel.ColumnVisibilities[i].Checked ? "true" : "false");
-         }
-
-         mainWindowViewModel.ColumnWidths = string.Join(",", widths);
 
          settings.BuildServers.BuildServers.Clear();
          mainWindowViewModel.BuildAdapters.Clear();

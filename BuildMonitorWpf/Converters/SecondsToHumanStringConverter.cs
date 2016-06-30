@@ -4,6 +4,8 @@
    using System.Globalization;
    using System.Windows.Data;
 
+   using BuildMonitorWpf.Properties;
+
    /// <summary>The seconds to human string converter.</summary>
    /// <seealso cref="System.Windows.Data.IValueConverter"/>
    public class SecondsToHumanStringConverter : IValueConverter
@@ -21,12 +23,12 @@
          var seconds = (int)value;
          if (seconds < 60)
          {
-            return string.Format("{0} sec", seconds);
+            return string.Format(Resources.Seconds, seconds);
          }
 
          var minutes = (int)Math.Floor(seconds / 60.0);
          seconds -= minutes * 60;
-         return string.Format("{0} min {1:00} sec", minutes, seconds);
+         return string.Format(Resources.MinutesSeconds, minutes, seconds);
       }
 
       /// <summary>Converts a value.</summary>

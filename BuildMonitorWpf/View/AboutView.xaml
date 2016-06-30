@@ -10,64 +10,70 @@
         WindowStartupLocation="CenterOwner"
         WindowStyle="ThreeDBorderWindow">
 
-   <StackPanel>
+    <StackPanel>
 
-      <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal">
 
-         <Image Source="../Images/monitor_128.png"
-                Width="50"
-                Margin="10" />
+            <Image Source="../Images/monitor_128.png"
+                   Width="50"
+                   Margin="10" />
 
-         <StackPanel>
+            <StackPanel>
 
-            <Label VerticalAlignment="Center"
-                   Margin="10,3">
-               <Label.Content>
-                  <Span>
-                     <Run Text="{Binding Product}" />
-                     <Run Text="{Binding Version}" />
-                     <LineBreak />
-                     <Run Text="Developped in co-work Cédric &amp; Vincenzo &amp; Matthias :-)" />
-                     <LineBreak />
-                     <Run Text="We hope you enjoy it" />
-                     <LineBreak />
-                     <Hyperlink Command="{Binding SendMailCommand}">
-                        <Run Text="Send any idea per email" />
-                     </Hyperlink>
-                  </Span>
-               </Label.Content>
-            </Label>
+                <Label VerticalAlignment="Center"
+                       Margin="10,3">
+                    <Label.Content>
+                        <Span>
+                            <Run Text="{Binding Product}" />
+                            <Run Text="{Binding Version}" />
+                            <LineBreak />
+                            <Run Text="Developped in co-work Cédric &amp; Vincenzo &amp; Matthias :-)" />
+                            <LineBreak />
+                            <Run Text="We hope you enjoy it" />
+                            <LineBreak />
+                            <Hyperlink Command="{Binding SendMailCommand}">
+                                <Run Text="Send any idea per email" />
+                            </Hyperlink>
+                            <LineBreak />
+                            <Hyperlink NavigateUri="https://github.com/artiso-solutions/TfsBuildMonitor">
+                                <Run Text="GitHub: TfsBuildMonitor"/>
+                            </Hyperlink>
+                        </Span>
+                    </Label.Content>
+                </Label>
 
-            <Label FontWeight="Bold"
-                   Margin="10,3">Release notes:</Label>
+                <Label FontWeight="Bold"
+                       Margin="10,3">Release notes:</Label>
 
-            <ItemsControl ItemsSource="{Binding ReleaseNotes}"
-                          Margin="10,3">
-               <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                     <StackPanel Margin="0">
-                        <TextBlock Margin="10,3"
-                                   FontWeight="Bold"
-                                   Text="{Binding Version}" />
-                        <TextBlock Margin="10,2"
-                                   Text="{Binding Description}" />
-                     </StackPanel>
-                  </DataTemplate>
-               </ItemsControl.ItemTemplate>
-            </ItemsControl>
-         </StackPanel>
-      </StackPanel>
+                <ScrollViewer MaxHeight="200">
+                    <ItemsControl ItemsSource="{Binding ReleaseNotes}"
+                                  Margin="10,3">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0">
+                                    <TextBlock Margin="10,3"
+                                               FontWeight="Bold"
+                                               Text="{Binding Version}" />
+                                    <TextBlock Margin="10,2"
+                                               Text="{Binding Description}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </StackPanel>
+        </StackPanel>
 
-      <StackPanel>
-         <StackPanel.Background>
-            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}" />
-         </StackPanel.Background>
+        <StackPanel>
+            <StackPanel.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.InactiveBorderColorKey}}" />
+            </StackPanel.Background>
 
-         <Button Width="70"
-                 HorizontalAlignment="Right"
-                 Margin="10"
-                 Command="{Binding CloseCommand}">Close</Button>
+            <Button Width="70"
+                    HorizontalAlignment="Right"
+                    Margin="10"
+                    Command="{Binding CloseCommand}">Close</Button>
 
-      </StackPanel>
-   </StackPanel>
+        </StackPanel>
+    </StackPanel>
 </Window>

@@ -118,148 +118,144 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BuildError" xml:space="preserve">
-    <value>An exception occured</value>
+    <value>Eine Ausnahme ist aufgetreten</value>
   </data>
   <data name="BuildFailed" xml:space="preserve">
-    <value>Build is failed</value>
+    <value>Build ist fehlgeschlagen</value>
   </data>
   <data name="BuildNotStarted" xml:space="preserve">
-    <value>Build is not started</value>
+    <value>Build ist nicht gestartet</value>
   </data>
   <data name="BuildPartiallySucceeded" xml:space="preserve">
-    <value>Build is partially succeeded</value>
+    <value>Build ist teilweise gelungen</value>
   </data>
   <data name="BuildStopped" xml:space="preserve">
-    <value>Build was stopped</value>
+    <value>Build wurde gestoppt</value>
   </data>
   <data name="BuildSucceeded" xml:space="preserve">
-    <value>Build is succeeded</value>
+    <value>Build ist gelungen</value>
   </data>
   <data name="BuildUnknown" xml:space="preserve">
-    <value>No idea. Offline?</value>
+    <value>Keine Ahnung. Offline?</value>
   </data>
   <data name="ButtonAbout_Text" xml:space="preserve">
-    <value>About</value>
+    <value>Über</value>
   </data>
   <data name="ButtonMinimize_Text" xml:space="preserve">
-    <value>Minimize / maximize ribbon</value>
+    <value>Ribbon minimieren / maximieren</value>
   </data>
   <data name="ButtonNewBuild_ToolTip" xml:space="preserve">
-    <value>Request new standard build</value>
+    <value>Neuen standard Build triggern</value>
   </data>
   <data name="ButtonPinBuild_ToolTip" xml:space="preserve">
-    <value>Pin this build</value>
+    <value>Build pinnen</value>
   </data>
   <data name="ButtonRefresh_Text" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Aktualisieren</value>
   </data>
   <data name="ButtonServers_Text" xml:space="preserve">
-    <value>Servers</value>
+    <value>Servern</value>
   </data>
   <data name="ButtonServers_ToolTip" xml:space="preserve">
-    <value>Manage servers and build definitions</value>
+    <value>Servern und Build Definitionen verwalten</value>
   </data>
   <data name="ButtonStopBuild_ToolTip" xml:space="preserve">
-    <value>Stop the build</value>
+    <value>Build anhalten</value>
   </data>
   <data name="CheckBoxBigSize_Text" xml:space="preserve">
-    <value>Big tiles mode</value>
+    <value>Große Kacheln Modus</value>
   </data>
   <data name="CheckBoxBigSize_ToolTip" xml:space="preserve">
-    <value>Big tiles mode for use in fullscreen</value>
+    <value>Große Kacheln für Vollbildmodus</value>
   </data>
   <data name="CheckBoxFullWidth_Text" xml:space="preserve">
-    <value>Full width</value>
+    <value>Gesamtbreite</value>
   </data>
   <data name="CheckBoxFullWidth_ToolTip" xml:space="preserve">
-    <value>Use full width in big tiles mode and show test results</value>
+    <value>Gesamtbreite in großen Kacheln Modus verwenden und  Testergebnisse anzeigen</value>
   </data>
   <data name="CheckBoxIgnoreStatus_ToolTip" xml:space="preserve">
-    <value>Ignore status</value>
+    <value>Status ignorieren</value>
   </data>
   <data name="ColumnAction_Header" xml:space="preserve">
-    <value>Action</value>
+    <value>Aktion</value>
   </data>
   <data name="ColumnDetails_Header" xml:space="preserve">
-    <value>Details</value>
+    <value>Einzelheiten</value>
   </data>
   <data name="ColumnFinished_Header" xml:space="preserve">
-    <value>Finished</value>
+    <value>Vollendet</value>
   </data>
   <data name="ColumnIgnoreBuild_Header" xml:space="preserve">
-    <value>Ignore build</value>
+    <value>Build ignorieren</value>
   </data>
   <data name="ColumnLastBuild_Header" xml:space="preserve">
-    <value>Last build</value>
+    <value>Letzte build</value>
   </data>
   <data name="ColumnName_Header" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="ColumnPinBuild_Header" xml:space="preserve">
-    <value>Pin build</value>
+    <value>Build pinnen</value>
   </data>
   <data name="ColumnRunningBuild_Header" xml:space="preserve">
-    <value>Running build</value>
+    <value>Laufende Build</value>
   </data>
   <data name="ImageGatedCheckIn_ToolTip" xml:space="preserve">
-    <value>Gated check-in</value>
+    <value>Gated-Check-in</value>
   </data>
   <data name="LabelBuildWillFailed_ToolTip" xml:space="preserve">
-    <value>Build will probably fail</value>
+    <value>Build wird fehlschlagen</value>
   </data>
   <data name="LabelFailedTests_Text" xml:space="preserve">
-    <value>Failed tests: {0}</value>
+    <value>Fehlgeschlagene Tests: {0}</value>
   </data>
   <data name="LabelNewBuild_Text" xml:space="preserve">
     <value>New</value>
   </data>
   <data name="LabelPassedTests_Text" xml:space="preserve">
-    <value>Passed tests: {0} / {1}</value>
+    <value>Bestandene Tests: {0} / {1}</value>
   </data>
   <data name="LabelRefreshInterval_Text" xml:space="preserve">
-    <value>Refresh interval</value>
+    <value>Aktualisierungsintervall</value>
   </data>
   <data name="LabelStopBuild_Text" xml:space="preserve">
     <value>Stop</value>
   </data>
   <data name="LabelZoomFactor_Text" xml:space="preserve">
-    <value>Zoom factor</value>
+    <value>Zoomfaktor</value>
   </data>
   <data name="MenuItemClose_Header" xml:space="preserve">
-    <value>Close</value>
+    <value>Schliessen</value>
   </data>
   <data name="MinutesSeconds" xml:space="preserve">
-    <value>{0} min {1:00} sec</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ReleaseNotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\ViewModel\ReleaseNotes.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>{0} Min {1:00} Sek</value>
   </data>
   <data name="RibbonGroupAbout_Header" xml:space="preserve">
-    <value>About</value>
+    <value>Über</value>
   </data>
   <data name="RibbonGroupColumns_Header" xml:space="preserve">
-    <value>Columns</value>
+    <value>Spalten</value>
   </data>
   <data name="RibbonGroupGeneral_Header" xml:space="preserve">
-    <value>General</value>
+    <value>Allgemein</value>
   </data>
   <data name="RibbonGroupView_Header" xml:space="preserve">
-    <value>View</value>
+    <value>Ansicht</value>
   </data>
   <data name="RibbonTabAbout_Header" xml:space="preserve">
-    <value>About</value>
+    <value>Über</value>
   </data>
   <data name="RibbonTabSettings_Header" xml:space="preserve">
-    <value>Settings</value>
+    <value>Einstellungen</value>
   </data>
   <data name="RibbonTagFlags_Header" xml:space="preserve">
-    <value>Flags</value>
+    <value>Flagge</value>
   </data>
   <data name="RibbonTagServers_Header" xml:space="preserve">
-    <value>Servers</value>
+    <value>Servern</value>
   </data>
   <data name="Seconds" xml:space="preserve">
-    <value>{0} sec</value>
+    <value>{0} Sek</value>
   </data>
 </root>

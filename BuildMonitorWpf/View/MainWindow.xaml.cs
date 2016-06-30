@@ -29,6 +29,8 @@ namespace BuildMonitorWpf.View
 
       public MainWindow()
       {
+         Dispatcher.Thread.CurrentUICulture = Dispatcher.Thread.CurrentCulture;
+
          InitializeComponent();
          TryCreateShortcut();
 
@@ -121,20 +123,27 @@ namespace BuildMonitorWpf.View
             }
          }
 
-         DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth);
+         DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth, Settings.Default.RibbonMinimized);
          activated = true;
       }
 
       protected override void OnClosing(CancelEventArgs e)
       {
+         var viewModel = DataContext as MainWindowViewModel;
+
          Settings.Default.WindowTop = (int)Top;
          Settings.Default.WindowLeft = (int)Left;
+         Settings.Default.BigSize = viewModel.BigSizeMode;
+         Settings.Default.UseFullWidth = viewModel.UseFullWidth;
+         Settings.Default.ZoomFactor = viewModel.ZoomFactor;
+         Settings.Default.RefreshInterval = viewModel.Maximum;
+         Settings.Default.RibbonMinimized = viewModel.IsRibbonMinimized;
          Settings.Default.Save();
 
          var mainViewModel = DataContext as MainWindowViewModel;
          if (mainViewModel != null)
          {
-            while ( mainViewModel.PinBuildViews.Any())
+            while (mainViewModel.PinBuildViews.Any())
             {
                mainViewModel.PinBuildViews[0].Close();
             }

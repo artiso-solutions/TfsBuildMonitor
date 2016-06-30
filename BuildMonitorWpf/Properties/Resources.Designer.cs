@@ -22,7 +22,7 @@ namespace BuildMonitorWpf.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace BuildMonitorWpf.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BuildMonitorWpf.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace BuildMonitorWpf.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,21 +61,447 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An exception occured.
+        /// </summary>
+        public static string BuildError {
+            get {
+                return ResourceManager.GetString("BuildError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build is failed.
+        /// </summary>
+        public static string BuildFailed {
+            get {
+                return ResourceManager.GetString("BuildFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build is not started.
+        /// </summary>
+        public static string BuildNotStarted {
+            get {
+                return ResourceManager.GetString("BuildNotStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build is partially succeeded.
+        /// </summary>
+        public static string BuildPartiallySucceeded {
+            get {
+                return ResourceManager.GetString("BuildPartiallySucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build was stopped.
+        /// </summary>
+        public static string BuildStopped {
+            get {
+                return ResourceManager.GetString("BuildStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build is succeeded.
+        /// </summary>
+        public static string BuildSucceeded {
+            get {
+                return ResourceManager.GetString("BuildSucceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No idea. Offline?.
+        /// </summary>
+        public static string BuildUnknown {
+            get {
+                return ResourceManager.GetString("BuildUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string ButtonAbout_Text {
+            get {
+                return ResourceManager.GetString("ButtonAbout_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimize / maximize ribbon.
+        /// </summary>
+        public static string ButtonMinimize_Text {
+            get {
+                return ResourceManager.GetString("ButtonMinimize_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request new standard build.
+        /// </summary>
+        public static string ButtonNewBuild_ToolTip {
+            get {
+                return ResourceManager.GetString("ButtonNewBuild_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin this build.
+        /// </summary>
+        public static string ButtonPinBuild_ToolTip {
+            get {
+                return ResourceManager.GetString("ButtonPinBuild_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string ButtonRefresh_Text {
+            get {
+                return ResourceManager.GetString("ButtonRefresh_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Servers.
+        /// </summary>
+        public static string ButtonServers_Text {
+            get {
+                return ResourceManager.GetString("ButtonServers_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage servers and build definitions.
+        /// </summary>
+        public static string ButtonServers_ToolTip {
+            get {
+                return ResourceManager.GetString("ButtonServers_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop the build.
+        /// </summary>
+        public static string ButtonStopBuild_ToolTip {
+            get {
+                return ResourceManager.GetString("ButtonStopBuild_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Big tiles mode.
+        /// </summary>
+        public static string CheckBoxBigSize_Text {
+            get {
+                return ResourceManager.GetString("CheckBoxBigSize_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Big tiles mode for use in fullscreen.
+        /// </summary>
+        public static string CheckBoxBigSize_ToolTip {
+            get {
+                return ResourceManager.GetString("CheckBoxBigSize_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full width.
+        /// </summary>
+        public static string CheckBoxFullWidth_Text {
+            get {
+                return ResourceManager.GetString("CheckBoxFullWidth_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use full width in big tiles mode and show test results.
+        /// </summary>
+        public static string CheckBoxFullWidth_ToolTip {
+            get {
+                return ResourceManager.GetString("CheckBoxFullWidth_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore status.
+        /// </summary>
+        public static string CheckBoxIgnoreStatus_ToolTip {
+            get {
+                return ResourceManager.GetString("CheckBoxIgnoreStatus_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string ColumnAction_Header {
+            get {
+                return ResourceManager.GetString("ColumnAction_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string ColumnDetails_Header {
+            get {
+                return ResourceManager.GetString("ColumnDetails_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished.
+        /// </summary>
+        public static string ColumnFinished_Header {
+            get {
+                return ResourceManager.GetString("ColumnFinished_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore build.
+        /// </summary>
+        public static string ColumnIgnoreBuild_Header {
+            get {
+                return ResourceManager.GetString("ColumnIgnoreBuild_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last build.
+        /// </summary>
+        public static string ColumnLastBuild_Header {
+            get {
+                return ResourceManager.GetString("ColumnLastBuild_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string ColumnName_Header {
+            get {
+                return ResourceManager.GetString("ColumnName_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pin build.
+        /// </summary>
+        public static string ColumnPinBuild_Header {
+            get {
+                return ResourceManager.GetString("ColumnPinBuild_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Running build.
+        /// </summary>
+        public static string ColumnRunningBuild_Header {
+            get {
+                return ResourceManager.GetString("ColumnRunningBuild_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gated check-in.
+        /// </summary>
+        public static string ImageGatedCheckIn_ToolTip {
+            get {
+                return ResourceManager.GetString("ImageGatedCheckIn_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build will probably fail.
+        /// </summary>
+        public static string LabelBuildWillFailed_ToolTip {
+            get {
+                return ResourceManager.GetString("LabelBuildWillFailed_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed tests: {0}.
+        /// </summary>
+        public static string LabelFailedTests_Text {
+            get {
+                return ResourceManager.GetString("LabelFailedTests_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string LabelNewBuild_Text {
+            get {
+                return ResourceManager.GetString("LabelNewBuild_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passed tests: {0} / {1}.
+        /// </summary>
+        public static string LabelPassedTests_Text {
+            get {
+                return ResourceManager.GetString("LabelPassedTests_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh interval.
+        /// </summary>
+        public static string LabelRefreshInterval_Text {
+            get {
+                return ResourceManager.GetString("LabelRefreshInterval_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        public static string LabelStopBuild_Text {
+            get {
+                return ResourceManager.GetString("LabelStopBuild_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom factor.
+        /// </summary>
+        public static string LabelZoomFactor_Text {
+            get {
+                return ResourceManager.GetString("LabelZoomFactor_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string MenuItemClose_Header {
+            get {
+                return ResourceManager.GetString("MenuItemClose_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} min {1:00} sec.
+        /// </summary>
+        public static string MinutesSeconds {
+            get {
+                return ResourceManager.GetString("MinutesSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;ReleaseNotes&gt;
-        ///   &lt;Note&gt;
-        ///      &lt;Version&gt;
-        ///         
-        ///      &lt;/Version&gt;
-        ///      &lt;Description&gt;
-        ///         
-        ///      &lt;/Description&gt;
-        ///   &lt;/Note&gt;
-        ///&lt;/ReleaseNotes&gt;.
+        ///  &lt;Note Version=&quot;Version 1.3.5.22 - 23.06.2016&quot;&gt;
+        ///    &lt;Description&gt;
+        ///      - Get test result in small view and big view
+        ///      - Changed logic; all builds are fetched as list
+        ///      - Tooltip over running build shows what is going wrong
+        ///      - Minimizing main window doesn&apos;t minimize pinned builds
+        ///    &lt;/Description&gt;
+        ///  &lt;/Note&gt;
+        ///  &lt;Note Version=&quot;Version 1.3.4.15 - 24.05.2016&quot;&gt;
+        ///    &lt;Description&gt;
+        ///      - Small bugfix when build is running and waiting
+        ///    &lt;/Descr [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ReleaseNotes {
+        public static string ReleaseNotes {
             get {
                 return ResourceManager.GetString("ReleaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string RibbonGroupAbout_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupAbout_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Columns.
+        /// </summary>
+        public static string RibbonGroupColumns_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupColumns_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string RibbonGroupGeneral_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupGeneral_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string RibbonGroupView_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupView_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string RibbonTabAbout_Header {
+            get {
+                return ResourceManager.GetString("RibbonTabAbout_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string RibbonTabSettings_Header {
+            get {
+                return ResourceManager.GetString("RibbonTabSettings_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flags.
+        /// </summary>
+        public static string RibbonTagFlags_Header {
+            get {
+                return ResourceManager.GetString("RibbonTagFlags_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Servers.
+        /// </summary>
+        public static string RibbonTagServers_Header {
+            get {
+                return ResourceManager.GetString("RibbonTagServers_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} sec.
+        /// </summary>
+        public static string Seconds {
+            get {
+                return ResourceManager.GetString("Seconds", resourceCulture);
             }
         }
     }
