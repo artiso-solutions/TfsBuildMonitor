@@ -722,7 +722,7 @@ namespace BuildMonitorWpf.Adapter
          }
          
          var runningBuildChanged = string.IsNullOrEmpty(PreviousRunningBuildNumber) || !string.Equals(PreviousRunningBuildNumber, firstNotWaiting.RunningBuildNumber);
-         if (runningBuildChanged)
+         if (runningBuildChanged && !firstNotWaiting.IsGatedCheckin)
          {
             RunningBuildChangeset = await buildExplorer.GetChangesetAsync(BuildInformation, firstNotWaiting.RunningBuildSourceVersion);
          }

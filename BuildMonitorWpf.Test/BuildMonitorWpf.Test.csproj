@@ -63,7 +63,7 @@
       <Name>BuildMonitor.Logic</Name>
     </ProjectReference>
     <ProjectReference Include="..\BuildMonitorWpf\BuildMonitorWpf.csproj">
-      <Project>{911AA1A3-2082-44F9-97BF-6C97D91E97C3}</Project>
+      <Project>{911aa1a3-2082-44f9-97bf-6c97d91e97c3}</Project>
       <Name>BuildMonitorWpf</Name>
     </ProjectReference>
   </ItemGroup>

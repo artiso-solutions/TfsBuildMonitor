@@ -154,10 +154,10 @@
     <value>Aktualisieren</value>
   </data>
   <data name="ButtonServers_Text" xml:space="preserve">
-    <value>Servern</value>
+    <value>Server</value>
   </data>
   <data name="ButtonServers_ToolTip" xml:space="preserve">
-    <value>Servern und Build Definitionen verwalten</value>
+    <value>Server und Build Definitionen verwalten</value>
   </data>
   <data name="ButtonStopBuild_ToolTip" xml:space="preserve">
     <value>Build anhalten</value>
@@ -190,7 +190,7 @@
     <value>Build ignorieren</value>
   </data>
   <data name="ColumnLastBuild_Header" xml:space="preserve">
-    <value>Letzte build</value>
+    <value>Letzter build</value>
   </data>
   <data name="ColumnName_Header" xml:space="preserve">
     <value>Name</value>
@@ -199,7 +199,7 @@
     <value>Build pinnen</value>
   </data>
   <data name="ColumnRunningBuild_Header" xml:space="preserve">
-    <value>Laufende Build</value>
+    <value>Laufender Build</value>
   </data>
   <data name="ImageGatedCheckIn_ToolTip" xml:space="preserve">
     <value>Gated-Check-in</value>
@@ -211,7 +211,7 @@
     <value>Fehlgeschlagene Tests: {0}</value>
   </data>
   <data name="LabelNewBuild_Text" xml:space="preserve">
-    <value>New</value>
+    <value>Neu</value>
   </data>
   <data name="LabelPassedTests_Text" xml:space="preserve">
     <value>Bestandene Tests: {0} / {1}</value>
@@ -250,7 +250,7 @@
     <value>Einstellungen</value>
   </data>
   <data name="RibbonTagFlags_Header" xml:space="preserve">
-    <value>Flagge</value>
+    <value>Schalter</value>
   </data>
   <data name="RibbonTagServers_Header" xml:space="preserve">
     <value>Servern</value>
