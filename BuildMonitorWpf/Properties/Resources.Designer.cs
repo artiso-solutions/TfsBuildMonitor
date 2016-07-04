@@ -405,18 +405,18 @@ namespace BuildMonitorWpf.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;ReleaseNotes&gt;
+        ///  &lt;Note Version=&quot;Version 1.4.0.23 - 30.06.2016&quot;&gt;
+        ///    &lt;Description&gt;
+        ///      - Changed menu to ribbon
+        ///      - Added translation EN, FR, DE
+        ///    &lt;/Description&gt;
+        ///  &lt;/Note&gt;
         ///  &lt;Note Version=&quot;Version 1.3.5.22 - 23.06.2016&quot;&gt;
         ///    &lt;Description&gt;
         ///      - Get test result in small view and big view
         ///      - Changed logic; all builds are fetched as list
         ///      - Tooltip over running build shows what is going wrong
-        ///      - Minimizing main window doesn&apos;t minimize pinned builds
-        ///    &lt;/Description&gt;
-        ///  &lt;/Note&gt;
-        ///  &lt;Note Version=&quot;Version 1.3.4.15 - 24.05.2016&quot;&gt;
-        ///    &lt;Description&gt;
-        ///      - Small bugfix when build is running and waiting
-        ///    &lt;/Descr [rest of string was truncated]&quot;;.
+        ///      - Minimizing main window doesn&apos;t minimize pinned build [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ReleaseNotes {
             get {
@@ -448,6 +448,24 @@ namespace BuildMonitorWpf.Properties {
         public static string RibbonGroupGeneral_Header {
             get {
                 return ResourceManager.GetString("RibbonGroupGeneral_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grid.
+        /// </summary>
+        public static string RibbonGroupGrid_ContextualHeader {
+            get {
+                return ResourceManager.GetString("RibbonGroupGrid_ContextualHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tiles.
+        /// </summary>
+        public static string RibbonGroupTiles_ContextualHeader {
+            get {
+                return ResourceManager.GetString("RibbonGroupTiles_ContextualHeader", resourceCulture);
             }
         }
         

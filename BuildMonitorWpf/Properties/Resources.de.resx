@@ -240,6 +240,12 @@
   <data name="RibbonGroupGeneral_Header" xml:space="preserve">
     <value>Allgemein</value>
   </data>
+  <data name="RibbonGroupGrid_ContextualHeader" xml:space="preserve">
+    <value>Tabelle</value>
+  </data>
+  <data name="RibbonGroupTiles_ContextualHeader" xml:space="preserve">
+    <value>Kächeln</value>
+  </data>
   <data name="RibbonGroupView_Header" xml:space="preserve">
     <value>Ansicht</value>
   </data>

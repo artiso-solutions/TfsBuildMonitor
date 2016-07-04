@@ -64,8 +64,8 @@
                                         <TextBlock>
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="Comment from {0}: {1}">
-                                                    <Binding Path="Changeset.author.displayName"/>
-                                                    <Binding Path="Changeset.comment"/>
+                                                    <Binding Path="Changeset.author.displayName" />
+                                                    <Binding Path="Changeset.comment" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
@@ -77,7 +77,9 @@
                 </Image>
                 <Button.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Open changeset" Command="{Binding OpenBrowserCommand}" CommandParameter="{Binding Changeset._links.web.href}"/>
+                        <MenuItem Header="Open changeset"
+                                  Command="{Binding OpenBrowserCommand}"
+                                  CommandParameter="{Binding Changeset._links.web.href}" />
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
@@ -167,8 +169,8 @@
                             <TextBlock>
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="Comment from {0}: {1}">
-                                        <Binding Path="RunningBuildChangeset.author.displayName"/>
-                                        <Binding Path="RunningBuildChangeset.comment"/>
+                                        <Binding Path="RunningBuildChangeset.author.displayName" />
+                                        <Binding Path="RunningBuildChangeset.comment" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
@@ -184,7 +186,9 @@
                 </Button.ToolTip>
                 <Button.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Open changeset" Command="{Binding OpenBrowserCommand}" CommandParameter="{Binding RunningBuildChangeset._links.web.href}"/>
+                        <MenuItem Header="Open changeset"
+                                  Command="{Binding OpenBrowserCommand}"
+                                  CommandParameter="{Binding RunningBuildChangeset._links.web.href}" />
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
@@ -270,11 +274,18 @@
     <DockPanel>
 
         <Ribbon DockPanel.Dock="Top"
-                Background="DarkGray"
                 IsMinimized="{Binding IsRibbonMinimized,Mode=TwoWay}">
 
+            <Ribbon.Background>
+                <ImageBrush/>
+                <!--<ImageBrush ImageSource="../Images/pulse.png"
+                            AlignmentX="Right"
+                            AlignmentY="Top"
+                            Stretch="None" />-->
+            </Ribbon.Background>
+
             <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu>
+                <RibbonApplicationMenu Background="#68217A">
                     <RibbonApplicationMenuItem Header="{x:Static resources:Resources.MenuItemClose_Header}"
                                                Command="{Binding CloseCommand}"
                                                ImageSource="../Images/close.png" />
@@ -284,7 +295,8 @@
             <RibbonTab Header="{x:Static resources:Resources.RibbonTabSettings_Header}"
                        KeyTip="S">
                 <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupGeneral_Header}"
-                             KeyTip="G">
+                             KeyTip="G"
+                             LargeImageSource="../Images/refresh.png">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Images/refresh.png"
                                Height="16"
@@ -329,15 +341,75 @@
                 </RibbonGroup>
 
                 <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupView_Header}"
-                             KeyTip="V">
-                    <RibbonCheckBox Label="{x:Static resources:Resources.CheckBoxBigSize_Text}"
-                                    ToolTip="{x:Static resources:Resources.CheckBoxBigSize_ToolTip}"
-                                    KeyTip="B"
-                                    IsChecked="{Binding BigSizeMode}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.CheckBoxFullWidth_Text}"
-                                    ToolTip="{x:Static resources:Resources.CheckBoxFullWidth_ToolTip}"
-                                    KeyTip="W"
-                                    IsChecked="{Binding UseFullWidth}" />
+                             KeyTip="V"
+                             LargeImageSource="../Images/view.png">
+                    <RibbonToggleButton Label="{x:Static resources:Resources.CheckBoxBigSize_Text}"
+                                        ToolTip="{x:Static resources:Resources.CheckBoxBigSize_ToolTip}"
+                                        KeyTip="B"
+                                        IsChecked="{Binding BigSizeMode}"
+                                        LargeImageSource="../Images/tiles.png" />
+                </RibbonGroup>
+
+                <RibbonGroup Header="{x:Static resources:Resources.RibbonTagServers_Header}"
+                             KeyTip="S"
+                             LargeImageSource="../Images/server.png">
+                    <RibbonButton LargeImageSource="../Images/server.png"
+                                  Command="{Binding SettingsCommand}"
+                                  Label="{x:Static resources:Resources.ButtonServers_Text}"
+                                  ToolTip="{x:Static resources:Resources.ButtonServers_ToolTip}" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="{x:Static resources:Resources.RibbonTagFlags_Header}"
+                       KeyTip="F"></RibbonTab>
+
+            <RibbonTab Header="{x:Static resources:Resources.RibbonTabAbout_Header}"
+                       KeyTip="A">
+                <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupAbout_Header}"
+                             KeyTip="A">
+                    <RibbonButton LargeImageSource="../Images/info.png"
+                                  Label="{x:Static resources:Resources.ButtonAbout_Text}"
+                                  KeyTip="A"
+                                  Command="{Binding AboutCommand}" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="{x:Static resources:Resources.RibbonGroupColumns_Header}"
+                       ContextualTabGroupHeader="{x:Static resources:Resources.RibbonGroupGrid_ContextualHeader}"
+                       KeyTip="G">
+                <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupColumns_Header}"
+                             KeyTip="C"
+                             LargeImageSource="../Images/columns.png">
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnIgnoreBuild_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=0}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnLastBuild_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=1}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnPinBuild_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=7}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnRunningBuild_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=2}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnAction_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=6}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnName_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=3}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnDetails_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=4}" />
+                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnFinished_Header}"
+                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=5}" />
+                </RibbonGroup>
+            </RibbonTab>
+
+            <RibbonTab Header="{x:Static resources:Resources.RibbonGroupView_Header}"
+                       ContextualTabGroupHeader="{x:Static resources:Resources.RibbonGroupTiles_ContextualHeader}"
+                       KeyTip="T">
+                <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupView_Header}"
+                             KeyTip="V"
+                             LargeImageSource="../Images/view.png">
+                    <RibbonToggleButton Label="{x:Static resources:Resources.CheckBoxFullWidth_Text}"
+                                        ToolTip="{x:Static resources:Resources.CheckBoxFullWidth_ToolTip}"
+                                        KeyTip="W"
+                                        IsChecked="{Binding UseFullWidth}"
+                                        LargeImageSource="../Images/width.png" />
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Images/zoom.png"
                                Width="16"
@@ -359,47 +431,16 @@
                     </StackPanel>
                 </RibbonGroup>
 
-                <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupColumns_Header}"
-                             KeyTip="C">
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnIgnoreBuild_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=0}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnLastBuild_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=1}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnPinBuild_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=7}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnRunningBuild_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=2}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnAction_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=6}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnName_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=3}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnDetails_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=4}" />
-                    <RibbonCheckBox Label="{x:Static resources:Resources.ColumnFinished_Header}"
-                                    IsChecked="{Binding ColumnWidths,Converter={StaticResource columnWidthStringToBooleanConverter},ConverterParameter=5}" />
-                </RibbonGroup>
-
-                <RibbonGroup Header="{x:Static resources:Resources.RibbonTagServers_Header}"
-                             KeyTip="S">
-                    <RibbonButton LargeImageSource="../Images/server.png"
-                                  Command="{Binding SettingsCommand}"
-                                  Label="{x:Static resources:Resources.ButtonServers_Text}"
-                                  ToolTip="{x:Static resources:Resources.ButtonServers_ToolTip}" />
-                </RibbonGroup>
             </RibbonTab>
 
-            <RibbonTab Header="{x:Static resources:Resources.RibbonTagFlags_Header}"></RibbonTab>
-
-            <RibbonTab Header="{x:Static resources:Resources.RibbonTabAbout_Header}"
-                       KeyTip="A">
-                <RibbonGroup Header="{x:Static resources:Resources.RibbonGroupAbout_Header}"
-                             KeyTip="A">
-                    <RibbonButton LargeImageSource="../Images/info.png"
-                                  Label="{x:Static resources:Resources.ButtonAbout_Text}"
-                                  KeyTip="A"
-                                  Command="{Binding AboutCommand}" />
-                </RibbonGroup>
-            </RibbonTab>
+            <Ribbon.ContextualTabGroups>
+                <RibbonContextualTabGroup Header="{x:Static resources:Resources.RibbonGroupGrid_ContextualHeader}"
+                                          Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter},ConverterParameter=NOT}"
+                                          Background="PaleVioletRed" />
+                <RibbonContextualTabGroup Header="{x:Static resources:Resources.RibbonGroupTiles_ContextualHeader}"
+                                          Visibility="{Binding BigSizeMode,Converter={StaticResource booleanToVisibilityConverter}}"
+                                          Background="LawnGreen" />
+            </Ribbon.ContextualTabGroups>
 
             <Ribbon.QuickAccessToolBar>
                 <RibbonQuickAccessToolBar>

@@ -244,6 +244,12 @@
   <data name="RibbonGroupGeneral_Header" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="RibbonGroupGrid_ContextualHeader" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="RibbonGroupTiles_ContextualHeader" xml:space="preserve">
+    <value>Tiles</value>
+  </data>
   <data name="RibbonGroupView_Header" xml:space="preserve">
     <value>View</value>
   </data>

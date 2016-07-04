@@ -89,7 +89,11 @@ namespace BuildMonitor.Logic.BuildExplorer
                buildResult.RequestedBy = jsonItem.requestedFor.displayName;
 
                string sourceVersion = jsonItem.sourceVersion;
-               buildResult.SourceVersion = Convert.ToInt32(sourceVersion.Replace("C", string.Empty));
+               int changeset;
+               if (int.TryParse(sourceVersion.Replace("C", string.Empty), out changeset))
+               {
+                  buildResult.SourceVersion = changeset;
+               }
 
                string finishTimeString = jsonItem.finishTime == null ? string.Empty : string.Format("{0}", jsonItem.finishTime);
                var finishDate = DateTime.MinValue;

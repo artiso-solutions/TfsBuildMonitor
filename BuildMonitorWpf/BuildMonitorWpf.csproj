@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BuildMonitorWpf</RootNamespace>
     <AssemblyName>BuildMonitorWpf</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -35,8 +35,8 @@
     <ProductName>BuildMonitorWpf</ProductName>
     <PublisherName>artiso solutions GmbH</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>23</ApplicationRevision>
-    <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
+    <ApplicationRevision>25</ApplicationRevision>
+    <ApplicationVersion>1.4.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -369,6 +369,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\menu-ribbon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pulse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\columns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\view.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tiles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\width.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
