@@ -61,6 +61,8 @@
       /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
       public void Execute(object parameter)
       {
+         var oldBuildAdapters = mainWindowViewModel.BuildAdapters.ToList();
+
          var settings = Settings.Default;
          if (settings.BuildServers == null)
          {
@@ -73,27 +75,34 @@
          {
             var buildServer = new BuildServer
             {
-               ServerName = buildServerAdapter.ServerName, 
-               DomainName = buildServerAdapter.Domain, 
-               Login = buildServerAdapter.Login, 
-               PasswordBytes = buildServerAdapter.CryptedPassword, 
-               Url = buildServerAdapter.TfsUrl, 
-               DetailBuildUrl = buildServerAdapter.DetailBuildUrl, 
+               ServerName = buildServerAdapter.ServerName,
+               DomainName = buildServerAdapter.Domain,
+               Login = buildServerAdapter.Login,
+               PasswordBytes = buildServerAdapter.CryptedPassword,
+               Url = buildServerAdapter.TfsUrl,
+               DetailBuildUrl = buildServerAdapter.DetailBuildUrl,
                TfsVersion = buildServerAdapter.TfsVersion
             };
             settings.BuildServers.BuildServers.Add(buildServer);
 
             foreach (var buildDefinitionResult in buildServerAdapter.BuildDefinitionResults.Where(x => x.Selected))
             {
-               buildServer.BuildDefinitions.Add(
-                  new BuildDefinition
-                  {
-                     Id = buildDefinitionResult.Id, 
-                     Name = buildDefinitionResult.Name, 
-                     Uri = buildDefinitionResult.Uri, 
-                     Url = buildDefinitionResult.Url, 
-                     ProjectId = buildDefinitionResult.ProjectId
-                  });
+               var buildDefinition = new BuildDefinition
+               {
+                  Id = buildDefinitionResult.Id,
+                  Name = buildDefinitionResult.Name,
+                  Uri = buildDefinitionResult.Uri,
+                  Url = buildDefinitionResult.Url,
+                  ProjectId = buildDefinitionResult.ProjectId
+               };
+
+               var existingAdapter = oldBuildAdapters.FirstOrDefault(x => x.BuildInformation.BuildDefinitionId == buildDefinition.Id);
+               if (existingAdapter != null)
+               {
+                  buildDefinition.Tags = existingAdapter.Tags.ToArray();
+               }
+
+               buildServer.BuildDefinitions.Add(buildDefinition);
             }
 
             foreach (var build in buildServer.GetBuilds())

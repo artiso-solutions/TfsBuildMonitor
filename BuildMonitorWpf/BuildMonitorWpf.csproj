@@ -35,8 +35,8 @@
     <ProductName>BuildMonitorWpf</ProductName>
     <PublisherName>artiso solutions GmbH</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>25</ApplicationRevision>
-    <ApplicationVersion>1.4.1.%2a</ApplicationVersion>
+    <ApplicationRevision>26</ApplicationRevision>
+    <ApplicationVersion>1.4.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -108,18 +108,22 @@
     <Compile Include="Adapter\BuildServerAdapter.cs" />
     <Compile Include="Adapter\ToastNotifications.cs" />
     <Compile Include="Commands\AddNewServerCommand.cs" />
+    <Compile Include="Commands\ApplyExistingTagToBuildCommand.cs" />
+    <Compile Include="Commands\ApplyNewTagToBuildCommand.cs" />
     <Compile Include="Commands\CloseCommand.cs" />
     <Compile Include="Commands\ClosePinBuildCommand.cs" />
     <Compile Include="Commands\NotificationCommand.cs" />
     <Compile Include="Commands\PinBuildCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RemoveServerCommand.cs" />
+    <Compile Include="Commands\RemoveTagFromBuildCommand.cs" />
     <Compile Include="Commands\RequestBuildCommand.cs" />
     <Compile Include="Commands\SettingsCommand.cs" />
     <Compile Include="Commands\StopBuildCommand.cs" />
     <Compile Include="Commands\TfsConnectCommand.cs" />
     <Compile Include="Commands\ValidSettingsCommand.cs" />
     <Compile Include="Contracts\BuildServerCollection.cs" />
+    <Compile Include="Contracts\FilterTag.cs" />
     <Compile Include="Contracts\ReleaseNote.cs" />
     <Compile Include="Contracts\TempBuildContainer.cs" />
     <Compile Include="Converters\BigSizeModeToDoubleConverter.cs" />
@@ -384,6 +388,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\width.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\new-tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\internet.png" />
+    <Resource Include="Images\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\remove.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

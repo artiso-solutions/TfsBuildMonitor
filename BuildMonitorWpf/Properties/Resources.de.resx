@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllFilterLabel" xml:space="preserve">
+    <value>Alle</value>
+  </data>
   <data name="BuildError" xml:space="preserve">
     <value>Eine Ausnahme ist aufgetreten</value>
   </data>
@@ -141,6 +144,12 @@
   <data name="ButtonAbout_Text" xml:space="preserve">
     <value>Über</value>
   </data>
+  <data name="ButtonApplyTag_Text" xml:space="preserve">
+    <value>Diesen Tag anwenden</value>
+  </data>
+  <data name="ButtonClose_Text" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
   <data name="ButtonMinimize_Text" xml:space="preserve">
     <value>Ribbon minimieren / maximieren</value>
   </data>
@@ -152,6 +161,9 @@
   </data>
   <data name="ButtonRefresh_Text" xml:space="preserve">
     <value>Aktualisieren</value>
+  </data>
+  <data name="ButtonRemoveTag_Text" xml:space="preserve">
+    <value>Diesen Tag löschen</value>
   </data>
   <data name="ButtonServers_Text" xml:space="preserve">
     <value>Server</value>
@@ -201,11 +213,29 @@
   <data name="ColumnRunningBuild_Header" xml:space="preserve">
     <value>Laufender Build</value>
   </data>
+  <data name="ColumnTags_Header" xml:space="preserve">
+    <value>Tags</value>
+  </data>
   <data name="ImageGatedCheckIn_ToolTip" xml:space="preserve">
     <value>Gated-Check-in</value>
   </data>
+  <data name="LabelAbout_Line1" xml:space="preserve">
+    <value>Entwickelt in Zusammenarbeitarbeit Cédric, Vincenzo und Matthias :-)</value>
+  </data>
+  <data name="LabelAbout_Line2" xml:space="preserve">
+    <value>Wir hoffen, dass Sie damit spass haben</value>
+  </data>
+  <data name="LabelAbout_Line3" xml:space="preserve">
+    <value>Senden Sie alle Ideen per E-Mail</value>
+  </data>
+  <data name="LabelAbout_ReleaseNotes" xml:space="preserve">
+    <value>Versionshinweise:</value>
+  </data>
   <data name="LabelBuildWillFailed_ToolTip" xml:space="preserve">
     <value>Build wird fehlschlagen</value>
+  </data>
+  <data name="LabelChangesetComment_Text" xml:space="preserve">
+    <value>Kommentar von {0}: {1}</value>
   </data>
   <data name="LabelFailedTests_Text" xml:space="preserve">
     <value>Fehlgeschlagene Tests: {0}</value>
@@ -231,11 +261,20 @@
   <data name="MinutesSeconds" xml:space="preserve">
     <value>{0} Min {1:00} Sek</value>
   </data>
+  <data name="RibbonGalleryCategoryFilter_Header" xml:space="preserve">
+    <value>Verfügbare Filter</value>
+  </data>
   <data name="RibbonGroupAbout_Header" xml:space="preserve">
     <value>Über</value>
   </data>
   <data name="RibbonGroupColumns_Header" xml:space="preserve">
     <value>Spalten</value>
+  </data>
+  <data name="RibbonGroupExisting_Header" xml:space="preserve">
+    <value>Bestehend</value>
+  </data>
+  <data name="RibbonGroupFilter_Header" xml:space="preserve">
+    <value>Filtern</value>
   </data>
   <data name="RibbonGroupGeneral_Header" xml:space="preserve">
     <value>Allgemein</value>
@@ -243,8 +282,11 @@
   <data name="RibbonGroupGrid_ContextualHeader" xml:space="preserve">
     <value>Tabelle</value>
   </data>
+  <data name="RibbonGroupNew_Header" xml:space="preserve">
+    <value>Neu</value>
+  </data>
   <data name="RibbonGroupTiles_ContextualHeader" xml:space="preserve">
-    <value>Kächeln</value>
+    <value>Kacheln</value>
   </data>
   <data name="RibbonGroupView_Header" xml:space="preserve">
     <value>Ansicht</value>
@@ -252,16 +294,19 @@
   <data name="RibbonTabAbout_Header" xml:space="preserve">
     <value>Über</value>
   </data>
+  <data name="RibbonTabServers_Header" xml:space="preserve">
+    <value>Servern</value>
+  </data>
   <data name="RibbonTabSettings_Header" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
-  <data name="RibbonTagFlags_Header" xml:space="preserve">
-    <value>Schalter</value>
-  </data>
-  <data name="RibbonTagServers_Header" xml:space="preserve">
-    <value>Servern</value>
+  <data name="RibbonTabTags_Header" xml:space="preserve">
+    <value>Tags</value>
   </data>
   <data name="Seconds" xml:space="preserve">
     <value>{0} Sek</value>
+  </data>
+  <data name="WindowAbout_Title" xml:space="preserve">
+    <value>Über TFS Build-Monitor</value>
   </data>
 </root>

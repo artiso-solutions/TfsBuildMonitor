@@ -6,7 +6,7 @@
       <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="ColumnWidths" Type="System.String" Scope="User">
-      <Value Profile="(Default)">30:true,35:true,110:true,250:true,350:true,120:true,100:true,35:true</Value>
+      <Value Profile="(Default)">30:true,35:true,110:true,250:true,350:true,120:true,100:true,35:true,120:true</Value>
     </Setting>
     <Setting Name="WindowTop" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">-1</Value>

@@ -61,6 +61,15 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string AllFilterLabel {
+            get {
+                return ResourceManager.GetString("AllFilterLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An exception occured.
         /// </summary>
         public static string BuildError {
@@ -133,6 +142,24 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply this tag.
+        /// </summary>
+        public static string ButtonApplyTag_Text {
+            get {
+                return ResourceManager.GetString("ButtonApplyTag_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string ButtonClose_Text {
+            get {
+                return ResourceManager.GetString("ButtonClose_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minimize / maximize ribbon.
         /// </summary>
         public static string ButtonMinimize_Text {
@@ -165,6 +192,15 @@ namespace BuildMonitorWpf.Properties {
         public static string ButtonRefresh_Text {
             get {
                 return ResourceManager.GetString("ButtonRefresh_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove this tag.
+        /// </summary>
+        public static string ButtonRemoveTag_Text {
+            get {
+                return ResourceManager.GetString("ButtonRemoveTag_Text", resourceCulture);
             }
         }
         
@@ -313,6 +349,15 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string ColumnTags_Header {
+            get {
+                return ResourceManager.GetString("ColumnTags_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gated check-in.
         /// </summary>
         public static string ImageGatedCheckIn_ToolTip {
@@ -322,11 +367,56 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Developed in co-work Cédric, Vincenzo &amp; Matthias :-).
+        /// </summary>
+        public static string LabelAbout_Line1 {
+            get {
+                return ResourceManager.GetString("LabelAbout_Line1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We hope you enjoy it.
+        /// </summary>
+        public static string LabelAbout_Line2 {
+            get {
+                return ResourceManager.GetString("LabelAbout_Line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send any idea per email.
+        /// </summary>
+        public static string LabelAbout_Line3 {
+            get {
+                return ResourceManager.GetString("LabelAbout_Line3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Release notes:.
+        /// </summary>
+        public static string LabelAbout_ReleaseNotes {
+            get {
+                return ResourceManager.GetString("LabelAbout_ReleaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Build will probably fail.
         /// </summary>
         public static string LabelBuildWillFailed_ToolTip {
             get {
                 return ResourceManager.GetString("LabelBuildWillFailed_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment from {0}: {1}.
+        /// </summary>
+        public static string LabelChangesetComment_Text {
+            get {
+                return ResourceManager.GetString("LabelChangesetComment_Text", resourceCulture);
             }
         }
         
@@ -405,6 +495,11 @@ namespace BuildMonitorWpf.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;ReleaseNotes&gt;
+        ///  &lt;Note Version=&quot;Version 1.4.1.24 - 04.07.2016&quot;&gt;
+        ///    &lt;Description&gt;
+        ///      - Added context ribbon menu
+        ///    &lt;/Description&gt;
+        ///  &lt;/Note&gt;
         ///  &lt;Note Version=&quot;Version 1.4.0.23 - 30.06.2016&quot;&gt;
         ///    &lt;Description&gt;
         ///      - Changed menu to ribbon
@@ -414,13 +509,20 @@ namespace BuildMonitorWpf.Properties {
         ///  &lt;Note Version=&quot;Version 1.3.5.22 - 23.06.2016&quot;&gt;
         ///    &lt;Description&gt;
         ///      - Get test result in small view and big view
-        ///      - Changed logic; all builds are fetched as list
-        ///      - Tooltip over running build shows what is going wrong
-        ///      - Minimizing main window doesn&apos;t minimize pinned build [rest of string was truncated]&quot;;.
+        ///      - Changed logic; all builds are fetched [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ReleaseNotes {
             get {
                 return ResourceManager.GetString("ReleaseNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available filters.
+        /// </summary>
+        public static string RibbonGalleryCategoryFilter_Header {
+            get {
+                return ResourceManager.GetString("RibbonGalleryCategoryFilter_Header", resourceCulture);
             }
         }
         
@@ -443,6 +545,24 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Existing.
+        /// </summary>
+        public static string RibbonGroupExisting_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupExisting_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string RibbonGroupFilter_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupFilter_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string RibbonGroupGeneral_Header {
@@ -457,6 +577,15 @@ namespace BuildMonitorWpf.Properties {
         public static string RibbonGroupGrid_ContextualHeader {
             get {
                 return ResourceManager.GetString("RibbonGroupGrid_ContextualHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        public static string RibbonGroupNew_Header {
+            get {
+                return ResourceManager.GetString("RibbonGroupNew_Header", resourceCulture);
             }
         }
         
@@ -488,6 +617,15 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Servers.
+        /// </summary>
+        public static string RibbonTabServers_Header {
+            get {
+                return ResourceManager.GetString("RibbonTabServers_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string RibbonTabSettings_Header {
@@ -497,20 +635,11 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flags.
+        ///   Looks up a localized string similar to Tags.
         /// </summary>
-        public static string RibbonTagFlags_Header {
+        public static string RibbonTabTags_Header {
             get {
-                return ResourceManager.GetString("RibbonTagFlags_Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Servers.
-        /// </summary>
-        public static string RibbonTagServers_Header {
-            get {
-                return ResourceManager.GetString("RibbonTagServers_Header", resourceCulture);
+                return ResourceManager.GetString("RibbonTabTags_Header", resourceCulture);
             }
         }
         
@@ -520,6 +649,15 @@ namespace BuildMonitorWpf.Properties {
         public static string Seconds {
             get {
                 return ResourceManager.GetString("Seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About TFS build monitor.
+        /// </summary>
+        public static string WindowAbout_Title {
+            get {
+                return ResourceManager.GetString("WindowAbout_Title", resourceCulture);
             }
         }
     }

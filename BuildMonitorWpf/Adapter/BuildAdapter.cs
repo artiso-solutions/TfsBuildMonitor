@@ -102,6 +102,7 @@ namespace BuildMonitorWpf.Adapter
          StopBuildCommand = new StopBuildCommand(this, buildInformation);
          RequestBuildCommand = new RequestBuildCommand(this, buildInformation);
          RunningBuildErrorDetails = new ObservableCollection<string>();
+         Tags = new ObservableCollection<string>(buildInformation.Tags ?? new string[0]);
 
          if (!isPinedView)
          {
@@ -519,6 +520,9 @@ namespace BuildMonitorWpf.Adapter
       /// <summary>Gets the stop build command.</summary>
       public ICommand StopBuildCommand { get; private set; }
 
+      /// <summary>Gets the tags.</summary>
+      public ObservableCollection<string> Tags { get; private set; }
+
       /// <summary>Gets or sets the TFS URI.</summary>
       public string TfsUri
       {
@@ -720,7 +724,7 @@ namespace BuildMonitorWpf.Adapter
          {
             return;
          }
-         
+
          var runningBuildChanged = string.IsNullOrEmpty(PreviousRunningBuildNumber) || !string.Equals(PreviousRunningBuildNumber, firstNotWaiting.RunningBuildNumber);
          if (runningBuildChanged && !firstNotWaiting.IsGatedCheckin)
          {

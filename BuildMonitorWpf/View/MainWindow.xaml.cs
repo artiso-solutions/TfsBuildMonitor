@@ -131,6 +131,20 @@ namespace BuildMonitorWpf.View
       {
          var viewModel = DataContext as MainWindowViewModel;
 
+         foreach (var buildServer in Settings.Default.BuildServers.BuildServers)
+         {
+            foreach (var buildDefinition in buildServer.BuildDefinitions)
+            {
+               var adapter = viewModel.BuildAdapters.FirstOrDefault(x => x.BuildInformation.BuildDefinitionId == buildDefinition.Id);
+               if (adapter == null)
+               {
+                  continue;
+               }
+
+               buildDefinition.Tags = adapter.Tags.ToArray();
+            }
+         }
+
          Settings.Default.WindowTop = (int)Top;
          Settings.Default.WindowLeft = (int)Left;
          Settings.Default.BigSize = viewModel.BigSizeMode;
@@ -140,13 +154,9 @@ namespace BuildMonitorWpf.View
          Settings.Default.RibbonMinimized = viewModel.IsRibbonMinimized;
          Settings.Default.Save();
 
-         var mainViewModel = DataContext as MainWindowViewModel;
-         if (mainViewModel != null)
+         while (viewModel.PinBuildViews.Any())
          {
-            while (mainViewModel.PinBuildViews.Any())
-            {
-               mainViewModel.PinBuildViews[0].Close();
-            }
+            viewModel.PinBuildViews[0].Close();
          }
 
          base.OnClosing(e);

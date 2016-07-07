@@ -37,7 +37,7 @@ namespace BuildMonitorWpf.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("30:true,35:true,110:true,250:true,350:true,120:true,100:true,35:true")]
+        [global::System.Configuration.DefaultSettingValueAttribute("30:true,35:true,110:true,250:true,350:true,120:true,100:true,35:true,120:true")]
         public string ColumnWidths {
             get {
                 return ((string)(this["ColumnWidths"]));

@@ -9,6 +9,7 @@ namespace BuildMonitorWpf.ViewModel
    using System.Linq;
    using System.Runtime.CompilerServices;
    using System.Windows;
+   using System.Windows.Data;
    using System.Windows.Input;
    using System.Windows.Threading;
 
@@ -16,6 +17,7 @@ namespace BuildMonitorWpf.ViewModel
 
    using BuildMonitorWpf.Adapter;
    using BuildMonitorWpf.Commands;
+   using BuildMonitorWpf.Contracts;
    using BuildMonitorWpf.Properties;
 
    using Microsoft.WindowsAPICodePack.Taskbar;
@@ -26,7 +28,7 @@ namespace BuildMonitorWpf.ViewModel
    {
       #region Constants and Fields
 
-      private const double TOLERANCE = 0.01;
+      private const double Tolerance = 0.01;
 
       private int actualValue;
 
@@ -39,6 +41,12 @@ namespace BuildMonitorWpf.ViewModel
       private double zoomFactor;
 
       private bool useFullWidth;
+
+      private string userTag;
+
+      private BuildAdapter selectedBuildAdapter;
+
+      private FilterTag selectedExistingTag;
 
       private int selectedRefreshInterval;
 
@@ -64,12 +72,21 @@ namespace BuildMonitorWpf.ViewModel
          PinBuildViews = new List<PinBuildView>();
          BuildAdapters = new ObservableCollection<BuildAdapter>(builds.Select(build => new BuildAdapter(this, build, false)));
 
+         AvailableTags = new ObservableCollection<FilterTag>(new[] { new FilterTag { IsAllFilter = true, IsSelected = true, Label = Resources.AllFilterLabel } });
+         FillAvailableTags();
+
+         CollectionViewSourceBuildAdapters = new CollectionViewSource { Source = BuildAdapters };
+         CollectionViewSourceBuildAdapters.Filter += CollectionViewSourceBuildAdaptersFilter;
+
          ActualValue = Maximum = refreshInterval;
          this.bigSizeMode = bigSizeMode;
          this.useFullWidth = useFullWidth;
          this.zoomFactor = zoomFactor;
          this.isRibbonMinimized = isRibbonMinimized;
 
+         ApplyExistingTagToBuildCommand = new ApplyExistingTagToBuildCommand(this);
+         ApplyNewTagToBuildCommand = new ApplyNewTagToBuildCommand(this);
+         RemoveTagFromBuildCommand = new RemoveTagFromBuildCommand(this);
          RefreshCommand = new RelayCommand(Refresh);
          SetRefreshIntervalCommand = new RelayCommand(SetRefreshInterval);
          SetZoomFactorCommand = new RelayCommand(SetZoomFactor);
@@ -78,9 +95,10 @@ namespace BuildMonitorWpf.ViewModel
          SettingsCommand = new SettingsCommand(this);
          NotificationCommand = new NotificationCommand();
          MinimizeRibbonCommand = new RelayCommand(o => IsRibbonMinimized = !IsRibbonMinimized);
+         DoFilterCommand = new RelayCommand(DoFilter);
 
          var intervals = new List<int>();
-         for (var i = 15; i <= 150; i += 15)
+         for (var i = 15; i <= 300; i += 15)
          {
             intervals.Add(i);
          }
@@ -148,6 +166,15 @@ namespace BuildMonitorWpf.ViewModel
          }
       }
 
+      /// <summary>Gets the apply existing tag to build command.</summary>
+      public ICommand ApplyExistingTagToBuildCommand { get; private set; }
+
+      /// <summary>Gets the apply new tag to build command.</summary>
+      public ICommand ApplyNewTagToBuildCommand { get; private set; }
+
+      /// <summary>Gets the available tags.</summary>
+      public ObservableCollection<FilterTag> AvailableTags { get; private set; }
+
       /// <summary>Gets or sets a value indicating whether [big size mode].</summary>
       public bool BigSizeMode
       {
@@ -188,8 +215,31 @@ namespace BuildMonitorWpf.ViewModel
          }
       }
 
+      /// <summary>Gets or sets the user tag.</summary>
+      public string UserTag
+      {
+         get
+         {
+            return userTag;
+         }
+
+         set
+         {
+            if (userTag == value)
+            {
+               return;
+            }
+
+            userTag = value;
+            OnPropertyChanged();
+         }
+      }
+
       /// <summary>Gets the build adapters.</summary>
-      public ObservableCollection<BuildAdapter> BuildAdapters { get; private set; }
+      internal ObservableCollection<BuildAdapter> BuildAdapters { get; private set; }
+
+      /// <summary>Gets the collection view source build definitions.</summary>
+      internal CollectionViewSource CollectionViewSourceBuildAdapters { get; private set; }
 
       /// <summary>Gets the close command.</summary>
       public ICommand CloseCommand { get; private set; }
@@ -224,6 +274,18 @@ namespace BuildMonitorWpf.ViewModel
             return Visibility.Visible;
 #endif
             return Visibility.Collapsed;
+         }
+      }
+
+      /// <summary>Gets the do filter command.</summary>
+      public ICommand DoFilterCommand { get; private set; }
+
+      /// <summary>Gets the filtered build adapters.</summary>
+      public ICollectionView FilteredBuildAdapters
+      {
+         get
+         {
+            return CollectionViewSourceBuildAdapters.View;
          }
       }
 
@@ -288,6 +350,49 @@ namespace BuildMonitorWpf.ViewModel
       /// <summary>Gets the refresh intervals.</summary>
       public ObservableCollection<int> RefreshIntervals { get; private set; }
 
+      /// <summary>Gets the remove tag from build command.</summary>
+      public ICommand RemoveTagFromBuildCommand { get; private set; }
+
+      /// <summary>Gets or sets the selected build adapter.</summary>
+      public BuildAdapter SelectedBuildAdapter
+      {
+         get
+         {
+            return selectedBuildAdapter;
+         }
+
+         set
+         {
+            if (selectedBuildAdapter == value)
+            {
+               return;
+            }
+
+            selectedBuildAdapter = value;
+            OnPropertyChanged();
+         }
+      }
+
+      /// <summary>Gets or sets the selected existing tag.</summary>
+      public FilterTag SelectedExistingTag
+      {
+         get
+         {
+            return selectedExistingTag;
+         }
+
+         set
+         {
+            if (selectedExistingTag == value)
+            {
+               return;
+            }
+
+            selectedExistingTag = value;
+            OnPropertyChanged();
+         }
+      }
+
       /// <summary>Gets or sets the selected refresh interval.</summary>
       public int SelectedRefreshInterval
       {
@@ -348,7 +453,7 @@ namespace BuildMonitorWpf.ViewModel
 
          set
          {
-            if (Math.Abs(zoomFactor - value) < TOLERANCE)
+            if (Math.Abs(zoomFactor - value) < Tolerance)
             {
                return;
             }
@@ -439,6 +544,106 @@ namespace BuildMonitorWpf.ViewModel
          }
 
          Refresh();
+      }
+
+      private void DoFilter(object obj)
+      {
+         var filterTag = obj as FilterTag;
+         if (filterTag == null)
+         {
+            return;
+         }
+
+         if (!filterTag.IsAllFilter && filterTag.IsSelected)
+         {
+            AvailableTags.First(x => x.IsAllFilter).IsSelected = false;
+         }
+
+         if (!filterTag.IsAllFilter && !filterTag.IsSelected && AvailableTags.All(x => !x.IsSelected))
+         {
+            AvailableTags.First(x => x.IsAllFilter).IsSelected = true;
+         }
+
+         if (filterTag.IsAllFilter && filterTag.IsSelected)
+         {
+            foreach (var tag in AvailableTags.Where(x => !x.IsAllFilter))
+            {
+               tag.IsSelected = false;
+            }
+         }
+
+         CollectionViewSourceBuildAdapters.View.Refresh();
+      }
+
+      /// <summary>Fills the available tags.</summary>
+      internal void FillAvailableTags()
+      {
+         foreach (var tag in BuildAdapters.SelectMany(x => x.Tags))
+         {
+            InsertSorted(tag);
+         }
+
+         for (var i = 0; i < AvailableTags.Count; i++)
+         {
+            if (AvailableTags[i].IsAllFilter)
+            {
+               continue;
+            }
+
+            if (!BuildAdapters.SelectMany(x => x.Tags).Any(x => string.Equals(x, AvailableTags[i].Label, StringComparison.CurrentCulture)))
+            {
+               AvailableTags.RemoveAt(i);
+               i--;
+            }
+         }
+      }
+
+      private void CollectionViewSourceBuildAdaptersFilter(object sender, FilterEventArgs e)
+      {
+         if (AvailableTags.Count == 0 || AvailableTags.First(x => x.IsAllFilter).IsSelected)
+         {
+            e.Accepted = true;
+            return;
+         }
+
+         var buildAdapter = e.Item as BuildAdapter;
+         if (buildAdapter == null)
+         {
+            e.Accepted = false;
+            return;
+         }
+
+         e.Accepted =
+            AvailableTags.Where(filterTag => filterTag.IsSelected).Any(
+               filterTag => buildAdapter.Tags.Any(word => string.Equals(filterTag.Label, word, StringComparison.InvariantCultureIgnoreCase)));
+      }
+
+      private void InsertSorted(string tag)
+      {
+         if (AvailableTags.Any(x => string.Equals(tag, x.Label, StringComparison.InvariantCultureIgnoreCase)))
+         {
+            return;
+         }
+
+         var index = -1;
+
+         for (var i = 0; i < AvailableTags.Count; i++)
+         {
+            if (string.Compare(AvailableTags[i].Label, tag, StringComparison.InvariantCultureIgnoreCase) > 0)
+            {
+               index = i;
+               break;
+            }
+         }
+
+         if (index < 0)
+         {
+            AvailableTags.Add(new FilterTag { Label = tag });
+         }
+         else
+         {
+            AvailableTags.Insert(index, new FilterTag { Label = tag });
+         }
       }
 
       private void OnSelectedRefreshIntervalChanged()

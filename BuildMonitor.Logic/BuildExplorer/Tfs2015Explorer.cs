@@ -79,7 +79,7 @@ namespace BuildMonitor.Logic.BuildExplorer
                if (string.Equals(uri.Host, "tfs", StringComparison.InvariantCultureIgnoreCase))
                {
                   var host = new Uri(buildInformation.BuildDefinitionUrl).Host + ":" + uri.Port;
-                  webLinkUri = string.Format("{0}:/{1}{2}{3}", uri.Scheme, host, string.Join(string.Empty, uri.Segments), uri.Query);
+                  webLinkUri = string.Format("{0}://{1}{2}{3}", uri.Scheme, host, string.Join(string.Empty, uri.Segments), uri.Query);
                }
 
                buildResult.Id = jsonItem.id;

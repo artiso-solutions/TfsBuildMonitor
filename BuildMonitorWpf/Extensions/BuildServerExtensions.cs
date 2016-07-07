@@ -1,6 +1,7 @@
 ﻿
 namespace BuildMonitorWpf.Extensions
 {
+   using System;
    using System.Collections.Generic;
    using System.ComponentModel;
    using System.Linq;
@@ -29,7 +30,7 @@ namespace BuildMonitorWpf.Extensions
 
       private static IEnumerable<BuildInformation> GetBuildsTfs2013(BuildServer buildServer)
       {
-         var apiIndex = buildServer.Url.IndexOf("_apis");
+         var apiIndex = buildServer.Url.IndexOf("_apis", StringComparison.OrdinalIgnoreCase);
          var urlNoApi = buildServer.Url.Substring(0, apiIndex);
          var buildDefinitionUrl = string.Concat(urlNoApi, "_apis/build/Builds?api-version=1.0&definition=");
          var stopBuildUrl = string.Concat(urlNoApi, "_apis/build/builds/{0}?api-version=1.0");
@@ -49,7 +50,8 @@ namespace BuildMonitorWpf.Extensions
                StopBuildUrl = stopBuildUrl,
                RequestBuildUrl = requestBuildUrl,
                TestResultUrl = testResutlUri,
-               TfsVersion = buildServer.TfsVersion
+               TfsVersion = buildServer.TfsVersion,
+               Tags = buildDefinition.Tags
             };
             yield return build;
          }
@@ -57,7 +59,7 @@ namespace BuildMonitorWpf.Extensions
 
       private static IEnumerable<BuildInformation> GetBuildsTfs2015(BuildServer buildServer)
       {
-         var apiIndex = buildServer.Url.IndexOf("_apis");
+         var apiIndex = buildServer.Url.IndexOf("_apis", StringComparison.OrdinalIgnoreCase);
 
          foreach (var buildDefinition in buildServer.BuildDefinitions)
          {
@@ -78,7 +80,8 @@ namespace BuildMonitorWpf.Extensions
                RequestBuildUrl = requestBuildUrl,
                TfsVersion = buildServer.TfsVersion,
                TestRunUrl = testRunUrl,
-               ChangesetUrl = changesetUrl
+               ChangesetUrl = changesetUrl,
+               Tags = buildDefinition.Tags
             };
             yield return build;
          }

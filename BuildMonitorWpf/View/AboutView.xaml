@@ -1,7 +1,8 @@
 ﻿<Window x:Class="BuildMonitorWpf.View.AboutView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="About TFS build monitor"
+        xmlns:resources="clr-namespace:BuildMonitorWpf.Properties"
+        Title="{x:Static resources:Resources.WindowAbout_Title}"
         Icon="../monitor.ico"
         Height="200"
         Width="410"
@@ -27,23 +28,36 @@
                             <Run Text="{Binding Product}" />
                             <Run Text="{Binding Version}" />
                             <LineBreak />
-                            <Run Text="Developped in co-work Cédric &amp; Vincenzo &amp; Matthias :-)" />
+                            <Run Text="{x:Static resources:Resources.LabelAbout_Line1}" />
                             <LineBreak />
-                            <Run Text="We hope you enjoy it" />
+                            <Run Text="{x:Static resources:Resources.LabelAbout_Line2}" />
                             <LineBreak />
                             <Hyperlink Command="{Binding SendMailCommand}">
-                                <Run Text="Send any idea per email" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Images/mail.png"
+                                           Width="16"
+                                           Height="16"
+                                           Margin="2,0" />
+                                    <TextBlock Text="{x:Static resources:Resources.LabelAbout_Line3}" />
+                                </StackPanel>
                             </Hyperlink>
                             <LineBreak />
                             <Hyperlink NavigateUri="https://github.com/artiso-solutions/TfsBuildMonitor">
-                                <Run Text="GitHub: TfsBuildMonitor"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../Images/internet.png"
+                                           Width="16"
+                                           Height="16"
+                                           Margin="2,0"/>
+                                    <TextBlock Text="GitHub: TfsBuildMonitor" />
+                                </StackPanel>
                             </Hyperlink>
                         </Span>
                     </Label.Content>
                 </Label>
 
                 <Label FontWeight="Bold"
-                       Margin="10,3">Release notes:</Label>
+                       Margin="10,3"
+                       Content="{x:Static resources:Resources.LabelAbout_ReleaseNotes}" />
 
                 <ScrollViewer MaxHeight="200">
                     <ItemsControl ItemsSource="{Binding ReleaseNotes}"
@@ -72,7 +86,8 @@
             <Button Width="70"
                     HorizontalAlignment="Right"
                     Margin="10"
-                    Command="{Binding CloseCommand}">Close</Button>
+                    Command="{Binding CloseCommand}"
+                    Content="{x:Static resources:Resources.ButtonClose_Text}" />
 
         </StackPanel>
     </StackPanel>

@@ -26,6 +26,9 @@
       /// <summary>Gets or sets the project identifier.</summary>
       public string ProjectId { get; set; }
 
+      /// <summary>Gets or sets the tags.</summary>
+      public string[] Tags { get; set; }
+
       /// <summary>Gets or sets the URI.</summary>
       public string Uri { get; set; }
 

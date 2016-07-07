@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ReleaseNotes>
+  <Note Version="Version 1.4.2.25 - 07.07.2016">
+    <Description>
+      - Fixed a bug when opening build details with Edge
+      - Added filtering with tags
+    </Description>
+  </Note>
   <Note Version="Version 1.4.1.24 - 04.07.2016">
     <Description>
       - Added context ribbon menu

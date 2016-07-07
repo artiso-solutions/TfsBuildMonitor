@@ -29,6 +29,9 @@
       /// <summary>Gets or sets the stop build URL.</summary>
       public string StopBuildUrl { get; set; }
 
+      /// <summary>Gets or sets the tags.</summary>
+      public string[] Tags { get; set; }
+
       /// <summary>Gets or sets the test result URL.</summary>
       public string TestResultUrl { get; set; }
 
