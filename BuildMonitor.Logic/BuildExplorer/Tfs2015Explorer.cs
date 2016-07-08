@@ -90,7 +90,7 @@ namespace BuildMonitor.Logic.BuildExplorer
 
                string sourceVersion = jsonItem.sourceVersion;
                int changeset;
-               if (int.TryParse(sourceVersion.Replace("C", string.Empty), out changeset))
+               if (!string.IsNullOrEmpty(sourceVersion) && int.TryParse(sourceVersion.Replace("C", string.Empty), out changeset))
                {
                   buildResult.SourceVersion = changeset;
                }
