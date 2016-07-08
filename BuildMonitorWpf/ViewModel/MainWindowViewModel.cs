@@ -484,7 +484,7 @@ namespace BuildMonitorWpf.ViewModel
             handler(this, EventArgs.Empty);
          }
 
-         foreach (var adapter in BuildAdapters)
+         foreach (var adapter in FilteredBuildAdapters.OfType<BuildAdapter>())
          {
             adapter.Refresh();
          }
@@ -510,17 +510,18 @@ namespace BuildMonitorWpf.ViewModel
       {
          var progressBarState = TaskbarProgressBarState.Normal;
          var currentValue = 100;
-         if (BuildAdapters.Where(b => !b.IgnoreStatus).Any(b => b.Status == BuildStatus.PartiallySucceeded))
+         var notIgnoredBuildAdapters = FilteredBuildAdapters.OfType<BuildAdapter>().Where(b => !b.IgnoreStatus).ToList();
+         if (notIgnoredBuildAdapters.Any(b => b.Status == BuildStatus.PartiallySucceeded))
          {
             progressBarState = TaskbarProgressBarState.Paused;
          }
 
-         if (BuildAdapters.Where(b => !b.IgnoreStatus).Any(b => b.Status == BuildStatus.Failed))
+         if (notIgnoredBuildAdapters.Any(b => b.Status == BuildStatus.Failed))
          {
             progressBarState = TaskbarProgressBarState.Error;
          }
 
-         if (BuildAdapters.Where(b => !b.IgnoreStatus).All(b => b.Status == BuildStatus.Unknown || b.Status == BuildStatus.Error))
+         if (notIgnoredBuildAdapters.All(b => b.Status == BuildStatus.Unknown || b.Status == BuildStatus.Error))
          {
             currentValue = 0;
          }
@@ -532,7 +533,7 @@ namespace BuildMonitorWpf.ViewModel
 
       private void DispatcherTimerTick(object sender, EventArgs e)
       {
-         if (BuildAdapters.All(build => build.Status != BuildStatus.Waiting))
+         if (FilteredBuildAdapters.OfType<BuildAdapter>().All(build => build.Status != BuildStatus.Waiting))
          {
             ChangeWindowsBarColor();
          }

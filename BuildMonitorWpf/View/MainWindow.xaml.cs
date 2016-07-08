@@ -42,7 +42,7 @@ namespace BuildMonitorWpf.View
          Settings.Default.Upgrade();
          Settings.Default.UpgradeNeeded = false;
 
-         const int ActualColumnNumber = 8;
+         const int ActualColumnNumber = 9;
          var widths = Settings.Default.ColumnWidths.Split(',').ToList();
          while (widths.Count < ActualColumnNumber)
          {
