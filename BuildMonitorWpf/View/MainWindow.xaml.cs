@@ -7,9 +7,11 @@ namespace BuildMonitorWpf.View
    using System.Diagnostics;
    using System.IO;
    using System.Linq;
+   using System.Windows.Controls;
 
    using BuildMonitor.Logic.Contracts;
 
+   using BuildMonitorWpf.Adapter;
    using BuildMonitorWpf.Extensions;
    using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.ViewModel;
@@ -160,6 +162,22 @@ namespace BuildMonitorWpf.View
          }
 
          base.OnClosing(e);
+      }
+
+      private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+      {
+         var listView = sender as ListView;
+         var viewModel = DataContext as MainWindowViewModel;
+         if (listView == null || viewModel == null)
+         {
+            return;
+         }
+
+         viewModel.SelectedBuildAdapters.Clear();
+         foreach (var adapter in listView.SelectedItems.OfType<BuildAdapter>())
+         {
+            viewModel.SelectedBuildAdapters.Add(adapter);
+         }
       }
    }
 }

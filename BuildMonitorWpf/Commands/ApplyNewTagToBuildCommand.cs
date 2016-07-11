@@ -26,6 +26,7 @@ namespace BuildMonitorWpf.Commands
       {
          this.viewModel = viewModel;
          viewModel.PropertyChanged += ViewModelPropertyChanged;
+         viewModel.SelectedBuildAdapters.CollectionChanged += SelectedBuildAdaptersCollectionChanged;
       }
 
       #endregion
@@ -44,19 +45,23 @@ namespace BuildMonitorWpf.Commands
       /// <returns>true if this command can be executed; otherwise, false.</returns>
       public bool CanExecute(object parameter)
       {
-         return viewModel.SelectedBuildAdapter != null && !string.IsNullOrEmpty(viewModel.UserTag);
+         return viewModel.SelectedBuildAdapters.Any() && !string.IsNullOrEmpty(viewModel.UserTag);
       }
 
       /// <summary>Defines the method to be called when the command is invoked.</summary>
       /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
       public void Execute(object parameter)
       {
-         if (viewModel.SelectedBuildAdapter.Tags.Any(x => string.Equals(x, viewModel.UserTag, StringComparison.InvariantCultureIgnoreCase)))
+         foreach (var adapter in viewModel.SelectedBuildAdapters)
          {
-            return;
+            if (adapter.Tags.Any(x => string.Equals(x, viewModel.UserTag, StringComparison.InvariantCultureIgnoreCase)))
+            {
+               continue;
+            }
+
+            adapter.Tags.Add(viewModel.UserTag);
          }
 
-         viewModel.SelectedBuildAdapter.Tags.Add(viewModel.UserTag);
          viewModel.UserTag = string.Empty;
          viewModel.FillAvailableTags();
       }
@@ -67,10 +72,15 @@ namespace BuildMonitorWpf.Commands
 
       private void ViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
       {
-         if (e.PropertyName == "SelectedBuildAdapter" || e.PropertyName == "UserTag")
+         if (e.PropertyName == "UserTag")
          {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
          }
+      }
+
+      private void SelectedBuildAdaptersCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+      {
+         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
       }
 
       #endregion

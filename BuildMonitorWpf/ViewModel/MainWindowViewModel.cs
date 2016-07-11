@@ -44,8 +44,6 @@ namespace BuildMonitorWpf.ViewModel
 
       private string userTag;
 
-      private BuildAdapter selectedBuildAdapter;
-
       private FilterTag selectedExistingTag;
 
       private int selectedRefreshInterval;
@@ -77,6 +75,7 @@ namespace BuildMonitorWpf.ViewModel
 
          CollectionViewSourceBuildAdapters = new CollectionViewSource { Source = BuildAdapters };
          CollectionViewSourceBuildAdapters.Filter += CollectionViewSourceBuildAdaptersFilter;
+         SelectedBuildAdapters = new ObservableCollection<BuildAdapter>();
 
          ActualValue = Maximum = refreshInterval;
          this.bigSizeMode = bigSizeMode;
@@ -353,25 +352,8 @@ namespace BuildMonitorWpf.ViewModel
       /// <summary>Gets the remove tag from build command.</summary>
       public ICommand RemoveTagFromBuildCommand { get; private set; }
 
-      /// <summary>Gets or sets the selected build adapter.</summary>
-      public BuildAdapter SelectedBuildAdapter
-      {
-         get
-         {
-            return selectedBuildAdapter;
-         }
-
-         set
-         {
-            if (selectedBuildAdapter == value)
-            {
-               return;
-            }
-
-            selectedBuildAdapter = value;
-            OnPropertyChanged();
-         }
-      }
+      /// <summary>Gets or sets the selected build adapters.</summary>
+      public ObservableCollection<BuildAdapter> SelectedBuildAdapters { get; private set; }
 
       /// <summary>Gets or sets the selected existing tag.</summary>
       public FilterTag SelectedExistingTag

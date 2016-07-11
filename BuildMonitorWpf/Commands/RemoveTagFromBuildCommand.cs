@@ -24,6 +24,7 @@ namespace BuildMonitorWpf.Commands
       {
          this.viewModel = viewModel;
          viewModel.PropertyChanged += ViewModelPropertyChanged;
+         viewModel.SelectedBuildAdapters.CollectionChanged += SelectedBuildAdaptersCollectionChanged;
       }
 
       #endregion
@@ -42,19 +43,22 @@ namespace BuildMonitorWpf.Commands
       /// <returns>true if this command can be executed; otherwise, false.</returns>
       public bool CanExecute(object parameter)
       {
-         return viewModel.SelectedBuildAdapter != null && viewModel.SelectedExistingTag != null;
+         return viewModel.SelectedBuildAdapters.Any() && viewModel.SelectedExistingTag != null;
       }
 
       /// <summary>Defines the method to be called when the command is invoked.</summary>
       /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
       public void Execute(object parameter)
       {
-         var foundedTag =
-            viewModel.SelectedBuildAdapter.Tags.FirstOrDefault(
-               x => string.Equals(x, viewModel.SelectedExistingTag.Label, StringComparison.InvariantCultureIgnoreCase));
-         if (!string.IsNullOrEmpty(foundedTag))
+         foreach (var adapter in viewModel.SelectedBuildAdapters)
          {
-            viewModel.SelectedBuildAdapter.Tags.Remove(foundedTag);
+            var foundedTag =
+               adapter.Tags.FirstOrDefault(
+                  x => string.Equals(x, viewModel.SelectedExistingTag.Label, StringComparison.InvariantCultureIgnoreCase));
+            if (!string.IsNullOrEmpty(foundedTag))
+            {
+               adapter.Tags.Remove(foundedTag);
+            }
          }
 
          viewModel.FillAvailableTags();
@@ -66,10 +70,15 @@ namespace BuildMonitorWpf.Commands
 
       private void ViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
       {
-         if (e.PropertyName == "SelectedBuildAdapter" || e.PropertyName == "SelectedExistingTag")
+         if (e.PropertyName == "SelectedExistingTag")
          {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
          }
+      }
+
+      private void SelectedBuildAdaptersCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+      {
+         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
       }
 
       #endregion
