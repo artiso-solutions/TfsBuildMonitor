@@ -84,6 +84,8 @@ namespace BuildMonitorWpf.Adapter
 
       private Changeset runningBuildChangeset;
 
+      private string errorPreviousRunningBuildNumber;
+
       #endregion
 
       #region Constructors and Destructors
@@ -803,8 +805,9 @@ namespace BuildMonitorWpf.Adapter
             RunningBuildImagePath = @"pack://application:,,,/Images/test_failed.png";
             RunningBuildImageToolTip = "Unit-test failed";
             RunningBuildProgressBarColor = redBrush;
-            if (!isPinedView && !string.Equals(PreviousRunningBuildNumber, result.RunningBuildNumber))
+            if (!isPinedView && !string.Equals(errorPreviousRunningBuildNumber, result.RunningBuildNumber))
             {
+               errorPreviousRunningBuildNumber = result.RunningBuildNumber;
                ToastNotifications.CreateToastNotification(result, true, ToastActivated);
             }
          }

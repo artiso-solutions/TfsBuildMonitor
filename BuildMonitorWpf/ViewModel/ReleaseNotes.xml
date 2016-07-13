@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ReleaseNotes>
+    <Note Version="Version 1.4.4.28 - 13.07.2016">
+    <Description>
+      - Fixed bug which caused that notifications for builds which would propably fail not to show
+    </Description>
+  </Note>
   <Note Version="Version 1.4.4.27 - 11.07.2016">
     <Description>
       - Support multi-select for tags (add &amp; remove)
