@@ -588,7 +588,7 @@
             </ProgressBar.RenderTransform>
         </ProgressBar>
 
-        <Grid>
+        <Grid x:Name="BigSizeGrid">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="15" />
@@ -602,7 +602,7 @@
                         <Setter Property="VerticalScrollBarVisibility"
                                 Value="Disabled" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding DataContext.UseFullWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}"
                                          Value="True">
                                 <Setter Property="VerticalScrollBarVisibility"
                                         Value="Auto" />
@@ -623,11 +623,11 @@
                             <Setter Property="FrameworkElement.Margin"
                                     Value="5" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding DataContext.UseFullWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}"
                                              Value="True">
-                                    <Setter Property="FrameworkElement.Width"
-                                            Value="{Binding ActualWidth, ElementName=BigSizeGrid}" />
-                                    <Setter Property="FrameworkElement.Height"
+                                    <Setter Property="Control.Width"
+                                            Value="{Binding ElementName=BigSizeGrid,Path=ActualWidth}" />
+                                    <Setter Property="Control.Height"
                                             Value="Auto" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding DataContext.UseFullWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
@@ -725,7 +725,7 @@
                                         <TextBlock.Style>
                                             <Style TargetType="{x:Type TextBlock}">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DataContext.UseFullWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}"
                                                                  Value="True">
                                                         <Setter Property="Visibility"
                                                                 Value="Visible" />
@@ -753,7 +753,7 @@
                                         <Label.Style>
                                             <Style TargetType="{x:Type Label}">
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding DataContext.UseFullWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.UseFullWidth}"
                                                                  Value="True">
                                                         <Setter Property="Visibility"
                                                                 Value="Visible" />
@@ -779,7 +779,7 @@
                                             <TextBlock.Text>
                                                 <MultiBinding StringFormat="{x:Static resources:Resources.LabelPassedTests_Text}">
                                                     <Binding Path="PassedTests" />
-                                                    <Binding Path="FailedTests" />
+                                                    <Binding Path="TotalTests" />
                                                 </MultiBinding>
                                             </TextBlock.Text>
                                         </TextBlock>
