@@ -3,6 +3,7 @@
   <Note Version="Version 1.4.5.30 - 25.07.2016">
     <Description>
       - Added some key shortcuts (F1 about, F4 open servers, F5 refresh, F10 big size mode)
+      - Fixed GitHub link in about
     </Description>
   </Note>
   <Note Version="Version 1.4.4.29 - 21.07.2016">

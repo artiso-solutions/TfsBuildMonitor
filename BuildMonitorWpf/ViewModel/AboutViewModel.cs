@@ -20,7 +20,8 @@
       public AboutViewModel(AboutView owner)
       {
          CloseCommand = new CloseCommand(owner);
-         SendMailCommand = new RelayCommand(o=> Process.Start("mailto:ctissot@artiso.com;vgibilmanno@artiso.com;mrink@artiso.com"));
+         SendMailCommand = new RelayCommand(o => Process.Start("mailto:ctissot@artiso.com;vgibilmanno@artiso.com;mrink@artiso.com"));
+         OpenGitHubCommand = new RelayCommand(o => Process.Start("https://github.com/artiso-solutions/TfsBuildMonitor"));
 
          var assemblyName = typeof(AboutViewModel).Assembly.GetName();
 
@@ -35,6 +36,9 @@
 
       /// <summary>Gets the close command.</summary>
       public ICommand CloseCommand { get; private set; }
+
+      /// <summary>Gets the open git hub command.</summary>
+      public ICommand OpenGitHubCommand { get; private set; }
 
       /// <summary>Gets or sets the product.</summary>
       public string Product { get; set; }

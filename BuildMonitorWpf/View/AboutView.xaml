@@ -13,7 +13,7 @@
 
     <Window.InputBindings>
         <KeyBinding Key="Escape"
-                    Command="{Binding CloseCommand}"/>
+                    Command="{Binding CloseCommand}" />
     </Window.InputBindings>
 
     <StackPanel>
@@ -38,7 +38,8 @@
                             <Run Text="{x:Static resources:Resources.LabelAbout_Line2}" />
                             <LineBreak />
                             <Hyperlink Command="{Binding SendMailCommand}">
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,2,0,0">
                                     <Image Source="../Images/mail.png"
                                            Width="16"
                                            Height="16"
@@ -47,8 +48,9 @@
                                 </StackPanel>
                             </Hyperlink>
                             <LineBreak />
-                            <Hyperlink NavigateUri="https://github.com/artiso-solutions/TfsBuildMonitor">
-                                <StackPanel Orientation="Horizontal">
+                            <Hyperlink Command="{Binding OpenGitHubCommand}">
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,2,0,0">
                                     <Image Source="../Images/internet.png"
                                            Width="16"
                                            Height="16"
