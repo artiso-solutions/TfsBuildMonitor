@@ -65,6 +65,8 @@ namespace BuildMonitorWpf.ViewModel
       /// <param name="isRibbonMinimized">if set to <c>true</c> [is ribbon minimized].</param>
       internal MainWindowViewModel(IEnumerable<BuildInformation> builds, int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth, bool isRibbonMinimized)
       {
+         LoadBuildServerConfiguration();
+
          selectedRefreshInterval = refreshInterval;
          selectedZoomFactor = (int)(zoomFactor * 100);
          PinBuildViews = new List<PinBuildView>();
@@ -119,7 +121,7 @@ namespace BuildMonitorWpf.ViewModel
          dispatcherTimer.Tick += DispatcherTimerTick;
          dispatcherTimer.Start();
 
-         if (!Settings.Default.BuildServers.BuildServers.Any())
+         if (!BuildServers.Any())
          {
             SettingsCommand.Execute(null);
          }
@@ -142,6 +144,9 @@ namespace BuildMonitorWpf.ViewModel
       #endregion
 
       #region Public Properties
+
+      /// <summary>Gets or sets the list of build servers containing the configuration for all known build servers.</summary>
+      public List<BuildServer> BuildServers { get; set; }
 
       /// <summary>Gets the about command.</summary>
       public ICommand AboutCommand { get; private set; }
@@ -458,6 +463,16 @@ namespace BuildMonitorWpf.ViewModel
       #endregion
 
       #region Methods
+
+      private void LoadBuildServerConfiguration()
+      {
+         this.BuildServers = new List<BuildServer>();
+      }
+
+      public void SaveBuildServerConfiguration()
+      {
+         throw new NotImplementedException();
+      }
 
       /// <summary>Refreshes this instance.</summary>
       internal void Refresh(object parameter = null)

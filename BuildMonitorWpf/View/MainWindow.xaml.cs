@@ -117,14 +117,6 @@ namespace BuildMonitorWpf.View
 
          var builds = new List<BuildInformation>();
 
-         if (Settings.Default.BuildServers != null)
-         {
-            foreach (var buildServer in Settings.Default.BuildServers.BuildServers)
-            {
-               builds.AddRange(buildServer.GetBuilds());
-            }
-         }
-
          DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth, Settings.Default.RibbonMinimized);
          activated = true;
       }
@@ -133,7 +125,7 @@ namespace BuildMonitorWpf.View
       {
          var viewModel = DataContext as MainWindowViewModel;
 
-         foreach (var buildServer in Settings.Default.BuildServers.BuildServers)
+         foreach (var buildServer in ((MainWindowViewModel)DataContext).BuildServers)
          {
             foreach (var buildDefinition in buildServer.BuildDefinitions)
             {

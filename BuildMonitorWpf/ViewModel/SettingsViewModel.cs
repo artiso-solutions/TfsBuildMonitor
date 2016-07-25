@@ -1,6 +1,5 @@
 ﻿namespace BuildMonitorWpf.ViewModel
 {
-   using System;
    using System.Collections.ObjectModel;
    using System.ComponentModel;
    using System.Linq;
@@ -11,8 +10,6 @@
 
    using BuildMonitorWpf.Adapter;
    using BuildMonitorWpf.Commands;
-   using BuildMonitorWpf.Contracts;
-   using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.View;
 
    /// <summary>The settings view model.</summary>
@@ -32,18 +29,13 @@
       /// <param name="mainWindowViewModel">The main window view model.</param>
       public SettingsViewModel(SettingsView owner, MainWindowViewModel mainWindowViewModel)
       {
-         if (Settings.Default.BuildServers == null)
+         if (!mainWindowViewModel.BuildServers.Any())
          {
-            Settings.Default.BuildServers = new BuildServerCollection();
-         }
-
-         if (!Settings.Default.BuildServers.BuildServers.Any())
-         {
-            Settings.Default.BuildServers.BuildServers.Add(new BuildServer());
+            mainWindowViewModel.BuildServers.Add(new BuildServer());
          }
 
          var removeServerCommand = new RemoveServerCommand(this);
-         BuildServers = new ObservableCollection<BuildServerAdapter>(Settings.Default.BuildServers.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
+         BuildServers = new ObservableCollection<BuildServerAdapter>(mainWindowViewModel.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
 
          AddNewServerCommand = new AddNewServerCommand(this);
          OkCommand = new ValidSettingsCommand(owner, this, mainWindowViewModel);

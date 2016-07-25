@@ -28,7 +28,7 @@ namespace BuildMonitorWpf.View
             return;
          }
 
-         var buildDefinition = Settings.Default.BuildServers.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == pinBuildViewModel.BuildInformation.BuildDefinitionId);
+         var buildDefinition = pinBuildViewModel.MainWindowViewModel.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == pinBuildViewModel.BuildInformation.BuildDefinitionId);
          if (buildDefinition != null)
          {
             buildDefinition.PinLeft = (int)((PinBuildView)sender).Left;

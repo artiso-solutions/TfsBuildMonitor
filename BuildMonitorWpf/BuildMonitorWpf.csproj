@@ -86,6 +86,10 @@
       <HintPath>..\packages\Microsoft.WindowsAPICodePack.Shell.1.1.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Controls.Ribbon" />
@@ -122,7 +126,6 @@
     <Compile Include="Commands\StopBuildCommand.cs" />
     <Compile Include="Commands\TfsConnectCommand.cs" />
     <Compile Include="Commands\ValidSettingsCommand.cs" />
-    <Compile Include="Contracts\BuildServerCollection.cs" />
     <Compile Include="Contracts\FilterTag.cs" />
     <Compile Include="Contracts\ReleaseNote.cs" />
     <Compile Include="Contracts\TempBuildContainer.cs" />

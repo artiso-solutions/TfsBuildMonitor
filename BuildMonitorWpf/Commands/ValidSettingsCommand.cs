@@ -7,9 +7,7 @@
    using BuildMonitor.Logic.Contracts;
 
    using BuildMonitorWpf.Adapter;
-   using BuildMonitorWpf.Contracts;
    using BuildMonitorWpf.Extensions;
-   using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.View;
    using BuildMonitorWpf.ViewModel;
 
@@ -63,13 +61,7 @@
       {
          var oldBuildAdapters = mainWindowViewModel.BuildAdapters.ToList();
 
-         var settings = Settings.Default;
-         if (settings.BuildServers == null)
-         {
-            settings.BuildServers = new BuildServerCollection();
-         }
-
-         settings.BuildServers.BuildServers.Clear();
+         mainWindowViewModel.BuildServers.Clear();
          mainWindowViewModel.BuildAdapters.Clear();
          foreach (var buildServerAdapter in settingsViewModel.BuildServers)
          {
@@ -83,7 +75,7 @@
                DetailBuildUrl = buildServerAdapter.DetailBuildUrl,
                TfsVersion = buildServerAdapter.TfsVersion
             };
-            settings.BuildServers.BuildServers.Add(buildServer);
+            mainWindowViewModel.BuildServers.Add(buildServer);
 
             foreach (var buildDefinitionResult in buildServerAdapter.BuildDefinitionResults.Where(x => x.Selected))
             {
@@ -112,7 +104,7 @@
          }
 
          mainWindowViewModel.Refresh();
-         settings.Save();
+         mainWindowViewModel.SaveBuildServerConfiguration();
 
          settingsView.Close();
       }

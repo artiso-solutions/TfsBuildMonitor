@@ -85,20 +85,6 @@ namespace BuildMonitorWpf.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<BuildServerCollection xmlns:xsi=\"http://" +
-            "www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"" +
-            ">\n  <BuildServers />\n</BuildServerCollection>")]
-        public global::BuildMonitorWpf.Contracts.BuildServerCollection BuildServers {
-            get {
-                return ((global::BuildMonitorWpf.Contracts.BuildServerCollection)(this["BuildServers"]));
-            }
-            set {
-                this["BuildServers"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool BigSize {
             get {
