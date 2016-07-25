@@ -1,4 +1,7 @@
-﻿using BuildMonitorWpf.View;
+﻿using System.IO;
+using BuildMonitorWpf.Extensions;
+using BuildMonitorWpf.View;
+using Newtonsoft.Json;
 
 namespace BuildMonitorWpf.ViewModel
 {
@@ -63,9 +66,15 @@ namespace BuildMonitorWpf.ViewModel
       /// <param name="zoomFactor">The zoom factor.</param>
       /// <param name="useFullWidth">if set to <c>true</c> [use full width].</param>
       /// <param name="isRibbonMinimized">if set to <c>true</c> [is ribbon minimized].</param>
-      internal MainWindowViewModel(IEnumerable<BuildInformation> builds, int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth, bool isRibbonMinimized)
+      internal MainWindowViewModel(int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth, bool isRibbonMinimized)
       {
          LoadBuildServerConfiguration();
+
+         List<BuildInformation> builds = new List<BuildInformation>();
+         foreach (var buildServer in BuildServers)
+         {
+            builds.AddRange(buildServer.GetBuilds());
+         }
 
          selectedRefreshInterval = refreshInterval;
          selectedZoomFactor = (int)(zoomFactor * 100);
@@ -467,11 +476,29 @@ namespace BuildMonitorWpf.ViewModel
       private void LoadBuildServerConfiguration()
       {
          this.BuildServers = new List<BuildServer>();
+
+         var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+         var buildServerConfigurationFolder = Path.Combine(appDataFoder, "BuildMonitorWpf");
+         var buildServerConfigurationFilePath = Path.Combine(buildServerConfigurationFolder, "buildServers.config");
+         if (!File.Exists(buildServerConfigurationFilePath))
+         {
+            return;
+         }
+
+         this.BuildServers = JsonConvert.DeserializeObject<List<BuildServer>>(File.ReadAllText(buildServerConfigurationFilePath));
       }
 
       public void SaveBuildServerConfiguration()
       {
-         throw new NotImplementedException();
+         var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+         var buildServerConfigurationFolder = Path.Combine(appDataFoder, "BuildMonitorWpf");
+         if (!Directory.Exists(buildServerConfigurationFolder))
+         {
+            Directory.CreateDirectory(buildServerConfigurationFolder);
+         }
+
+         var buildServerConfigurationFilePath = Path.Combine(buildServerConfigurationFolder, "buildServers.config");
+         File.WriteAllText(buildServerConfigurationFilePath, JsonConvert.SerializeObject(BuildServers));
       }
 
       /// <summary>Refreshes this instance.</summary>

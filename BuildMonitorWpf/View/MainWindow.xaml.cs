@@ -115,9 +115,7 @@ namespace BuildMonitorWpf.View
             Left = Settings.Default.WindowLeft;
          }
 
-         var builds = new List<BuildInformation>();
-
-         DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth, Settings.Default.RibbonMinimized);
+         DataContext = new MainWindowViewModel(Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth, Settings.Default.RibbonMinimized);
          activated = true;
       }
 
