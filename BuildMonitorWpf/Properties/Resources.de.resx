@@ -144,6 +144,9 @@
   <data name="ButtonAbout_Text" xml:space="preserve">
     <value>Über</value>
   </data>
+  <data name="ButtonAbout_ToolTip" xml:space="preserve">
+    <value>Über build monitor (F1)</value>
+  </data>
   <data name="ButtonApplyTag_Text" xml:space="preserve">
     <value>Diesen Tag anwenden</value>
   </data>
@@ -162,6 +165,9 @@
   <data name="ButtonRefresh_Text" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
+  <data name="ButtonRefresh_ToolTip" xml:space="preserve">
+    <value>Aktualisieren (F5)</value>
+  </data>
   <data name="ButtonRemoveTag_Text" xml:space="preserve">
     <value>Diesen Tag löschen</value>
   </data>
@@ -169,7 +175,7 @@
     <value>Server</value>
   </data>
   <data name="ButtonServers_ToolTip" xml:space="preserve">
-    <value>Server und Build Definitionen verwalten</value>
+    <value>Server und Build Definitionen verwalten (F4)</value>
   </data>
   <data name="ButtonStopBuild_ToolTip" xml:space="preserve">
     <value>Build anhalten</value>
@@ -178,7 +184,7 @@
     <value>Große Kacheln Modus</value>
   </data>
   <data name="CheckBoxBigSize_ToolTip" xml:space="preserve">
-    <value>Große Kacheln für Vollbildmodus</value>
+    <value>Große Kacheln für Vollbildmodus (F10)</value>
   </data>
   <data name="CheckBoxFullWidth_Text" xml:space="preserve">
     <value>Gesamtbreite</value>

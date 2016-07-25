@@ -26,7 +26,7 @@ namespace BuildMonitorWpf.Adapter
       /// <param name="toastOnActivated">The toast on activated.</param>
       internal static void CreateToastNotification(BuildResult result, bool isForTest, EventHandler<EventArgs> toastOnActivated)
       {
-         var toastView = new ToastView { Owner = Application.Current.MainWindow };
+         var toastView = new ToastView();
          var toastModel = new ToastViewModel(toastView)
          {
             Title = result.Name,

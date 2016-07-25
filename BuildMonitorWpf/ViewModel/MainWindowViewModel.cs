@@ -95,6 +95,7 @@ namespace BuildMonitorWpf.ViewModel
          NotificationCommand = new NotificationCommand();
          MinimizeRibbonCommand = new RelayCommand(o => IsRibbonMinimized = !IsRibbonMinimized);
          DoFilterCommand = new RelayCommand(DoFilter);
+         BigSizeModeCommand = new RelayCommand(o => BigSizeMode = !BigSizeMode);
 
          var intervals = new List<int>();
          for (var i = 15; i <= 300; i += 15)
@@ -193,6 +194,9 @@ namespace BuildMonitorWpf.ViewModel
             OnPropertyChanged();
          }
       }
+
+      /// <summary>Gets the big size mode command.</summary>
+      public ICommand BigSizeModeCommand { get; private set; }
 
       /// <summary>Gets or sets a value indicating whether [big size mode].</summary>
       public bool UseFullWidth

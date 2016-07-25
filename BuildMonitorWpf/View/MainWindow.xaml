@@ -12,6 +12,18 @@
               Icon="../monitor.ico"
               SizeToContent="WidthAndHeight"
               BorderThickness="1">
+
+    <RibbonWindow.InputBindings>
+        <KeyBinding Key="F5"
+                    Command="{Binding RefreshCommand}" />
+        <KeyBinding Key="F10"
+                    Command="{Binding BigSizeModeCommand}" />
+        <KeyBinding Key="F1"
+                    Command="{Binding AboutCommand}" />
+        <KeyBinding Key="F4"
+                    Command="{Binding SettingsCommand}" />
+    </RibbonWindow.InputBindings>
+
     <RibbonWindow.Resources>
         <Converters:BuildStatusToImageConverter x:Key="buildStatusToImageConverter" />
         <Converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
@@ -321,7 +333,7 @@
                     <RibbonButton SmallImageSource="../Images/refresh.png"
                                   Command="{Binding RefreshCommand}"
                                   Margin="3,0"
-                                  ToolTip="{x:Static resources:Resources.ButtonRefresh_Text}" />
+                                  ToolTip="{x:Static resources:Resources.ButtonRefresh_ToolTip}" />
 
                     <ProgressBar Minimum="0"
                                  Maximum="{Binding Maximum}"
@@ -390,6 +402,7 @@
 
                     <RibbonButton SmallImageSource="../Images/refresh.png"
                                   Label="{x:Static resources:Resources.ButtonRefresh_Text}"
+                                  ToolTip="{x:Static resources:Resources.ButtonRefresh_ToolTip}"
                                   Command="{Binding RefreshCommand}" />
 
                 </RibbonGroup>

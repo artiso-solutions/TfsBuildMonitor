@@ -142,6 +142,15 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About the build monitor (F1).
+        /// </summary>
+        public static string ButtonAbout_ToolTip {
+            get {
+                return ResourceManager.GetString("ButtonAbout_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply this tag.
         /// </summary>
         public static string ButtonApplyTag_Text {
@@ -196,6 +205,15 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh (F5).
+        /// </summary>
+        public static string ButtonRefresh_ToolTip {
+            get {
+                return ResourceManager.GetString("ButtonRefresh_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove this tag.
         /// </summary>
         public static string ButtonRemoveTag_Text {
@@ -214,7 +232,7 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage servers and build definitions.
+        ///   Looks up a localized string similar to Manage servers and build definitions (F4).
         /// </summary>
         public static string ButtonServers_ToolTip {
             get {
@@ -241,7 +259,7 @@ namespace BuildMonitorWpf.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Big tiles mode for use in fullscreen.
+        ///   Looks up a localized string similar to Big tiles mode for use in fullscreen (F10).
         /// </summary>
         public static string CheckBoxBigSize_ToolTip {
             get {
@@ -495,21 +513,19 @@ namespace BuildMonitorWpf.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;ReleaseNotes&gt;
-        ///  &lt;Note Version=&quot;Version 1.4.1.24 - 04.07.2016&quot;&gt;
+        ///  &lt;Note Version=&quot;Version 1.4.4.29 - 21.07.2016&quot;&gt;
         ///    &lt;Description&gt;
-        ///      - Added context ribbon menu
+        ///      - Fixed bugs in full window width view
         ///    &lt;/Description&gt;
         ///  &lt;/Note&gt;
-        ///  &lt;Note Version=&quot;Version 1.4.0.23 - 30.06.2016&quot;&gt;
+        ///  &lt;Note Version=&quot;Version 1.4.4.28 - 13.07.2016&quot;&gt;
         ///    &lt;Description&gt;
-        ///      - Changed menu to ribbon
-        ///      - Added translation EN, FR, DE
+        ///      - Fixed bug which caused that notifications for builds which would propably fail not to show
         ///    &lt;/Description&gt;
         ///  &lt;/Note&gt;
-        ///  &lt;Note Version=&quot;Version 1.3.5.22 - 23.06.2016&quot;&gt;
+        ///  &lt;Note Version=&quot;Version 1.4.4.27 - 11.07.2016&quot;&gt;
         ///    &lt;Description&gt;
-        ///      - Get test result in small view and big view
-        ///      - Changed logic; all builds are fetched [rest of string was truncated]&quot;;.
+        ///      - Support multi-select for tags (add &amp;amp; remov [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ReleaseNotes {
             get {

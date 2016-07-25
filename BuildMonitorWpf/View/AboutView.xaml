@@ -4,12 +4,17 @@
         xmlns:resources="clr-namespace:BuildMonitorWpf.Properties"
         Title="{x:Static resources:Resources.WindowAbout_Title}"
         Icon="../monitor.ico"
-        Height="200"
+        Height="230"
         Width="410"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         WindowStyle="ThreeDBorderWindow">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Escape"
+                    Command="{Binding CloseCommand}"/>
+    </Window.InputBindings>
 
     <StackPanel>
 
@@ -47,7 +52,7 @@
                                     <Image Source="../Images/internet.png"
                                            Width="16"
                                            Height="16"
-                                           Margin="2,0"/>
+                                           Margin="2,0" />
                                     <TextBlock Text="GitHub: TfsBuildMonitor" />
                                 </StackPanel>
                             </Hyperlink>

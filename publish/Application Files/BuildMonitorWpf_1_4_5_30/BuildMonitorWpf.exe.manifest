@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="BuildMonitorWpf.exe" version="1.4.5.30" publicKeyToken="bdf0f46750083a93" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="monitor.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="BuildMonitorWpf" version="1.4.5.30" language="neutral" processorArchitecture="msil" />
+    <commandLine file="BuildMonitorWpf.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="System.Windows.Controls.Ribbon" version="4.0.0.0" publicKeyToken="B77A5C561934E089" language="neutral" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BuildMonitor.Logic.dll" size="78336">
+      <assemblyIdentity name="BuildMonitor.Logic" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>wzFWV4ELxT2zEbnkAAsRagvFIFjgdZD7RLSDhGBqGsY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BuildMonitorWpf.exe" size="242616">
+      <assemblyIdentity name="BuildMonitorWpf" version="1.4.5.30" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>FrSK+EMg08gSLi57mIcryEAZQdbkMqG//b3gHcC+0Ng=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="de\BuildMonitorWpf.resources.dll" size="8192">
+      <assemblyIdentity name="BuildMonitorWpf.resources" version="1.4.5.30" language="de" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>JpjAjjZhZJuCN3eqnmemMZCoTeUW4w4GnzneHh3Rh3Y=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="fr\BuildMonitorWpf.resources.dll" size="8192">
+      <assemblyIdentity name="BuildMonitorWpf.resources" version="1.4.5.30" language="fr" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Qfv9tmbm1UIZhSQPYanzj4it3FA2H0CXHiAqlVOepg4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="it\BuildMonitorWpf.resources.dll" size="3584">
+      <assemblyIdentity name="BuildMonitorWpf.resources" version="1.4.5.30" language="it" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>VAPd0VUcECCXFUGYYWs+kBw7LGvix5VXUZgPR0bI5+0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.WindowsAPICodePack.dll" size="105984">
+      <assemblyIdentity name="Microsoft.WindowsAPICodePack" version="1.1.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>e4g4i4Nn8Nhz0OO2b1M4acJONG+28LLGx4P5McyaFjE=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.WindowsAPICodePack.Shell.dll" size="542720">
+      <assemblyIdentity name="Microsoft.WindowsAPICodePack.Shell" version="1.1.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>ql2AzcDaUpcAMTCbRX4+P9UFuxrBP7eYAdFb+7SnALI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="520192">
+      <assemblyIdentity name="Newtonsoft.Json" version="7.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>nsosXtGHteExnDWaq/g4KZITHv4YVLiZwjqT/iJ0luM=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="BuildMonitorWpf.exe.config" size="2246">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>Zx7xN3E+xedh2wmNsFG2m6GCzeTbVFKLk2NR5dklOho=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="monitor.ico" size="17542">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>epa4UZwFitTTdySB/zC6NQ6uV33ZJhk7eaCNqGNkHNc=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=ARTISOAG\MRink" issuerKeyHash="72e87fefa835cf08717f52f0633ab5d2707c4a7e" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>q7cnhW1UY3+nAy+2r5shFYoonRnbmnfpLmE0JPkKg/g=</DigestValue></Reference></SignedInfo><SignatureValue>jLGLmGzW3xVaAuezJLL0znNh2twed7fqX+V4M+dhJ7hq1vlSTcgSPvk2AHhfS6RRcAk4gP2vu7e46jXZSGQLxBh1pufYrA3yciRV6Zg5X7x6bJUTvCGXmI5dYG48pQd2IiXjHO6Bnk/A9aMyRwCurMaOlpnUuNVWSqLfPZewlEE=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>wxCnWZvtNvCdjPhgY0Nu2MFetUcJ44fgOPHzr6zH9LvIrhzYuGhKjpAwQM71DYLkFAQ7Qe77Cbx58vywAcDdJvJqeiMj7udF5SHmJiM0D6wxdAXeGs8mBZYZBafEjdOdMxJQXub/QIDsRgSwkp/J+AHiphJ4uYCSWrBXtytzgjU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="f8830af92434612ee9779adb199d288a15219bafb62f03a77f63546d8527b7ab" Description="" Url=""><as:assemblyIdentity name="BuildMonitorWpf.exe" version="1.4.5.30" publicKeyToken="bdf0f46750083a93" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=ARTISOAG\MRink</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>IYHOfPs1THbZDh3zTkIwRX+1OVMm7/+ALYjy7PK2J7o=</DigestValue></Reference></SignedInfo><SignatureValue>L6gHQvHun29b82bCGM1ABYg32kzNUhs7zEY/eueeY1pzUUxesw90J4H0pKC6ix+1ICmLEqL6U16XbvxUdp3DhalzQP20RscTa+WAmcSnm9sH8mvgTIwSFK9d4cJbnbB4thJa0qy0I0N6o9pmyvkoOJKGMung1sLWY03H+6u340I=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>wxCnWZvtNvCdjPhgY0Nu2MFetUcJ44fgOPHzr6zH9LvIrhzYuGhKjpAwQM71DYLkFAQ7Qe77Cbx58vywAcDdJvJqeiMj7udF5SHmJiM0D6wxdAXeGs8mBZYZBafEjdOdMxJQXub/QIDsRgSwkp/J+AHiphJ4uYCSWrBXtytzgjU=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQV7ik8F4kGpFAoI1dHrutDDANBgkqhkiG9w0BAQsFADAnMSUwIwYDVQQDHhwAQQBSAFQASQBTAE8AQQBHAFwATQBSAGkAbgBrMB4XDTE2MDEyNzA4NTY1MloXDTE3MDEyNjE0NTY1MlowJzElMCMGA1UEAx4cAEEAUgBUAEkAUwBPAEEARwBcAE0AUgBpAG4AazCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAwxCnWZvtNvCdjPhgY0Nu2MFetUcJ44fgOPHzr6zH9LvIrhzYuGhKjpAwQM71DYLkFAQ7Qe77Cbx58vywAcDdJvJqeiMj7udF5SHmJiM0D6wxdAXeGs8mBZYZBafEjdOdMxJQXub/QIDsRgSwkp/J+AHiphJ4uYCSWrBXtytzgjUCAwEAATANBgkqhkiG9w0BAQsFAAOBgQBxAdFSpMy+ReINo6cDGhaumC1N+ntYusMDm6W9sIbpVFlNFuDu4yAnc3p8TysJBcbMuMR46bdyJkIZQxQJ+DK3absBTBvhi4N9OsCxjGOPO1Mi0uEbyXpTFvFas4gp/hReHQi7v04/4pe7MP8FqQqMO4174kqSoA4JjZBQ5f8M7w==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
