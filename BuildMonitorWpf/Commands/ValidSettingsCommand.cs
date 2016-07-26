@@ -104,7 +104,7 @@
          }
 
          mainWindowViewModel.Refresh();
-         mainWindowViewModel.SaveBuildServerConfiguration();
+         mainWindowViewModel.SaveBuildServerConfiguration(mainWindowViewModel.BuildServers);
 
          settingsView.Close();
       }

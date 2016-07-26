@@ -68,7 +68,7 @@ namespace BuildMonitorWpf.ViewModel
       /// <param name="isRibbonMinimized">if set to <c>true</c> [is ribbon minimized].</param>
       internal MainWindowViewModel(int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth, bool isRibbonMinimized)
       {
-         LoadBuildServerConfiguration();
+         this.BuildServers = LoadBuildServerConfiguration();
 
          List<BuildInformation> builds = new List<BuildInformation>();
          foreach (var buildServer in BuildServers)
@@ -473,22 +473,20 @@ namespace BuildMonitorWpf.ViewModel
 
       #region Methods
 
-      private void LoadBuildServerConfiguration()
+      private List<BuildServer> LoadBuildServerConfiguration()
       {
-         this.BuildServers = new List<BuildServer>();
-
          var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
          var buildServerConfigurationFolder = Path.Combine(appDataFoder, "BuildMonitorWpf");
          var buildServerConfigurationFilePath = Path.Combine(buildServerConfigurationFolder, "buildServers.config");
          if (!File.Exists(buildServerConfigurationFilePath))
          {
-            return;
+            return new List<BuildServer>();
          }
 
-         this.BuildServers = JsonConvert.DeserializeObject<List<BuildServer>>(File.ReadAllText(buildServerConfigurationFilePath));
+         return JsonConvert.DeserializeObject<List<BuildServer>>(File.ReadAllText(buildServerConfigurationFilePath));
       }
 
-      public void SaveBuildServerConfiguration()
+      public void SaveBuildServerConfiguration(List<BuildServer> buildServers)
       {
          var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
          var buildServerConfigurationFolder = Path.Combine(appDataFoder, "BuildMonitorWpf");
@@ -498,7 +496,7 @@ namespace BuildMonitorWpf.ViewModel
          }
 
          var buildServerConfigurationFilePath = Path.Combine(buildServerConfigurationFolder, "buildServers.config");
-         File.WriteAllText(buildServerConfigurationFilePath, JsonConvert.SerializeObject(BuildServers));
+         File.WriteAllText(buildServerConfigurationFilePath, JsonConvert.SerializeObject(buildServers));
       }
 
       /// <summary>Refreshes this instance.</summary>
