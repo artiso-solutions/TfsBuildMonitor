@@ -1,9 +1,7 @@
 ﻿namespace BuildMonitorWpf.ViewModel
 {
    using System.Collections.ObjectModel;
-   using System.ComponentModel;
    using System.Linq;
-   using System.Runtime.CompilerServices;
    using System.Windows.Input;
 
    using BuildMonitor.Logic.Contracts;
@@ -14,7 +12,7 @@
 
    /// <summary>The settings view model.</summary>
    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged"/>
-   public class SettingsViewModel : INotifyPropertyChanged
+   public class SettingsViewModel : ViewModelBase
    {
       #region Constants and Fields
 
@@ -41,13 +39,6 @@
          OkCommand = new ValidSettingsCommand(owner, this, mainWindowViewModel);
          CancelCommand = new CloseCommand(owner);
       }
-
-      #endregion
-
-      #region INotifyPropertyChanged Members
-
-      /// <summary>Occurs when a property value changes.</summary>
-      public event PropertyChangedEventHandler PropertyChanged;
 
       #endregion
 
@@ -83,17 +74,6 @@
             selectedIndex = value;
             OnPropertyChanged();
          }
-      }
-
-      #endregion
-
-      #region Methods
-
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-      {
-         var handler = PropertyChanged;
-         if (handler != null)
-            handler(this, new PropertyChangedEventArgs(propertyName));
       }
 
       #endregion

@@ -143,12 +143,14 @@
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
     <Compile Include="Converters\BuildStatusToStringConverter.cs" />
     <Compile Include="Converters\TfsVersionToBoolConverter.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ShellHelpers.cs" />
     <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PinBuildViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\ToastViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\PinBuildView.xaml.cs">
       <DependentUpon>PinBuildView.xaml</DependentUpon>
     </Compile>

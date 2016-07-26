@@ -10,7 +10,6 @@ namespace BuildMonitorWpf.ViewModel
    using System.Collections.ObjectModel;
    using System.ComponentModel;
    using System.Linq;
-   using System.Runtime.CompilerServices;
    using System.Windows;
    using System.Windows.Data;
    using System.Windows.Input;
@@ -27,7 +26,7 @@ namespace BuildMonitorWpf.ViewModel
 
    /// <summary>The main window view model.</summary>
    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged"/>
-   public class MainWindowViewModel : INotifyPropertyChanged
+   public class MainWindowViewModel : ViewModelBase
    {
       #region Constants and Fields
 
@@ -142,13 +141,6 @@ namespace BuildMonitorWpf.ViewModel
 
       /// <summary>Occurs when [refreshing].</summary>
       public event EventHandler<EventArgs> Refreshing;
-
-      #endregion
-
-      #region INotifyPropertyChanged Members
-
-      /// <summary>Occurs when a property value changes.</summary>
-      public event PropertyChangedEventHandler PropertyChanged;
 
       #endregion
 
@@ -514,13 +506,6 @@ namespace BuildMonitorWpf.ViewModel
          {
             adapter.Refresh();
          }
-      }
-
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-      {
-         var handler = PropertyChanged;
-         if (handler != null)
-            handler(this, new PropertyChangedEventArgs(propertyName));
       }
 
       private void About(object obj)
