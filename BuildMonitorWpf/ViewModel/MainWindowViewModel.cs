@@ -1,7 +1,5 @@
-﻿using System.IO;
-using BuildMonitorWpf.Extensions;
+﻿using BuildMonitorWpf.Extensions;
 using BuildMonitorWpf.View;
-using Newtonsoft.Json;
 
 namespace BuildMonitorWpf.ViewModel
 {
@@ -59,23 +57,18 @@ namespace BuildMonitorWpf.ViewModel
       /// <summary>
       /// Initializes a new instance of the <see cref="MainWindowViewModel" /> class.
       /// </summary>
-      /// <param name="builds">The builds.</param>
-      /// <param name="refreshInterval">The refresh interval.</param>
-      /// <param name="bigSizeMode">if set to <c>true</c> [big size mode].</param>
-      /// <param name="zoomFactor">The zoom factor.</param>
-      /// <param name="useFullWidth">if set to <c>true</c> [use full width].</param>
-      /// <param name="isRibbonMinimized">if set to <c>true</c> [is ribbon minimized].</param>
-      internal MainWindowViewModel(int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth, bool isRibbonMinimized)
+      internal MainWindowViewModel()
       {
-         this.BuildServers = LoadBuildServerConfiguration();
+         this.MonitorViewModel = new MonitorViewModel();
+         this.MonitorViewModel.LoadAllSettings();
 
          List<BuildInformation> builds = new List<BuildInformation>();
-         foreach (var buildServer in BuildServers)
+         foreach (var buildServer in this.MonitorViewModel.BuildServers)
          {
             builds.AddRange(buildServer.GetBuilds());
          }
 
-         selectedRefreshInterval = refreshInterval;
+         selectedRefreshInterval = MonitorViewModel.MonitorSettings.RefreshInterval;
          selectedZoomFactor = (int)(zoomFactor * 100);
          PinBuildViews = new List<PinBuildView>();
          BuildAdapters = new ObservableCollection<BuildAdapter>(builds.Select(build => new BuildAdapter(this, build, false)));
@@ -87,11 +80,11 @@ namespace BuildMonitorWpf.ViewModel
          CollectionViewSourceBuildAdapters.Filter += CollectionViewSourceBuildAdaptersFilter;
          SelectedBuildAdapters = new ObservableCollection<BuildAdapter>();
 
-         ActualValue = Maximum = refreshInterval;
-         this.bigSizeMode = bigSizeMode;
-         this.useFullWidth = useFullWidth;
-         this.zoomFactor = zoomFactor;
-         this.isRibbonMinimized = isRibbonMinimized;
+         ActualValue = Maximum = MonitorViewModel.MonitorSettings.RefreshInterval;
+         this.bigSizeMode = MonitorViewModel.MonitorSettings.BigSize;
+         this.useFullWidth = MonitorViewModel.MonitorSettings.UseFullWidth;
+         this.zoomFactor = MonitorViewModel.MonitorSettings.ZoomFactor;
+         this.isRibbonMinimized = MonitorViewModel.MonitorSettings.RibbonMinimized;
 
          ApplyExistingTagToBuildCommand = new ApplyExistingTagToBuildCommand(this);
          ApplyNewTagToBuildCommand = new ApplyNewTagToBuildCommand(this);
@@ -129,7 +122,7 @@ namespace BuildMonitorWpf.ViewModel
          dispatcherTimer.Tick += DispatcherTimerTick;
          dispatcherTimer.Start();
 
-         if (!BuildServers.Any())
+         if (!MonitorViewModel.BuildServers.Any())
          {
             SettingsCommand.Execute(null);
          }
@@ -146,8 +139,7 @@ namespace BuildMonitorWpf.ViewModel
 
       #region Public Properties
 
-      /// <summary>Gets or sets the list of build servers containing the configuration for all known build servers.</summary>
-      public List<BuildServer> BuildServers { get; set; }
+      public MonitorViewModel MonitorViewModel { get; set; }
 
       /// <summary>Gets the about command.</summary>
       public ICommand AboutCommand { get; private set; }
@@ -258,18 +250,18 @@ namespace BuildMonitorWpf.ViewModel
       {
          get
          {
-            return Settings.Default.ColumnWidths;
+            return MonitorViewModel.MonitorSettings.ColumnWidths;
          }
 
          set
          {
-            if (Settings.Default.ColumnWidths == value)
+            if (MonitorViewModel.MonitorSettings.ColumnWidths == value)
             {
                return;
             }
 
-            Settings.Default.ColumnWidths = value;
-            Settings.Default.Save();
+            MonitorViewModel.MonitorSettings.ColumnWidths = value;
+            MonitorViewModel.SaveMonitorSettings();
             OnPropertyChanged();
          }
       }
@@ -465,31 +457,7 @@ namespace BuildMonitorWpf.ViewModel
 
       #region Methods
 
-      private List<BuildServer> LoadBuildServerConfiguration()
-      {
-         var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-         var buildServerConfigurationFolder = Path.Combine(appDataFoder, "BuildMonitorWpf");
-         var buildServerConfigurationFilePath = Path.Combine(buildServerConfigurationFolder, "buildServers.config");
-         if (!File.Exists(buildServerConfigurationFilePath))
-         {
-            return new List<BuildServer>();
-         }
 
-         return JsonConvert.DeserializeObject<List<BuildServer>>(File.ReadAllText(buildServerConfigurationFilePath));
-      }
-
-      public void SaveBuildServerConfiguration(List<BuildServer> buildServers)
-      {
-         var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-         var buildServerConfigurationFolder = Path.Combine(appDataFoder, "BuildMonitorWpf");
-         if (!Directory.Exists(buildServerConfigurationFolder))
-         {
-            Directory.CreateDirectory(buildServerConfigurationFolder);
-         }
-
-         var buildServerConfigurationFilePath = Path.Combine(buildServerConfigurationFolder, "buildServers.config");
-         File.WriteAllText(buildServerConfigurationFilePath, JsonConvert.SerializeObject(buildServers));
-      }
 
       /// <summary>Refreshes this instance.</summary>
       internal void Refresh(object parameter = null)

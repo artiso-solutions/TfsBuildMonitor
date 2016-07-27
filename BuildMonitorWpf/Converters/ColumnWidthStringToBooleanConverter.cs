@@ -1,4 +1,6 @@
 ﻿
+using BuildMonitorWpf.ViewModel;
+
 namespace BuildMonitorWpf.Converters
 {
    using System;
@@ -36,7 +38,7 @@ namespace BuildMonitorWpf.Converters
 
       public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
       {
-         var columnWidths = Settings.Default.ColumnWidths;
+         var columnWidths = MonitorViewModel.MonitorSettings.ColumnWidths;
 
          if (!(value is bool))
          {

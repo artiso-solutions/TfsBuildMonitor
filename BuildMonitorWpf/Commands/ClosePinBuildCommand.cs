@@ -32,7 +32,7 @@ namespace BuildMonitorWpf.Commands
 
       public void Execute(object parameter)
       {
-         var buildDefinition = mainWindowViewModel.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
+         var buildDefinition = mainWindowViewModel.MonitorViewModel.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
          if (buildDefinition != null)
          {
             buildDefinition.IsPined = false;

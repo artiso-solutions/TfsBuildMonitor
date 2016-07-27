@@ -61,7 +61,7 @@
       {
          var oldBuildAdapters = mainWindowViewModel.BuildAdapters.ToList();
 
-         mainWindowViewModel.BuildServers.Clear();
+         mainWindowViewModel.MonitorViewModel.BuildServers.Clear();
          mainWindowViewModel.BuildAdapters.Clear();
          foreach (var buildServerAdapter in settingsViewModel.BuildServers)
          {
@@ -75,7 +75,7 @@
                DetailBuildUrl = buildServerAdapter.DetailBuildUrl,
                TfsVersion = buildServerAdapter.TfsVersion
             };
-            mainWindowViewModel.BuildServers.Add(buildServer);
+            mainWindowViewModel.MonitorViewModel.BuildServers.Add(buildServer);
 
             foreach (var buildDefinitionResult in buildServerAdapter.BuildDefinitionResults.Where(x => x.Selected))
             {
@@ -104,7 +104,7 @@
          }
 
          mainWindowViewModel.Refresh();
-         mainWindowViewModel.SaveBuildServerConfiguration(mainWindowViewModel.BuildServers);
+         mainWindowViewModel.MonitorViewModel.SaveBuildServers();
 
          settingsView.Close();
       }

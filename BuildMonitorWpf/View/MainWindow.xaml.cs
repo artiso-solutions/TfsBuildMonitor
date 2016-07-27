@@ -1,19 +1,13 @@
-﻿
-namespace BuildMonitorWpf.View
+﻿namespace BuildMonitorWpf.View
 {
    using System;
-   using System.Collections.Generic;
    using System.ComponentModel;
    using System.Diagnostics;
    using System.IO;
    using System.Linq;
    using System.Windows.Controls;
 
-   using BuildMonitor.Logic.Contracts;
-
    using BuildMonitorWpf.Adapter;
-   using BuildMonitorWpf.Extensions;
-   using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.ViewModel;
 
    using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
@@ -36,23 +30,22 @@ namespace BuildMonitorWpf.View
          InitializeComponent();
          TryCreateShortcut();
 
-         if (!Settings.Default.UpgradeNeeded)
+         if (!MonitorViewModel.MonitorSettings.UpgradeNeeded)
          {
             return;
          }
 
-         Settings.Default.Upgrade();
-         Settings.Default.UpgradeNeeded = false;
+         MonitorViewModel.MonitorSettings.UpgradeNeeded = false;
 
          const int ActualColumnNumber = 9;
-         var widths = Settings.Default.ColumnWidths.Split(',').ToList();
+         var widths = MonitorViewModel.MonitorSettings.ColumnWidths.Split(',').ToList();
          while (widths.Count < ActualColumnNumber)
          {
             widths.Add("100:true");
          }
 
-         Settings.Default.ColumnWidths = string.Join(",", widths);
-         Settings.Default.Save();
+         MonitorViewModel.MonitorSettings.ColumnWidths = string.Join(",", widths);
+         MonitorViewModel.SaveMonitorSettings(MonitorViewModel.MonitorSettings);
       }
 
       // In order to display toasts, a desktop application must have a shortcut on the Start menu.
@@ -109,13 +102,13 @@ namespace BuildMonitorWpf.View
             return;
          }
 
-         if (Settings.Default.WindowLeft >= 0 && Settings.Default.WindowTop >= 0)
+         if (MonitorViewModel.MonitorSettings.WindowLeft >= 0 && MonitorViewModel.MonitorSettings.WindowTop >= 0)
          {
-            Top = Settings.Default.WindowTop;
-            Left = Settings.Default.WindowLeft;
+            Top = MonitorViewModel.MonitorSettings.WindowTop;
+            Left = MonitorViewModel.MonitorSettings.WindowLeft;
          }
 
-         DataContext = new MainWindowViewModel(Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth, Settings.Default.RibbonMinimized);
+         DataContext = new MainWindowViewModel();
          activated = true;
       }
 
@@ -123,7 +116,7 @@ namespace BuildMonitorWpf.View
       {
          var viewModel = DataContext as MainWindowViewModel;
 
-         foreach (var buildServer in ((MainWindowViewModel)DataContext).BuildServers)
+         foreach (var buildServer in ((MainWindowViewModel)DataContext).MonitorViewModel.BuildServers)
          {
             foreach (var buildDefinition in buildServer.BuildDefinitions)
             {
@@ -137,14 +130,14 @@ namespace BuildMonitorWpf.View
             }
          }
 
-         Settings.Default.WindowTop = (int)Top;
-         Settings.Default.WindowLeft = (int)Left;
-         Settings.Default.BigSize = viewModel.BigSizeMode;
-         Settings.Default.UseFullWidth = viewModel.UseFullWidth;
-         Settings.Default.ZoomFactor = viewModel.ZoomFactor;
-         Settings.Default.RefreshInterval = viewModel.Maximum;
-         Settings.Default.RibbonMinimized = viewModel.IsRibbonMinimized;
-         Settings.Default.Save();
+         MonitorViewModel.MonitorSettings.WindowTop = (int)Top;
+         MonitorViewModel.MonitorSettings.WindowLeft = (int)Left;
+         MonitorViewModel.MonitorSettings.BigSize = viewModel.BigSizeMode;
+         MonitorViewModel.MonitorSettings.UseFullWidth = viewModel.UseFullWidth;
+         MonitorViewModel.MonitorSettings.ZoomFactor = viewModel.ZoomFactor;
+         MonitorViewModel.MonitorSettings.RefreshInterval = viewModel.Maximum;
+         MonitorViewModel.MonitorSettings.RibbonMinimized = viewModel.IsRibbonMinimized;
+         MonitorViewModel.SaveMonitorSettings(MonitorViewModel.MonitorSettings);
 
          while (viewModel.PinBuildViews.Any())
          {
