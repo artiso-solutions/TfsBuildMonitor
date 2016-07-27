@@ -27,13 +27,13 @@
       /// <param name="mainWindowViewModel">The main window view model.</param>
       public SettingsViewModel(SettingsView owner, MainWindowViewModel mainWindowViewModel)
       {
-         if (!mainWindowViewModel.MonitorViewModel.BuildServers.Any())
+         if (!MonitorSettingsContainer.BuildServers.Any())
          {
-            mainWindowViewModel.MonitorViewModel.BuildServers.Add(new BuildServer());
+            MonitorSettingsContainer.BuildServers.Add(new BuildServer());
          }
 
          var removeServerCommand = new RemoveServerCommand(this);
-         BuildServers = new ObservableCollection<BuildServerAdapter>(mainWindowViewModel.MonitorViewModel.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
+         BuildServers = new ObservableCollection<BuildServerAdapter>(MonitorSettingsContainer.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
 
          AddNewServerCommand = new AddNewServerCommand(this);
          OkCommand = new ValidSettingsCommand(owner, this, mainWindowViewModel);

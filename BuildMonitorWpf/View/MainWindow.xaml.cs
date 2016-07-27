@@ -30,22 +30,22 @@
          InitializeComponent();
          TryCreateShortcut();
 
-         if (!MonitorViewModel.MonitorSettings.UpgradeNeeded)
+         if (!MonitorSettingsContainer.MonitorSettings.UpgradeNeeded)
          {
             return;
          }
 
-         MonitorViewModel.MonitorSettings.UpgradeNeeded = false;
+         MonitorSettingsContainer.MonitorSettings.UpgradeNeeded = false;
 
          const int ActualColumnNumber = 9;
-         var widths = MonitorViewModel.MonitorSettings.ColumnWidths.Split(',').ToList();
+         var widths = MonitorSettingsContainer.MonitorSettings.ColumnWidths.Split(',').ToList();
          while (widths.Count < ActualColumnNumber)
          {
             widths.Add("100:true");
          }
 
-         MonitorViewModel.MonitorSettings.ColumnWidths = string.Join(",", widths);
-         MonitorViewModel.SaveMonitorSettings(MonitorViewModel.MonitorSettings);
+         MonitorSettingsContainer.MonitorSettings.ColumnWidths = string.Join(",", widths);
+         MonitorSettingsContainer.SaveMonitorSettings(MonitorSettingsContainer.MonitorSettings);
       }
 
       // In order to display toasts, a desktop application must have a shortcut on the Start menu.
@@ -102,10 +102,10 @@
             return;
          }
 
-         if (MonitorViewModel.MonitorSettings.WindowLeft >= 0 && MonitorViewModel.MonitorSettings.WindowTop >= 0)
+         if (MonitorSettingsContainer.MonitorSettings.WindowLeft >= 0 && MonitorSettingsContainer.MonitorSettings.WindowTop >= 0)
          {
-            Top = MonitorViewModel.MonitorSettings.WindowTop;
-            Left = MonitorViewModel.MonitorSettings.WindowLeft;
+            Top = MonitorSettingsContainer.MonitorSettings.WindowTop;
+            Left = MonitorSettingsContainer.MonitorSettings.WindowLeft;
          }
 
          DataContext = new MainWindowViewModel();
@@ -116,7 +116,7 @@
       {
          var viewModel = DataContext as MainWindowViewModel;
 
-         foreach (var buildServer in ((MainWindowViewModel)DataContext).MonitorViewModel.BuildServers)
+         foreach (var buildServer in MonitorSettingsContainer.BuildServers)
          {
             foreach (var buildDefinition in buildServer.BuildDefinitions)
             {
@@ -130,14 +130,14 @@
             }
          }
 
-         MonitorViewModel.MonitorSettings.WindowTop = (int)Top;
-         MonitorViewModel.MonitorSettings.WindowLeft = (int)Left;
-         MonitorViewModel.MonitorSettings.BigSize = viewModel.BigSizeMode;
-         MonitorViewModel.MonitorSettings.UseFullWidth = viewModel.UseFullWidth;
-         MonitorViewModel.MonitorSettings.ZoomFactor = viewModel.ZoomFactor;
-         MonitorViewModel.MonitorSettings.RefreshInterval = viewModel.Maximum;
-         MonitorViewModel.MonitorSettings.RibbonMinimized = viewModel.IsRibbonMinimized;
-         MonitorViewModel.SaveMonitorSettings(MonitorViewModel.MonitorSettings);
+         MonitorSettingsContainer.MonitorSettings.WindowTop = (int)Top;
+         MonitorSettingsContainer.MonitorSettings.WindowLeft = (int)Left;
+         MonitorSettingsContainer.MonitorSettings.BigSize = viewModel.BigSizeMode;
+         MonitorSettingsContainer.MonitorSettings.UseFullWidth = viewModel.UseFullWidth;
+         MonitorSettingsContainer.MonitorSettings.ZoomFactor = viewModel.ZoomFactor;
+         MonitorSettingsContainer.MonitorSettings.RefreshInterval = viewModel.Maximum;
+         MonitorSettingsContainer.MonitorSettings.RibbonMinimized = viewModel.IsRibbonMinimized;
+         MonitorSettingsContainer.SaveMonitorSettings(MonitorSettingsContainer.MonitorSettings);
 
          while (viewModel.PinBuildViews.Any())
          {

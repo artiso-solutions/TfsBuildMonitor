@@ -113,7 +113,7 @@ namespace BuildMonitorWpf.Adapter
             PinBuildCommand = new PinBuildCommand(mainWindowViewModel, buildInformation);
          }
 
-         var buildDefinition = mainWindowViewModel.MonitorViewModel.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
+         var buildDefinition = MonitorSettingsContainer.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
          if (PinBuildCommand != null && buildDefinition != null && buildDefinition.IsPined)
          {
             PinBuildCommand.Execute(null);

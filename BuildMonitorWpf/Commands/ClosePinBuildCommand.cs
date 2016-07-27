@@ -16,13 +16,11 @@ namespace BuildMonitorWpf.Commands
       private readonly PinBuildView pinBuildView;
 
       private readonly BuildInformation buildInformation;
-      private readonly MainWindowViewModel mainWindowViewModel;
 
-      public ClosePinBuildCommand(PinBuildView pinBuildView, BuildInformation buildInformation, MainWindowViewModel mainWindowViewModel)
+      public ClosePinBuildCommand(PinBuildView pinBuildView, BuildInformation buildInformation)
       {
          this.pinBuildView = pinBuildView;
          this.buildInformation = buildInformation;
-         this.mainWindowViewModel = mainWindowViewModel;
       }
 
       public bool CanExecute(object parameter)
@@ -32,7 +30,7 @@ namespace BuildMonitorWpf.Commands
 
       public void Execute(object parameter)
       {
-         var buildDefinition = mainWindowViewModel.MonitorViewModel.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
+         var buildDefinition = MonitorSettingsContainer.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
          if (buildDefinition != null)
          {
             buildDefinition.IsPined = false;

@@ -23,7 +23,7 @@ namespace BuildMonitorWpf.ViewModel
          MainWindowViewModel = mainWindowViewModel;
          Maximum = ActualValue = mainWindowViewModel.Maximum;
 
-         CloseCommand = new ClosePinBuildCommand(owner, buildInformation, mainWindowViewModel);
+         CloseCommand = new ClosePinBuildCommand(owner, buildInformation);
 
          Refresh();
 

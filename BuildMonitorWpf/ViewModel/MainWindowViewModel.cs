@@ -59,16 +59,15 @@ namespace BuildMonitorWpf.ViewModel
       /// </summary>
       internal MainWindowViewModel()
       {
-         this.MonitorViewModel = new MonitorViewModel();
-         this.MonitorViewModel.LoadAllSettings();
+         MonitorSettingsContainer.LoadAllSettings();
 
          List<BuildInformation> builds = new List<BuildInformation>();
-         foreach (var buildServer in this.MonitorViewModel.BuildServers)
+         foreach (var buildServer in MonitorSettingsContainer.BuildServers)
          {
             builds.AddRange(buildServer.GetBuilds());
          }
 
-         selectedRefreshInterval = MonitorViewModel.MonitorSettings.RefreshInterval;
+         selectedRefreshInterval = MonitorSettingsContainer.MonitorSettings.RefreshInterval;
          selectedZoomFactor = (int)(zoomFactor * 100);
          PinBuildViews = new List<PinBuildView>();
          BuildAdapters = new ObservableCollection<BuildAdapter>(builds.Select(build => new BuildAdapter(this, build, false)));
@@ -80,11 +79,11 @@ namespace BuildMonitorWpf.ViewModel
          CollectionViewSourceBuildAdapters.Filter += CollectionViewSourceBuildAdaptersFilter;
          SelectedBuildAdapters = new ObservableCollection<BuildAdapter>();
 
-         ActualValue = Maximum = MonitorViewModel.MonitorSettings.RefreshInterval;
-         this.bigSizeMode = MonitorViewModel.MonitorSettings.BigSize;
-         this.useFullWidth = MonitorViewModel.MonitorSettings.UseFullWidth;
-         this.zoomFactor = MonitorViewModel.MonitorSettings.ZoomFactor;
-         this.isRibbonMinimized = MonitorViewModel.MonitorSettings.RibbonMinimized;
+         ActualValue = Maximum = MonitorSettingsContainer.MonitorSettings.RefreshInterval;
+         this.bigSizeMode = MonitorSettingsContainer.MonitorSettings.BigSize;
+         this.useFullWidth = MonitorSettingsContainer.MonitorSettings.UseFullWidth;
+         this.zoomFactor = MonitorSettingsContainer.MonitorSettings.ZoomFactor;
+         this.isRibbonMinimized = MonitorSettingsContainer.MonitorSettings.RibbonMinimized;
 
          ApplyExistingTagToBuildCommand = new ApplyExistingTagToBuildCommand(this);
          ApplyNewTagToBuildCommand = new ApplyNewTagToBuildCommand(this);
@@ -122,7 +121,7 @@ namespace BuildMonitorWpf.ViewModel
          dispatcherTimer.Tick += DispatcherTimerTick;
          dispatcherTimer.Start();
 
-         if (!MonitorViewModel.BuildServers.Any())
+         if (!MonitorSettingsContainer.BuildServers.Any())
          {
             SettingsCommand.Execute(null);
          }
@@ -138,8 +137,6 @@ namespace BuildMonitorWpf.ViewModel
       #endregion
 
       #region Public Properties
-
-      public MonitorViewModel MonitorViewModel { get; set; }
 
       /// <summary>Gets the about command.</summary>
       public ICommand AboutCommand { get; private set; }
@@ -250,18 +247,18 @@ namespace BuildMonitorWpf.ViewModel
       {
          get
          {
-            return MonitorViewModel.MonitorSettings.ColumnWidths;
+            return MonitorSettingsContainer.MonitorSettings.ColumnWidths;
          }
 
          set
          {
-            if (MonitorViewModel.MonitorSettings.ColumnWidths == value)
+            if (MonitorSettingsContainer.MonitorSettings.ColumnWidths == value)
             {
                return;
             }
 
-            MonitorViewModel.MonitorSettings.ColumnWidths = value;
-            MonitorViewModel.SaveMonitorSettings();
+            MonitorSettingsContainer.MonitorSettings.ColumnWidths = value;
+            MonitorSettingsContainer.SaveMonitorSettings();
             OnPropertyChanged();
          }
       }

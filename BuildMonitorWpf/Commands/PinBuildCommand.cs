@@ -48,7 +48,7 @@ namespace BuildMonitorWpf.Commands
          pinBuildView.Top = SystemParameters.FullPrimaryScreenHeight - pinBuildView.Height - 10;
          pinBuildView.Closing += PinBuildViewClosing;
 
-         var buildDefinition = mainWindowViewModel.MonitorViewModel.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
+         var buildDefinition = MonitorSettingsContainer.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
          if (buildDefinition != null)
          {
             buildDefinition.IsPined = true;

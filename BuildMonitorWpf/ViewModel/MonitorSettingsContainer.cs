@@ -6,27 +6,26 @@ using Newtonsoft.Json;
 
 namespace BuildMonitorWpf.ViewModel
 {
-   public class MonitorViewModel
+   public static class MonitorSettingsContainer
    {
-      private static Lazy<MonitorSettings> monitorSettings = new Lazy<MonitorSettings>(LoadMonitorSettings);
-
       private const string SettingsFolder = "BuildMonitorWpf";
       private const string BuildServerConfigFileName = "buildServers.config";
       private const string MonitorSettingsFileName = "monitorSettings.config";
+      private static readonly Lazy<MonitorSettings> monitorSettings = new Lazy<MonitorSettings>(LoadMonitorSettings);
 
       public static MonitorSettings MonitorSettings
       {
          get { return monitorSettings.Value; }
       }
 
-      public List<BuildServer> BuildServers { get; set; }
+      public static List<BuildServer> BuildServers { get; set; }
 
-      public void LoadAllSettings()
+      public static void LoadAllSettings()
       {
          BuildServers = LoadBuildServerConfiguration();
       }
 
-      public void SaveBuildServers()
+      public static void SaveBuildServers()
       {
          var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
          var settingsFolder = Path.Combine(appDataFoder, SettingsFolder);
@@ -39,7 +38,7 @@ namespace BuildMonitorWpf.ViewModel
          File.WriteAllText(buildServerConfigurationFilePath, JsonConvert.SerializeObject(BuildServers));
       }
 
-      private List<BuildServer> LoadBuildServerConfiguration()
+      private static List<BuildServer> LoadBuildServerConfiguration()
       {
          var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
          var settingsFolder = Path.Combine(appDataFoder, SettingsFolder);
@@ -52,7 +51,7 @@ namespace BuildMonitorWpf.ViewModel
          return JsonConvert.DeserializeObject<List<BuildServer>>(File.ReadAllText(buildServerConfigurationFilePath));
       }
 
-      public static MonitorSettings LoadMonitorSettings()
+      private static MonitorSettings LoadMonitorSettings()
       {
          var appDataFoder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
          var settingsFolder = Path.Combine(appDataFoder, SettingsFolder);
@@ -76,7 +75,7 @@ namespace BuildMonitorWpf.ViewModel
          return JsonConvert.DeserializeObject<MonitorSettings>(File.ReadAllText(monitorSettingsFilePath));
       }
 
-      public void SaveMonitorSettings()
+      public static void SaveMonitorSettings()
       {
          SaveMonitorSettings(MonitorSettings);
       }
