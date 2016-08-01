@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ReleaseNotes>
+   <Note Version="Version 1.4.5.31 - 01.08.2016">
+      <Description>
+         - Fixed problems with missing configuration settings after update
+      </Description>
+   </Note>
   <Note Version="Version 1.4.5.30 - 25.07.2016">
     <Description>
       - Added some key shortcuts (F1 about, F4 open servers, F5 refresh, F10 big size mode)
