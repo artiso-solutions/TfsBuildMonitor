@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using BuildMonitor.Logic.Contracts;
+using BuildMonitorWpf.Properties;
 using Newtonsoft.Json;
 
 namespace BuildMonitorWpf.ViewModel
@@ -64,7 +65,7 @@ namespace BuildMonitorWpf.ViewModel
 
          }
 
-         return new List<BuildServer>();
+         return Settings.Default.BuildServers.BuildServers;
       }
 
       private static MonitorSettings LoadMonitorSettings()
@@ -86,15 +87,15 @@ namespace BuildMonitorWpf.ViewModel
 
          return new MonitorSettings
          {
-            RefreshInterval = 60,
-            ColumnWidths = "30:true,35:true,110:true,250:true,350:true,120:true,100:true,35:true,120:true",
-            WindowTop = -1,
-            WindowLeft = -1,
-            UpgradeNeeded = true,
-            BigSize = false,
-            ZoomFactor = 2,
-            UseFullWidth = false,
-            RibbonMinimized = true
+            RefreshInterval = Settings.Default.RefreshInterval,
+            ColumnWidths = Settings.Default.ColumnWidths,
+            WindowTop = Settings.Default.WindowTop,
+            WindowLeft = Settings.Default.WindowLeft,
+            UpgradeNeeded = Settings.Default.UpgradeNeeded,
+            BigSize = Settings.Default.BigSize,
+            ZoomFactor = Settings.Default.ZoomFactor,
+            UseFullWidth = Settings.Default.UseFullWidth,
+            RibbonMinimized = Settings.Default.RibbonMinimized
          };
       }
 

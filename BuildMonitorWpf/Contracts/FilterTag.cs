@@ -1,5 +1,4 @@
-﻿
-namespace BuildMonitorWpf.Contracts
+﻿namespace BuildMonitorWpf.Contracts
 {
    using System.ComponentModel;
    using System.Runtime.CompilerServices;

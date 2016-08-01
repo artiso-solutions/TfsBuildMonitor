@@ -126,6 +126,7 @@
     <Compile Include="Commands\StopBuildCommand.cs" />
     <Compile Include="Commands\TfsConnectCommand.cs" />
     <Compile Include="Commands\ValidSettingsCommand.cs" />
+    <Compile Include="Contracts\BuildServerCollection.cs" />
     <Compile Include="Contracts\FilterTag.cs" />
     <Compile Include="Contracts\ReleaseNote.cs" />
     <Compile Include="Contracts\TempBuildContainer.cs" />
