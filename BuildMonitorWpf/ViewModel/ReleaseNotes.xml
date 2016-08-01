@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ReleaseNotes>
-    <Note Version="Version 1.4.5.31 - 01.08.2016">
+    <Note Version="Version 1.4.5.32 - 01.08.2016">
         <Description>
             - Fixed problems with running builds on VSTS
             - Fixed problem parsing source version on Git repositories
