@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+   <configSections>
+      <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+         <section name="BuildMonitorWpf.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false"/>
+      </sectionGroup>
+   </configSections>
+   <startup>
+      <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5"/>
+   </startup>
+   <userSettings>
+      <BuildMonitorWpf.Properties.Settings>
+         <setting name="RefreshInterval" serializeAs="String">
+            <value>60</value>
+         </setting>
+         <setting name="ColumnWidths" serializeAs="String">
+            <value>30:true,35:true,110:true,250:true,350:true,120:true,100:true,35:true,120:true</value>
+         </setting>
+         <setting name="WindowTop" serializeAs="String">
+            <value>-1</value>
+         </setting>
+         <setting name="WindowLeft" serializeAs="String">
+            <value>-1</value>
+         </setting>
+         <setting name="UpgradeNeeded" serializeAs="String">
+            <value>True</value>
+         </setting>
+         <setting name="BigSize" serializeAs="String">
+            <value>False</value>
+         </setting>
+         <setting name="ZoomFactor" serializeAs="String">
+            <value>2</value>
+         </setting>
+         <setting name="UseFullWidth" serializeAs="String">
+            <value>False</value>
+         </setting>
+         <setting name="RibbonMinimized" serializeAs="String">
+            <value>True</value>
+         </setting>
+         <setting name="BuildServers" serializeAs="Xml">
+            <value>
+               <BuildServerCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                  <BuildServers />
+               </BuildServerCollection>
+            </value>
+         </setting>
+      </BuildMonitorWpf.Properties.Settings>
+   </userSettings>
+</configuration>
