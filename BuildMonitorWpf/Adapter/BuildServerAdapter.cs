@@ -1,11 +1,12 @@
-﻿namespace BuildMonitorWpf.Adapter
+﻿using BuildMonitorWpf.ViewModel;
+
+namespace BuildMonitorWpf.Adapter
 {
    using System;
    using System.Collections.Generic;
    using System.Collections.ObjectModel;
    using System.ComponentModel;
    using System.Linq;
-   using System.Runtime.CompilerServices;
    using System.Windows.Data;
    using System.Windows.Input;
 
@@ -17,7 +18,7 @@
 
    /// <summary>The build server adapter.</summary>
    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged"/>
-   public class BuildServerAdapter : INotifyPropertyChanged
+   public class BuildServerAdapter : ViewModelBase
    {
       #region Constants and Fields
 
@@ -89,13 +90,6 @@
             TfsConnectCommand.Execute(null);
          }
       }
-
-      #endregion
-
-      #region INotifyPropertyChanged Members
-
-      /// <summary>Occurs when a property value changes.</summary>
-      public event PropertyChangedEventHandler PropertyChanged;
 
       #endregion
 
@@ -391,13 +385,6 @@
       #endregion
 
       #region Methods
-
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-      {
-         var handler = PropertyChanged;
-         if (handler != null)
-            handler(this, new PropertyChangedEventArgs(propertyName));
-      }
 
       private void CollectionViewSourceBuildDefinitions_Filter(object sender, FilterEventArgs e)
       {

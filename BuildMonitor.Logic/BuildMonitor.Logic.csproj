@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -62,6 +62,7 @@
     <Compile Include="Contracts\Changeset\CheckedInBy.cs" />
     <Compile Include="Contracts\Changeset\Changeset.cs" />
     <Compile Include="Contracts\Information.cs" />
+    <Compile Include="Contracts\MonitorSettings.cs" />
     <Compile Include="Contracts\Node.cs" />
     <Compile Include="Contracts\RootObject.cs" />
     <Compile Include="Contracts\TestRun.cs" />

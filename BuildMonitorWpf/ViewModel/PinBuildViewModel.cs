@@ -20,6 +20,7 @@ namespace BuildMonitorWpf.ViewModel
       public PinBuildViewModel(PinBuildView owner, MainWindowViewModel mainWindowViewModel, BuildInformation buildInformation)
          : base(mainWindowViewModel, buildInformation, true)
       {
+         MainWindowViewModel = mainWindowViewModel;
          Maximum = ActualValue = mainWindowViewModel.Maximum;
 
          CloseCommand = new ClosePinBuildCommand(owner, buildInformation);
@@ -29,6 +30,8 @@ namespace BuildMonitorWpf.ViewModel
          mainWindowViewModel.PropertyChanged += MainWindowViewModelOnPropertyChanged;
          mainWindowViewModel.Refreshing += MainWindowViewModelRefreshing;
       }
+
+      public MainWindowViewModel MainWindowViewModel { get; }
 
       public ICommand CloseCommand { get; private set; }
 

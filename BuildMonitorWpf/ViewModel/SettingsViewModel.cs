@@ -1,23 +1,18 @@
 ﻿namespace BuildMonitorWpf.ViewModel
 {
-   using System;
    using System.Collections.ObjectModel;
-   using System.ComponentModel;
    using System.Linq;
-   using System.Runtime.CompilerServices;
    using System.Windows.Input;
 
    using BuildMonitor.Logic.Contracts;
 
    using BuildMonitorWpf.Adapter;
    using BuildMonitorWpf.Commands;
-   using BuildMonitorWpf.Contracts;
-   using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.View;
 
    /// <summary>The settings view model.</summary>
    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged"/>
-   public class SettingsViewModel : INotifyPropertyChanged
+   public class SettingsViewModel : ViewModelBase
    {
       #region Constants and Fields
 
@@ -32,30 +27,18 @@
       /// <param name="mainWindowViewModel">The main window view model.</param>
       public SettingsViewModel(SettingsView owner, MainWindowViewModel mainWindowViewModel)
       {
-         if (Settings.Default.BuildServers == null)
+         if (!MonitorSettingsContainer.BuildServers.Any())
          {
-            Settings.Default.BuildServers = new BuildServerCollection();
-         }
-
-         if (!Settings.Default.BuildServers.BuildServers.Any())
-         {
-            Settings.Default.BuildServers.BuildServers.Add(new BuildServer());
+            MonitorSettingsContainer.BuildServers.Add(new BuildServer());
          }
 
          var removeServerCommand = new RemoveServerCommand(this);
-         BuildServers = new ObservableCollection<BuildServerAdapter>(Settings.Default.BuildServers.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
+         BuildServers = new ObservableCollection<BuildServerAdapter>(MonitorSettingsContainer.BuildServers.Select(x => new BuildServerAdapter(x, removeServerCommand)));
 
          AddNewServerCommand = new AddNewServerCommand(this);
          OkCommand = new ValidSettingsCommand(owner, this, mainWindowViewModel);
          CancelCommand = new CloseCommand(owner);
       }
-
-      #endregion
-
-      #region INotifyPropertyChanged Members
-
-      /// <summary>Occurs when a property value changes.</summary>
-      public event PropertyChangedEventHandler PropertyChanged;
 
       #endregion
 
@@ -91,17 +74,6 @@
             selectedIndex = value;
             OnPropertyChanged();
          }
-      }
-
-      #endregion
-
-      #region Methods
-
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-      {
-         var handler = PropertyChanged;
-         if (handler != null)
-            handler(this, new PropertyChangedEventArgs(propertyName));
       }
 
       #endregion

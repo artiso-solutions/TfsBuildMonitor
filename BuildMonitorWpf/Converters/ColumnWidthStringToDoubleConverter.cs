@@ -1,12 +1,12 @@
 ﻿
+using BuildMonitorWpf.ViewModel;
+
 namespace BuildMonitorWpf.Converters
 {
    using System;
    using System.Globalization;
    using System.Linq;
    using System.Windows.Data;
-
-   using BuildMonitorWpf.Properties;
 
    public class ColumnWidthStringToDoubleConverter : IValueConverter
    {
@@ -41,7 +41,7 @@ namespace BuildMonitorWpf.Converters
 
       public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
       {
-         var columnWidths = Settings.Default.ColumnWidths;
+         var columnWidths = MonitorSettingsContainer.MonitorSettings.ColumnWidths;
 
          if (!(value is double))
          {

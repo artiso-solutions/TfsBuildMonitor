@@ -3,7 +3,6 @@ namespace BuildMonitorWpf.ViewModel
 {
    using System;
    using System.ComponentModel;
-   using System.Runtime.CompilerServices;
    using System.Windows.Input;
    using System.Windows.Media;
    using System.Windows.Threading;
@@ -11,7 +10,7 @@ namespace BuildMonitorWpf.ViewModel
    using BuildMonitorWpf.Commands;
    using BuildMonitorWpf.View;
 
-   public class ToastViewModel : INotifyPropertyChanged
+   public class ToastViewModel : ViewModelBase
    {
       private readonly DispatcherTimer toastLifeTimeTimer;
 
@@ -137,18 +136,6 @@ namespace BuildMonitorWpf.ViewModel
          }
       }
 
-      /// <summary>
-      /// Occurs when a property value changes.
-      /// </summary>
-      public event PropertyChangedEventHandler PropertyChanged;
-
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-      {
-         PropertyChangedEventHandler handler = PropertyChanged;
-         if (handler != null)
-            handler(this, new PropertyChangedEventArgs(propertyName));
-      }
-
       private void ToastViewMouseDown(object sender, MouseButtonEventArgs e)
       {
          CloseCommand.Execute(null);
@@ -179,17 +166,17 @@ namespace BuildMonitorWpf.ViewModel
          toastLifeTimeTimer.Stop();
          toastLifeTimeTimer.Start();
       }
-      
-     private void ToastViewClosing(object sender, CancelEventArgs e)
-     {
-        var toastView = (ToastView)sender;
-        toastView.Closing -= ToastViewClosing;
-        toastView.MouseDown -= ToastViewMouseDown;
-        toastView.MouseMove -= ToastViewMouseMove;
-        opacityTimer.Stop();
-        toastLifeTimeTimer.Stop();
-        opacityTimer.Tick -= OpacityTimerTick;
-        toastLifeTimeTimer.Tick -= ToastLifeTimeTimerTick;
-     }
+
+      private void ToastViewClosing(object sender, CancelEventArgs e)
+      {
+         var toastView = (ToastView)sender;
+         toastView.Closing -= ToastViewClosing;
+         toastView.MouseDown -= ToastViewMouseDown;
+         toastView.MouseMove -= ToastViewMouseMove;
+         opacityTimer.Stop();
+         toastLifeTimeTimer.Stop();
+         opacityTimer.Tick -= OpacityTimerTick;
+         toastLifeTimeTimer.Tick -= ToastLifeTimeTimerTick;
+      }
    }
 }

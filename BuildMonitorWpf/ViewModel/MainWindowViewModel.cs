@@ -1,4 +1,5 @@
-﻿using BuildMonitorWpf.View;
+﻿using BuildMonitorWpf.Extensions;
+using BuildMonitorWpf.View;
 
 namespace BuildMonitorWpf.ViewModel
 {
@@ -7,7 +8,6 @@ namespace BuildMonitorWpf.ViewModel
    using System.Collections.ObjectModel;
    using System.ComponentModel;
    using System.Linq;
-   using System.Runtime.CompilerServices;
    using System.Windows;
    using System.Windows.Data;
    using System.Windows.Input;
@@ -24,7 +24,7 @@ namespace BuildMonitorWpf.ViewModel
 
    /// <summary>The main window view model.</summary>
    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged"/>
-   public class MainWindowViewModel : INotifyPropertyChanged
+   public class MainWindowViewModel : ViewModelBase
    {
       #region Constants and Fields
 
@@ -57,15 +57,17 @@ namespace BuildMonitorWpf.ViewModel
       /// <summary>
       /// Initializes a new instance of the <see cref="MainWindowViewModel" /> class.
       /// </summary>
-      /// <param name="builds">The builds.</param>
-      /// <param name="refreshInterval">The refresh interval.</param>
-      /// <param name="bigSizeMode">if set to <c>true</c> [big size mode].</param>
-      /// <param name="zoomFactor">The zoom factor.</param>
-      /// <param name="useFullWidth">if set to <c>true</c> [use full width].</param>
-      /// <param name="isRibbonMinimized">if set to <c>true</c> [is ribbon minimized].</param>
-      internal MainWindowViewModel(IEnumerable<BuildInformation> builds, int refreshInterval, bool bigSizeMode, double zoomFactor, bool useFullWidth, bool isRibbonMinimized)
+      internal MainWindowViewModel()
       {
-         selectedRefreshInterval = refreshInterval;
+         MonitorSettingsContainer.LoadAllSettings();
+
+         List<BuildInformation> builds = new List<BuildInformation>();
+         foreach (var buildServer in MonitorSettingsContainer.BuildServers)
+         {
+            builds.AddRange(buildServer.GetBuilds());
+         }
+
+         selectedRefreshInterval = MonitorSettingsContainer.MonitorSettings.RefreshInterval;
          selectedZoomFactor = (int)(zoomFactor * 100);
          PinBuildViews = new List<PinBuildView>();
          BuildAdapters = new ObservableCollection<BuildAdapter>(builds.Select(build => new BuildAdapter(this, build, false)));
@@ -77,11 +79,11 @@ namespace BuildMonitorWpf.ViewModel
          CollectionViewSourceBuildAdapters.Filter += CollectionViewSourceBuildAdaptersFilter;
          SelectedBuildAdapters = new ObservableCollection<BuildAdapter>();
 
-         ActualValue = Maximum = refreshInterval;
-         this.bigSizeMode = bigSizeMode;
-         this.useFullWidth = useFullWidth;
-         this.zoomFactor = zoomFactor;
-         this.isRibbonMinimized = isRibbonMinimized;
+         ActualValue = Maximum = MonitorSettingsContainer.MonitorSettings.RefreshInterval;
+         this.bigSizeMode = MonitorSettingsContainer.MonitorSettings.BigSize;
+         this.useFullWidth = MonitorSettingsContainer.MonitorSettings.UseFullWidth;
+         this.zoomFactor = MonitorSettingsContainer.MonitorSettings.ZoomFactor;
+         this.isRibbonMinimized = MonitorSettingsContainer.MonitorSettings.RibbonMinimized;
 
          ApplyExistingTagToBuildCommand = new ApplyExistingTagToBuildCommand(this);
          ApplyNewTagToBuildCommand = new ApplyNewTagToBuildCommand(this);
@@ -119,7 +121,7 @@ namespace BuildMonitorWpf.ViewModel
          dispatcherTimer.Tick += DispatcherTimerTick;
          dispatcherTimer.Start();
 
-         if (!Settings.Default.BuildServers.BuildServers.Any())
+         if (!MonitorSettingsContainer.BuildServers.Any())
          {
             SettingsCommand.Execute(null);
          }
@@ -131,13 +133,6 @@ namespace BuildMonitorWpf.ViewModel
 
       /// <summary>Occurs when [refreshing].</summary>
       public event EventHandler<EventArgs> Refreshing;
-
-      #endregion
-
-      #region INotifyPropertyChanged Members
-
-      /// <summary>Occurs when a property value changes.</summary>
-      public event PropertyChangedEventHandler PropertyChanged;
 
       #endregion
 
@@ -252,18 +247,18 @@ namespace BuildMonitorWpf.ViewModel
       {
          get
          {
-            return Settings.Default.ColumnWidths;
+            return MonitorSettingsContainer.MonitorSettings.ColumnWidths;
          }
 
          set
          {
-            if (Settings.Default.ColumnWidths == value)
+            if (MonitorSettingsContainer.MonitorSettings.ColumnWidths == value)
             {
                return;
             }
 
-            Settings.Default.ColumnWidths = value;
-            Settings.Default.Save();
+            MonitorSettingsContainer.MonitorSettings.ColumnWidths = value;
+            MonitorSettingsContainer.SaveMonitorSettings();
             OnPropertyChanged();
          }
       }
@@ -459,6 +454,8 @@ namespace BuildMonitorWpf.ViewModel
 
       #region Methods
 
+
+
       /// <summary>Refreshes this instance.</summary>
       internal void Refresh(object parameter = null)
       {
@@ -474,13 +471,6 @@ namespace BuildMonitorWpf.ViewModel
          {
             adapter.Refresh();
          }
-      }
-
-      protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-      {
-         var handler = PropertyChanged;
-         if (handler != null)
-            handler(this, new PropertyChangedEventArgs(propertyName));
       }
 
       private void About(object obj)

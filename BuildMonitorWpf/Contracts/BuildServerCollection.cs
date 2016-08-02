@@ -1,11 +1,9 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using BuildMonitor.Logic.Contracts;
+
 namespace BuildMonitorWpf.Contracts
 {
-   using System;
-   using System.Collections.Generic;
-
-   using BuildMonitor.Logic.Contracts;
-
    [Serializable]
    public class BuildServerCollection
    {

@@ -1,4 +1,5 @@
 ﻿using System;
+using BuildMonitorWpf.ViewModel;
 
 namespace BuildMonitorWpf.Commands
 {
@@ -29,7 +30,7 @@ namespace BuildMonitorWpf.Commands
 
       public void Execute(object parameter)
       {
-         var buildDefinition = Settings.Default.BuildServers.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
+         var buildDefinition = MonitorSettingsContainer.BuildServers.SelectMany(x => x.BuildDefinitions).FirstOrDefault(x => x.Id == buildInformation.BuildDefinitionId);
          if (buildDefinition != null)
          {
             buildDefinition.IsPined = false;

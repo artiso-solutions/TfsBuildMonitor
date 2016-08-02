@@ -1,19 +1,13 @@
-﻿
-namespace BuildMonitorWpf.View
+﻿namespace BuildMonitorWpf.View
 {
    using System;
-   using System.Collections.Generic;
    using System.ComponentModel;
    using System.Diagnostics;
    using System.IO;
    using System.Linq;
    using System.Windows.Controls;
 
-   using BuildMonitor.Logic.Contracts;
-
    using BuildMonitorWpf.Adapter;
-   using BuildMonitorWpf.Extensions;
-   using BuildMonitorWpf.Properties;
    using BuildMonitorWpf.ViewModel;
 
    using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
@@ -36,23 +30,22 @@ namespace BuildMonitorWpf.View
          InitializeComponent();
          TryCreateShortcut();
 
-         if (!Settings.Default.UpgradeNeeded)
+         if (!MonitorSettingsContainer.MonitorSettings.UpgradeNeeded)
          {
             return;
          }
 
-         Settings.Default.Upgrade();
-         Settings.Default.UpgradeNeeded = false;
+         MonitorSettingsContainer.MonitorSettings.UpgradeNeeded = false;
 
          const int ActualColumnNumber = 9;
-         var widths = Settings.Default.ColumnWidths.Split(',').ToList();
+         var widths = MonitorSettingsContainer.MonitorSettings.ColumnWidths.Split(',').ToList();
          while (widths.Count < ActualColumnNumber)
          {
             widths.Add("100:true");
          }
 
-         Settings.Default.ColumnWidths = string.Join(",", widths);
-         Settings.Default.Save();
+         MonitorSettingsContainer.MonitorSettings.ColumnWidths = string.Join(",", widths);
+         MonitorSettingsContainer.SaveMonitorSettings(MonitorSettingsContainer.MonitorSettings);
       }
 
       // In order to display toasts, a desktop application must have a shortcut on the Start menu.
@@ -109,23 +102,13 @@ namespace BuildMonitorWpf.View
             return;
          }
 
-         if (Settings.Default.WindowLeft >= 0 && Settings.Default.WindowTop >= 0)
+         if (MonitorSettingsContainer.MonitorSettings.WindowLeft >= 0 && MonitorSettingsContainer.MonitorSettings.WindowTop >= 0)
          {
-            Top = Settings.Default.WindowTop;
-            Left = Settings.Default.WindowLeft;
+            Top = MonitorSettingsContainer.MonitorSettings.WindowTop;
+            Left = MonitorSettingsContainer.MonitorSettings.WindowLeft;
          }
 
-         var builds = new List<BuildInformation>();
-
-         if (Settings.Default.BuildServers != null)
-         {
-            foreach (var buildServer in Settings.Default.BuildServers.BuildServers)
-            {
-               builds.AddRange(buildServer.GetBuilds());
-            }
-         }
-
-         DataContext = new MainWindowViewModel(builds, Settings.Default.RefreshInterval, Settings.Default.BigSize, Settings.Default.ZoomFactor, Settings.Default.UseFullWidth, Settings.Default.RibbonMinimized);
+         DataContext = new MainWindowViewModel();
          activated = true;
       }
 
@@ -133,7 +116,7 @@ namespace BuildMonitorWpf.View
       {
          var viewModel = DataContext as MainWindowViewModel;
 
-         foreach (var buildServer in Settings.Default.BuildServers.BuildServers)
+         foreach (var buildServer in MonitorSettingsContainer.BuildServers)
          {
             foreach (var buildDefinition in buildServer.BuildDefinitions)
             {
@@ -147,14 +130,14 @@ namespace BuildMonitorWpf.View
             }
          }
 
-         Settings.Default.WindowTop = (int)Top;
-         Settings.Default.WindowLeft = (int)Left;
-         Settings.Default.BigSize = viewModel.BigSizeMode;
-         Settings.Default.UseFullWidth = viewModel.UseFullWidth;
-         Settings.Default.ZoomFactor = viewModel.ZoomFactor;
-         Settings.Default.RefreshInterval = viewModel.Maximum;
-         Settings.Default.RibbonMinimized = viewModel.IsRibbonMinimized;
-         Settings.Default.Save();
+         MonitorSettingsContainer.MonitorSettings.WindowTop = (int)Top;
+         MonitorSettingsContainer.MonitorSettings.WindowLeft = (int)Left;
+         MonitorSettingsContainer.MonitorSettings.BigSize = viewModel.BigSizeMode;
+         MonitorSettingsContainer.MonitorSettings.UseFullWidth = viewModel.UseFullWidth;
+         MonitorSettingsContainer.MonitorSettings.ZoomFactor = viewModel.ZoomFactor;
+         MonitorSettingsContainer.MonitorSettings.RefreshInterval = viewModel.Maximum;
+         MonitorSettingsContainer.MonitorSettings.RibbonMinimized = viewModel.IsRibbonMinimized;
+         MonitorSettingsContainer.SaveMonitorSettings(MonitorSettingsContainer.MonitorSettings);
 
          while (viewModel.PinBuildViews.Any())
          {
