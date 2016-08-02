@@ -1,104 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ReleaseNotes>
-   <Note Version="Version 1.4.5.31 - 01.08.2016">
-      <Description>
-         - Fixed problems with missing configuration settings after update
-      </Description>
-   </Note>
-  <Note Version="Version 1.4.5.30 - 25.07.2016">
-    <Description>
-      - Added some key shortcuts (F1 about, F4 open servers, F5 refresh, F10 big size mode)
-      - Fixed GitHub link in about
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.4.29 - 21.07.2016">
-    <Description>
-      - Fixed bugs in full window width view
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.4.28 - 13.07.2016">
-    <Description>
-      - Fixed bug which caused that notifications for builds which would propably fail not to show
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.4.27 - 11.07.2016">
-    <Description>
-      - Support multi-select for tags (add &amp; remove)
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.3.26 - 08.07.2016">
-    <Description>
-      - Just refresh displayed builds + status for displayed builds
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.2.25 - 07.07.2016">
-    <Description>
-      - Fixed a bug when opening build details with Edge
-      - Added filtering with tags
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.1.24 - 04.07.2016">
-    <Description>
-      - Added context ribbon menu
-    </Description>
-  </Note>
-  <Note Version="Version 1.4.0.23 - 30.06.2016">
-    <Description>
-      - Changed menu to ribbon
-      - Added translation EN, FR, DE
-    </Description>
-  </Note>
-  <Note Version="Version 1.3.5.22 - 23.06.2016">
-    <Description>
-      - Get test result in small view and big view
-      - Changed logic; all builds are fetched as list
-      - Tooltip over running build shows what is going wrong
-      - Minimizing main window doesn't minimize pinned builds
-    </Description>
-  </Note>
-  <Note Version="Version 1.3.4.15 - 24.05.2016">
-    <Description>
-      - Small bugfix when build is running and waiting
-    </Description>
-  </Note>
-  <Note Version="Version 1.3.3.14 - 20.04.2016">
-    <Description>
-      - Round corners for big screen
-      - Value rounded on sliders for refresh interval and zoom factor
-    </Description>
-  </Note>
-  <Note Version="Version 1.3.3.13 - 14.04.2016">
-    <Description>
-      - Big size mode for fullscreen in settings
-      - New view when in big size (tiles instead of gridview)
-      - Zoom factor from 100 till 300%
-      - Bugfix when there is no config
-    </Description>
-  </Note>
-  <Note Version="Version 1.3.1.8 - 02.03.2016">
-    <Description>
-      - Show filtered count + total count in settings view
-      - Added release notes
-      - Bugfix on TFS 2015 when build is not started
-    </Description>
-  </Note>
-  <Note Version="Version 1.3.0.6 - 23.02.2016">
-    <Description>
-      - Better compatibility with TFS 2015
-      - Settings view for TFS 2015 only needs root URL of TFS
-    </Description>
-  </Note>
-  <Note Version="Version 1.2.0.5 - 18.08.2016">
-    <Description>- Build can be pinned</Description>
-  </Note>
-  <Note Version="Version 1.1.0.4 - 12.02.2016">
-    <Description>
-      - Compatible with Windows 7
-      - Build queue für TFS 2015 Build vNext
-      - More legend vor action icons
-    </Description>
-  </Note>
-  <Note Version="Version 1.0.0.0 - 27.01.2016">
-    <Description>- Configured Clickonce</Description>
-  </Note>
+    <Note Version="Version 1.4.5.33 - 02.08.2016">
+        <Description>
+            - Fixed problems with missing configuration settings after update
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.5.32 - 01.08.2016">
+        <Description>
+            - Fixed problems with running builds on VSTS
+            - Fixed problem parsing source version on Git repositories
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.5.30 - 25.07.2016">
+        <Description>
+            - Added some key shortcuts (F1 about, F4 open servers, F5 refresh, F10 big size mode)
+            - Fixed GitHub link in about
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.4.29 - 21.07.2016">
+        <Description>
+            - Fixed bugs in full window width view
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.4.28 - 13.07.2016">
+        <Description>
+            - Fixed bug which caused that notifications for builds which would propably fail not to show
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.4.27 - 11.07.2016">
+        <Description>
+            - Support multi-select for tags (add &amp; remove)
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.3.26 - 08.07.2016">
+        <Description>
+            - Just refresh displayed builds + status for displayed builds
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.2.25 - 07.07.2016">
+        <Description>
+            - Fixed a bug when opening build details with Edge
+            - Added filtering with tags
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.1.24 - 04.07.2016">
+        <Description>
+            - Added context ribbon menu
+        </Description>
+    </Note>
+    <Note Version="Version 1.4.0.23 - 30.06.2016">
+        <Description>
+            - Changed menu to ribbon
+            - Added translation EN, FR, DE
+        </Description>
+    </Note>
+    <Note Version="Version 1.3.5.22 - 23.06.2016">
+        <Description>
+            - Get test result in small view and big view
+            - Changed logic; all builds are fetched as list
+            - Tooltip over running build shows what is going wrong
+            - Minimizing main window doesn't minimize pinned builds
+        </Description>
+    </Note>
+    <Note Version="Version 1.3.4.15 - 24.05.2016">
+        <Description>
+            - Small bugfix when build is running and waiting
+        </Description>
+    </Note>
+    <Note Version="Version 1.3.3.14 - 20.04.2016">
+        <Description>
+            - Round corners for big screen
+            - Value rounded on sliders for refresh interval and zoom factor
+        </Description>
+    </Note>
+    <Note Version="Version 1.3.3.13 - 14.04.2016">
+        <Description>
+            - Big size mode for fullscreen in settings
+            - New view when in big size (tiles instead of gridview)
+            - Zoom factor from 100 till 300%
+            - Bugfix when there is no config
+        </Description>
+    </Note>
+    <Note Version="Version 1.3.1.8 - 02.03.2016">
+        <Description>
+            - Show filtered count + total count in settings view
+            - Added release notes
+            - Bugfix on TFS 2015 when build is not started
+        </Description>
+    </Note>
+    <Note Version="Version 1.3.0.6 - 23.02.2016">
+        <Description>
+            - Better compatibility with TFS 2015
+            - Settings view for TFS 2015 only needs root URL of TFS
+        </Description>
+    </Note>
+    <Note Version="Version 1.2.0.5 - 18.08.2016">
+        <Description>- Build can be pinned</Description>
+    </Note>
+    <Note Version="Version 1.1.0.4 - 12.02.2016">
+        <Description>
+            - Compatible with Windows 7
+            - Build queue für TFS 2015 Build vNext
+            - More legend vor action icons
+        </Description>
+    </Note>
+    <Note Version="Version 1.0.0.0 - 27.01.2016">
+        <Description>- Configured Clickonce</Description>
+    </Note>
 </ReleaseNotes>
