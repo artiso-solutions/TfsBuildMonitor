@@ -35,7 +35,7 @@
     <ProductName>BuildMonitorWpf</ProductName>
     <PublisherName>artiso solutions GmbH</PublisherName>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>35</ApplicationRevision>
     <ApplicationVersion>1.4.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
