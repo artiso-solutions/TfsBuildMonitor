@@ -689,7 +689,7 @@ namespace BuildMonitorWpf.Adapter
          }
 
          var doNotGetTests = !mainWindowViewModel.UseFullWidth && mainWindowViewModel.BigSizeMode;
-         var buildChanged = string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, firstNotWaiting.Number);
+         var buildChanged = string.IsNullOrEmpty(PreviousBuildNumber) || !string.Equals(PreviousBuildNumber, firstFinished.Number);
          if ((buildChanged || !testsLoaded) && !doNotGetTests)
          {
             await buildExplorer.GetTestResultAsync(BuildInformation, firstNotWaiting);
