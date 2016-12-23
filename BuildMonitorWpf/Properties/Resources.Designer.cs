@@ -513,19 +513,18 @@ namespace BuildMonitorWpf.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;ReleaseNotes&gt;
-        ///  &lt;Note Version=&quot;Version 1.4.4.29 - 21.07.2016&quot;&gt;
-        ///    &lt;Description&gt;
-        ///      - Fixed bugs in full window width view
-        ///    &lt;/Description&gt;
-        ///  &lt;/Note&gt;
-        ///  &lt;Note Version=&quot;Version 1.4.4.28 - 13.07.2016&quot;&gt;
-        ///    &lt;Description&gt;
-        ///      - Fixed bug which caused that notifications for builds which would propably fail not to show
-        ///    &lt;/Description&gt;
-        ///  &lt;/Note&gt;
-        ///  &lt;Note Version=&quot;Version 1.4.4.27 - 11.07.2016&quot;&gt;
-        ///    &lt;Description&gt;
-        ///      - Support multi-select for tags (add &amp;amp; remov [rest of string was truncated]&quot;;.
+        ///    &lt;Note Version=&quot;Version 1.4.5.33 - 02.08.2016&quot;&gt;
+        ///        &lt;Description&gt;
+        ///            - Fixed problems with missing configuration settings after update
+        ///        &lt;/Description&gt;
+        ///    &lt;/Note&gt;
+        ///    &lt;Note Version=&quot;Version 1.4.5.32 - 01.08.2016&quot;&gt;
+        ///        &lt;Description&gt;
+        ///            - Fixed problems with running builds on VSTS
+        ///            - Fixed problem parsing source version on Git repositories
+        ///        &lt;/Description&gt;
+        ///    &lt;/Note&gt;
+        ///    &lt;Note Version=&quot;Version 1.4.5.30 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ReleaseNotes {
             get {

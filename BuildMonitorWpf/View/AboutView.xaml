@@ -25,42 +25,50 @@
                    Margin="10" />
 
             <StackPanel>
-
-                <Label VerticalAlignment="Center"
-                       Margin="10,3">
-                    <Label.Content>
-                        <Span>
-                            <Run Text="{Binding Product}" />
-                            <Run Text="{Binding Version}" />
-                            <LineBreak />
-                            <Run Text="{x:Static resources:Resources.LabelAbout_Line1}" />
-                            <LineBreak />
-                            <Run Text="{x:Static resources:Resources.LabelAbout_Line2}" />
-                            <LineBreak />
-                            <Hyperlink Command="{Binding SendMailCommand}">
-                                <StackPanel Orientation="Horizontal"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label VerticalAlignment="Center"
+                           Margin="10,3"
+                           Grid.Column="0">
+                        <Label.Content>
+                            <Span>
+                                <Run Text="{Binding Product}" />
+                                <Run Text="{Binding Version}" />
+                                <LineBreak />
+                                <Run Text="{x:Static resources:Resources.LabelAbout_Line1}" />
+                                <LineBreak />
+                                <Run Text="{x:Static resources:Resources.LabelAbout_Line2}" />
+                                <LineBreak />
+                                <Hyperlink Command="{Binding SendMailCommand}">
+                                    <StackPanel Orientation="Horizontal"
                                             Margin="0,2,0,0">
-                                    <Image Source="../Images/mail.png"
+                                        <Image Source="../Images/mail.png"
                                            Width="16"
                                            Height="16"
                                            Margin="2,0" />
-                                    <TextBlock Text="{x:Static resources:Resources.LabelAbout_Line3}" />
-                                </StackPanel>
-                            </Hyperlink>
-                            <LineBreak />
-                            <Hyperlink Command="{Binding OpenGitHubCommand}">
-                                <StackPanel Orientation="Horizontal"
+                                        <TextBlock Text="{x:Static resources:Resources.LabelAbout_Line3}" />
+                                    </StackPanel>
+                                </Hyperlink>
+                                <LineBreak />
+                                <Hyperlink Command="{Binding OpenGitHubCommand}">
+                                    <StackPanel Orientation="Horizontal"
                                             Margin="0,2,0,0">
-                                    <Image Source="../Images/internet.png"
+                                        <Image Source="../Images/internet.png"
                                            Width="16"
                                            Height="16"
                                            Margin="2,0" />
-                                    <TextBlock Text="GitHub: TfsBuildMonitor" />
-                                </StackPanel>
-                            </Hyperlink>
-                        </Span>
-                    </Label.Content>
-                </Label>
+                                        <TextBlock Text="GitHub: TfsBuildMonitor" />
+                                    </StackPanel>
+                                </Hyperlink>
+                            </Span>
+                        </Label.Content>
+                    </Label>
+                    
+                    <Image Grid.Column="1" Source="../Resources/artisologo-250x250.gif" Width="125" Height="125"/>
+                </Grid>
 
                 <Label FontWeight="Bold"
                        Margin="10,3"

@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ReleaseNotes>
+    <Note Version="Version 1.4.5.37 - 23.12.2016">
+        <Description>
+            - Fixed a bug which caused an exception on certain build states
+            - Fixed a bug which caused to always reload the test results on finished builds, 
+              while a build from the same build definition was running
+        </Description>
+    </Note>
     <Note Version="Version 1.4.5.33 - 02.08.2016">
         <Description>
             - Fixed problems with missing configuration settings after update
