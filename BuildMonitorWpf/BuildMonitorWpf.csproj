@@ -69,10 +69,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3A1A11B4EEC131971589F7EA077904BFF15AE3E5</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>123CCD88133C4DBCF94CE9DDD323F0762A5A5779</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>BuildMonitorWpf_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>BuildMonitorWpf_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -218,6 +218,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="BuildMonitorWpf_1_TemporaryKey.pfx" />
     <None Include="BuildMonitorWpf_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
